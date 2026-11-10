@@ -251,7 +251,8 @@ ul { padding: 0; list-style: none; }
 }
 
 .job__info {
-  grid-column: 1 / 4;
+  grid-column: 1 / 5;
+  grid-row: 1;
   display: grid;
   gap: 4px;
   align-content: start;
@@ -261,13 +262,63 @@ ul { padding: 0; list-style: none; }
 .job__role { color: var(--muted); }
 .job__about { margin-top: 12px; font-size: 14px; color: var(--muted); }
 
+/* Cases take 2/3 of the row and show two cards at a time. With more
+   than two, the row scrolls sideways (js/cases.js adds the arrows);
+   the info column stays put. */
 .job__cases {
-  grid-column: 4 / -1;
-  display: grid;
-  /* capped width: cards a bit smaller and don't balloon on wide screens */
-  grid-template-columns: repeat(3, minmax(0, 300px));
+  grid-column: 5 / -1;
+  grid-row: 1;
+  display: flex;
   gap: var(--card-gap);
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
 }
+.job__cases::-webkit-scrollbar { display: none; }
+
+.job__cases > .case {
+  flex: 0 0 calc((100% - var(--card-gap)) / 2);
+  scroll-snap-align: start;
+}
+
+/* Arrow layer: sits over the cards in the same grid cell, doesn't scroll.
+   Arrows are vertically centred on the 4:3 images. */
+.cases-nav {
+  grid-column: 5 / -1;
+  grid-row: 1;
+  position: relative;
+  container-type: inline-size;
+  pointer-events: none;
+}
+
+.cases-nav__btn {
+  position: absolute;
+  top: calc((100cqw - var(--card-gap)) / 2 * .375);
+  translate: 0 -50%;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--fg);
+  box-shadow: 0 1px 2px rgb(0 0 0 / .08), 0 4px 16px rgb(0 0 0 / .12);
+  font: inherit;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: opacity .2s, scale .2s;
+}
+.cases-nav__btn:hover { scale: 1.06; }
+.cases-nav__btn--prev { left: 12px; }
+.cases-nav__btn--next { right: 12px; }
+.cases-nav__btn[hidden] { display: grid; opacity: 0; pointer-events: none; }
 
 /* --- Case card --------------------------------------------------------- */
 
@@ -315,12 +366,12 @@ img.case__img {
 }
 
 .split__awards {
-  grid-column: 1 / 4;
+  grid-column: 1 / 5;
   display: grid;
   gap: 4px;
 }
 
-.split__pg { grid-column: 4 / -1; }
+.split__pg { grid-column: 5 / -1; }
 
 /* Compact list: small thumbnail on the left, text on the right */
 .awards {
@@ -436,8 +487,11 @@ img.case__img {
 
   .job__info,
   .job__cases,
+  .cases-nav,
   .split__awards,
   .split__pg { grid-column: 1 / -1; }
+  .job__cases,
+  .cases-nav { grid-row: 2; }
 
   .awards { grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
 }
@@ -461,7 +515,16 @@ img.case__img {
   .hero { padding-top: 112px; padding-bottom: 48px; }  /* text starts below the top blur */
   .nav { gap: 16px; }
 
-  .job__cases { grid-template-columns: 1fr; }
+  /* Two half-width cards per row, no sideways scroll */
+  .job__cases {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 24px;
+    overflow: visible;
+  }
+  .cases-nav { display: none; }
+  .case__title { font-size: 15px; }
+  .case__desc { font-size: 13px; }
   .awards { grid-template-columns: 1fr; gap: 20px; }
 
   .footer__bottom { flex-direction: column; align-items: flex-start; }
