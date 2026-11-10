@@ -417,6 +417,8 @@ img.case__img {
    a raster app icon (<img>) fills it edge to edge */
 img.job__icon { padding: 0; object-fit: cover; }
 div.job__icon { padding: 0; }
+/* Logo that needs a black tile (TradingView) */
+.job__icon--dark { padding: 4px; background: #000; box-shadow: none; }
 .award__title { font-size: 15px; font-weight: 600; }
 .award__desc { font-size: 13px; color: var(--muted); }
 .award--link .award__title::after { content: " ↗"; font-weight: 500; }
