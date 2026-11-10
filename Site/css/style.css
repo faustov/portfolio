@@ -394,6 +394,30 @@ img.case__img {
 .award__desc { font-size: 13px; color: var(--muted); }
 .award--link .award__title::after { content: " ↗"; font-weight: 500; }
 
+/* --- Community (under Awards): icon on the left, text on the right ---- */
+
+.community__title { margin-top: 48px; }
+
+.community {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.comm {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  column-gap: 14px;
+  row-gap: 2px;
+  align-content: start;
+  text-decoration: none;
+}
+
+.comm__icon { grid-row: 1 / span 2; width: 24px; height: 24px; margin-top: 1px; color: var(--fg); }
+.comm__title { font-size: 15px; font-weight: 600; }
+.comm__title::after { content: " ↗"; font-weight: 500; }
+.comm__desc { font-size: 13px; color: var(--muted); }
+
 /* --- Playground (cursor grid, logic in js/playground.js) --------------- */
 
 /* Container width sets the row height via container query units */
@@ -494,6 +518,7 @@ img.case__img {
   .cases-nav { grid-row: 2; }
 
   .awards { grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+  .community { grid-template-columns: repeat(2, 1fr); gap: var(--gap); }
 }
 
 /* --- Hero on narrow screens (Framer layout) ----------------------------
@@ -526,6 +551,7 @@ img.case__img {
   .case__title { font-size: 15px; }
   .case__desc { font-size: 13px; }
   .awards { grid-template-columns: 1fr; gap: 20px; }
+  .community { grid-template-columns: 1fr; gap: 16px; }
 
   .footer__bottom { flex-direction: column; align-items: flex-start; }
 }
