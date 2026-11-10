@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/playground.js" defer></script>
 </head>
 <body id="top">
 
@@ -47,8 +48,7 @@
   <main>
 
     <!-- ============ WORK ============ -->
-    <section class="section" id="work">
-      <h2 class="section__title"><span class="label">01</span> Selected work</h2>
+    <section class="section" id="work" aria-label="Selected work">
 
       <!-- Independent -->
       <article class="job">
@@ -176,21 +176,40 @@
       </article>
     </section>
 
-    <!-- ============ PLAYGROUND ============ -->
-    <section class="section" id="playground">
-      <h2 class="section__title"><span class="label">02</span> Playground</h2>
-      <p class="section__lead">Explorations, concepts and visual bits that didn’t fit into case studies.</p>
+    <!-- ============ AWARDS ============ -->
+    <section class="section" id="awards" aria-label="Awards">
+      <article class="job">
+        <div class="job__info">
+          <h3 class="job__company">Awards</h3>
+          <p class="job__role">Contests &amp; hackathons</p>
+        </div>
+        <div class="awards">
+          <div class="award">
+            <div class="award__img ph">Image</div>
+            <p class="award__place">1st place · 2019</p>
+            <h4 class="award__title">Tsifrovoi Proryv hackathon</h4>
+            <p class="award__desc">As team PM. The largest hackathon in the Guinness World Records.</p>
+          </div>
+          <a class="award award--link" href="https://t.me/wallet_news/309">
+            <div class="award__img ph">Image</div>
+            <p class="award__place">2nd place · 2024</p>
+            <h4 class="award__title">Telegram Wallet design contest</h4>
+            <p class="award__desc">Two-week redesign of the Wallet app.</p>
+          </a>
+          <a class="award award--link" href="https://vk.com/wall-44384363_113115">
+            <div class="award__img ph">Image</div>
+            <p class="award__place">Prize winner · 2013</p>
+            <h4 class="award__title">VK iOS 7 redesign contest</h4>
+            <p class="award__desc">App redesign for the new iOS 7 style.</p>
+          </a>
+        </div>
+      </article>
+    </section>
 
-      <div class="shots">
-        <div class="shot ph">Shot</div>
-        <div class="shot shot--wide ph">Shot</div>
-        <div class="shot ph">Shot</div>
-        <div class="shot shot--tall ph">Shot</div>
-        <div class="shot ph">Shot</div>
-        <div class="shot ph">Shot</div>
-        <div class="shot shot--wide ph">Shot</div>
-        <div class="shot ph">Shot</div>
-      </div>
+    <!-- ============ PLAYGROUND ============ -->
+    <!-- Cursor-reactive tile grid; tiles are built by js/playground.js -->
+    <section class="section" id="playground" aria-label="Playground">
+      <div class="pg"><div class="pg__rows" id="pg-rows"></div></div>
     </section>
 
   </main>

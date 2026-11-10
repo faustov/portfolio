@@ -225,21 +225,8 @@ ul { padding: 0; list-style: none; }
   border-bottom: 1px solid var(--line);
 }
 
-.section__title {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  font-size: clamp(28px, 4vw, 48px);
-  letter-spacing: -.02em;
-  font-weight: 600;
-  margin-bottom: 40px;
-}
-
-.section__lead {
-  max-width: 560px;
-  margin: -24px 0 40px;
-  color: var(--muted);
-}
+/* No section headings: the first row starts right at the section top */
+.section > .job:first-child { padding-top: 0; border-top: 0; }
 
 /* --- Job --------------------------------------------------------------- */
 
@@ -285,17 +272,69 @@ ul { padding: 0; list-style: none; }
 /* Clickable cases get an arrow; static ones don't */
 .case--link .case__title::after { content: " →"; }
 
-/* --- Playground -------------------------------------------------------- */
+/* --- Awards (smaller than case cards: 4 per row instead of 3) ---------- */
 
-.shots {
+.awards {
+  grid-column: 4 / -1;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 240px;
   gap: var(--gap);
 }
 
-.shot--wide { grid-column: span 2; }
-.shot--tall { grid-row: span 2; }
+.award {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  text-decoration: none;
+}
+
+.award__img { aspect-ratio: 1; margin-bottom: 8px; }
+.award__place { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.award__title { font-size: 15px; font-weight: 600; }
+.award__desc { font-size: 13px; color: var(--muted); }
+.award--link .award__title::after { content: " ↗"; font-weight: 500; }
+
+/* --- Playground (cursor grid, logic in js/playground.js) --------------- */
+
+/* Container width sets the row height via container query units */
+.pg { container-type: inline-size; }
+.pg__rows { --row-h: max(150px, calc((100cqw - 52px) / var(--max-row-sum))); }
+
+.pg__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 16px;
+  row-gap: 12px;        /* when tiles wrap on narrow screens */
+  margin-bottom: 12px;
+}
+.pg__row:last-child { margin-bottom: 0; }
+
+.pg__tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgb(0 0 0 / .08);
+  background: var(--ph);
+}
+
+/* Background is a bit larger than the tile so the parallax has room */
+.pg__media {
+  width: 100%;
+  height: 100%;
+  background-size: 120% 120%;
+  background-position: 50% 50%;
+}
+
+.pg__label {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  color: #fff;
+  font-size: 13px;
+  opacity: .85;
+  mix-blend-mode: difference;
+}
 
 /* --- Footer ------------------------------------------------------------ */
 
@@ -347,9 +386,8 @@ ul { padding: 0; list-style: none; }
   .hero__photo { grid-column: 1 / -1; grid-row: 1; width: 96px; }
 
   .job__info,
-  .job__cases { grid-column: 1 / -1; }
-
-  .shots { grid-template-columns: repeat(2, 1fr); }
+  .job__cases,
+  .awards { grid-column: 1 / -1; }
 }
 
 /* --- Phone ------------------------------------------------------------- */
@@ -364,9 +402,7 @@ ul { padding: 0; list-style: none; }
   .nav { gap: 16px; }
 
   .job__cases { grid-template-columns: 1fr; }
-
-  .shots { grid-auto-rows: 160px; }
-  .shot--tall { grid-row: span 1; }
+  .awards { grid-template-columns: repeat(2, 1fr); }
 
   .footer__bottom { flex-direction: column; align-items: flex-start; }
 }
