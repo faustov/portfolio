@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# Исходники 3D-моделей со Sketchfab: на сайте не используются,
+# в работе только облегчённые версии из Site/assets/
+Site/apple-iphone-18-pro-max-black-2026/
+Site/apple-iphone-duo-fold-star-white-2026-animated/
+Site/apple_watch_series_9.glb
+
+# Зависимости и локальные настройки
+node_modules/
+.claude/settings.local.json

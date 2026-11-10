@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vlad Faustov — Senior Product Designer</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #111;
+    --muted: #5f6368;
+    --line: #e3e3e3;
+    --accent: #2f6bff;
+  }
+  html, body { background: #fff; }
+  body {
+    font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    font-size: 9.1pt;
+    line-height: 1.38;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    width: 210mm;
+    height: 296mm;
+    padding: 10mm 14mm 10mm;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  header { display: flex; justify-content: space-between; align-items: flex-end; gap: 6mm; }
+  h1 { font-size: 25pt; font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; }
+  .role { font-size: 12pt; font-weight: 500; margin-top: 1.2mm; white-space: nowrap; }
+  .role span { color: var(--muted); font-weight: 400; }
+  .loc { font-size: 8.8pt; color: var(--muted); margin-top: 1mm; }
+  .contacts { text-align: right; font-size: 8.8pt; line-height: 1.6; color: var(--muted); white-space: nowrap; }
+  .contacts b { color: var(--ink); font-weight: 600; }
+  .contacts a.pf { color: var(--accent); font-weight: 600; }
+
+  .summary {
+    margin-top: 3mm; padding: 1.6mm 0 0; border-top: 1.5pt solid var(--ink);
+    font-size: 9.5pt; line-height: 1.45;
+  }
+  .highlights { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin-top: 2mm; }
+  .summary + h2 { margin-top: 4mm; }
+  .hl { border-left: 2pt solid var(--accent); padding-left: 2.5mm; }
+  .hl b { display: block; font-size: 12.5pt; font-weight: 700; letter-spacing: -0.01em; }
+  .hl span { font-size: 8pt; color: var(--muted); line-height: 1.3; display: block; }
+
+  h2 {
+    font-size: 8.4pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--muted); margin: 4.5mm 0 2mm;
+  }
+  .job { margin-bottom: 2.8mm; break-inside: avoid; }
+  .job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
+  .job-title { font-size: 10.4pt; font-weight: 600; }
+  .job-title span { font-weight: 400; color: var(--muted); }
+  .dates { font-size: 8.8pt; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .ctx { font-size: 8.8pt; color: var(--muted); margin-top: 0.4mm; }
+  ul { margin-top: 0.9mm; padding-left: 4mm; }
+  li { margin-bottom: 0.4mm; }
+  li::marker { color: #aaa; }
+  li b { font-weight: 600; }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
+  .skills p { margin-bottom: 1.4mm; }
+  .skills b { font-weight: 600; }
+  .small p { margin-bottom: 1.4mm; }
+  .small .dates { margin-left: 2mm; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div>
+      <h1>Vlad Faustov</h1>
+      <div class="role">Senior Product Designer <span>· Mobile &amp; Fintech</span></div>
+      <div class="loc">Tbilisi, Georgia (UTC+4) · Remote · Full-time or part-time</div>
+    </div>
+    <div class="contacts">
+      <a class="pf" href="https://faustov.notion.site/Vlad-Faustov-efd9bbdadf4743fdbf0efdb1d7768e61">Portfolio → faustov.notion.site</a><br>
+      <b>Telegram</b> <a href="https://t.me/faustov">@faustov</a><br>
+      <a href="https://www.linkedin.com/in/faustov/">linkedin.com/in/faustov</a><br>
+      <a href="mailto:vlad.faustoff@gmail.com">vlad.faustoff@gmail.com</a>
+    </div>
+  </header>
+
+  <section class="summary">
+    Product designer with 8+ years in mobile products — two years on TradingView’s native iOS and Android apps, then lead roles
+    in fintech and crypto. I design high-stakes flows (onboarding, KYC, payments, trading) and the design systems behind them,
+    and prototype in Swift and with AI tools, so what I hand off is tested and buildable.
+    <div class="highlights">
+      <div class="hl"><b>50M+</b><span>users of TradingView apps I designed for</span></div>
+      <div class="hl"><b>+8.3%</b><span>KYC conversion after flow redesign</span></div>
+      <div class="hl"><b>20</b><span>localizations incl. Arabic &amp; Hebrew RTL</span></div>
+      <div class="hl"><b>Design → code</b><span>Swift, SwiftUI, AI prototyping</span></div>
+    </div>
+  </section>
+
+  <h2>Experience</h2>
+
+  <div class="job">
+    <div class="job-head">
+      <div class="job-title">Independent Product Designer <span>· Remote</span></div>
+      <div class="dates">Feb 2026 – Present</div>
+    </div>
+    <ul>
+      <li>Developing a <b>multi-platform design system</b>: semantic color tokens, light/dark themes, documented component variants and states.</li>
+      <li>Prototype flows in code with <b>Claude Code and SwiftUI</b> to validate ideas before high-fidelity design.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <div class="job-title">Crypto Wallet <span>(NDA) · Lead Product Designer</span></div>
+      <div class="dates">Jun 2025 – Feb 2026</div>
+    </div>
+    <div class="ctx">Crypto wallet app · details available on request</div>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <div class="job-title">Fintech Investment Product <span>(NDA) · Lead Product Designer</span></div>
+      <div class="dates">Aug 2024 – Mar 2025</div>
+    </div>
+    <div class="ctx">Investment platform · Web, iOS, Android · worked directly with the Product Owner</div>
+    <ul>
+      <li>Redesigned critical conversion flows — onboarding, <b>KYC verification (+8.3% conversion)</b>, deposits/withdrawals and investment actions.</li>
+      <li>Introduced <b>cross-platform design tokens</b> with branching — one source of truth for Web, iOS and Android.</li>
+      <li>Created product concepts that fed into annual and multi-year roadmap planning.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <div class="job-title">TradingView <span>· Product Designer, Mobile</span></div>
+      <div class="dates">Jul 2022 – May 2024</div>
+    </div>
+    <div class="ctx">Native iOS &amp; Android apps for 50M+ traders · phone and tablet · team of PMs, developers, QA, analyst</div>
+    <ul>
+      <li>Owned <b>Chart, Search, Explore and Widgets</b>: requirements, research, concepts, prototypes, testing, release and post-launch analytics.</li>
+      <li>Led the <b>RTL adaptation for Arabic and Hebrew</b>: interviewed native speakers, wrote guidelines, worked with developers and QA to tell bugs from conventions.</li>
+      <li>Prototyped <b>iOS 16 Lock Screen widgets in Xcode</b> during the beta and handed working code to developers — faster than mocking in Figma.</li>
+      <li>Grew the design system: new components, legacy refactoring, a new approach to component prioritization.</li>
+      <li>Onboarded new designers and interviewed candidates.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <div class="job-title">Earlier <span>· Wallp (Founder &amp; Designer), Fogu (Product Designer)</span></div>
+      <div class="dates">2017 – 2020</div>
+    </div>
+    <ul>
+      <li><b>Wallp:</b> built and ran an iOS wallpaper platform for artists end-to-end — product, UI kit, Swift (UIKit) development, App Store release, ASO, ads.</li>
+      <li><b>Fogu:</b> designed the iOS app UI, icons and App Store assets; shipped UI fixes directly in code.</li>
+    </ul>
+  </div>
+
+  <div class="cols">
+    <div class="skills">
+      <h2>Skills</h2>
+      <p><b>Product design:</b> end-to-end flows, conversion &amp; funnel optimization, research &amp; usability testing, prototyping, analytics-informed iteration</p>
+      <p><b>Systems:</b> design systems, semantic tokens, theming, RTL &amp; localization, accessibility &amp; dynamic type</p>
+      <p><b>Platforms:</b> iOS (HIG), Android (Material), Web, watchOS, visionOS</p>
+      <p><b>Tools:</b> Figma, Lottie, Xcode (Swift, UIKit, SwiftUI), Claude Code, Jira, Confluence, Notion</p>
+    </div>
+    <div class="small">
+      <h2>Awards</h2>
+      <p><b>2nd place</b> — Telegram Wallet design contest<span class="dates">2024</span></p>
+      <p><b>1st place</b> — Tsifrovoi Proryv hackathon, as team PM<span class="dates">2019</span></p>
+      <p><b>Prize winner</b> — VK iOS 7 app redesign contest<span class="dates">2013</span></p>
+      <h2>Education &amp; languages</h2>
+      <p>B.Sc. Information Systems and Technologies, RGUPS<span class="dates">2015 – 2019</span></p>
+      <p>Russian — native · English — B2</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

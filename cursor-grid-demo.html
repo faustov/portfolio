@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cursor Grid</title>
+<style>
+  :root { --bg:#fafafa; --fg:#09090b; --muted:#52525b; --border:rgba(0,0,0,.08); }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0a0a0a; --fg:#fafafa; --muted:#a1a1aa; --border:rgba(255,255,255,.1); } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui, sans-serif; }
+  .wrap { max-width:1180px; margin:0 auto; padding:80px 40px; }
+  h2 { font-size:60px; letter-spacing:-.04em; line-height:.95; margin:0 0 48px; font-weight:500; }
+
+  /* Контейнер: ширина задаёт высоту ряда через container query units */
+  .grid { container-type:inline-size; }
+  .rows { --row-h: max(150px, calc((100cqw - 52px) / var(--max-row-sum))); }
+  .row { display:flex; flex-wrap:wrap; justify-content:center; column-gap:16px; margin-bottom:12px; }
+  .row:last-child { margin-bottom:0; }
+  .tile {
+    position:relative; overflow:hidden; border-radius:18px;
+    border:1px solid var(--border); background:#ddd;
+  }
+  .tile img, .tile video, .tile .ph {
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  /* Плейсхолдер: фон чуть больше плитки, чтобы был виден параллакс background-position */
+  .tile .ph { background-size:120% 120%; background-position:50% 50%; }
+  .tile .label { position:absolute; left:14px; bottom:12px; color:#fff; font-size:13px; opacity:.85; mix-blend-mode:difference; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h2>Selected work</h2>
+  <div class="grid" id="grid"><div class="rows" id="rows"></div></div>
+</div>
+
+<script>
+/* ---------- Данные: замени на свои кейсы (src = картинка/видео) ---------- */
+const ROWS = [
+  [{a:910/512, c:'#f5a25d,#2b2b2b'}, {a:910/512, c:'#111,#3a3a5a'}, {a:910/512, c:'#1a1a1a,#c0392b'}],
+  [{a:910/512, c:'#444,#9aa'}, {a:410/512, c:'#2e86de,#111'}, {a:910/512, c:'#eee,#bbb'}, {a:1, c:'#222,#777'}],
+  [{a:910/512, c:'#f8f8f8,#999'}, {a:410/512, c:'#111,#e74c3c'}, {a:910/512, c:'#2d1b4e,#111'}, {a:910/512, c:'#151515,#333'}],
+].map(r => r.map(t => ({ ...t, cell: 0.816 * t.a })));   // cell — «вес» плитки = её aspect
+
+const GAP_X = 16, GAP_Y = 12;
+const ROW_RADIUS = 380;     // радиус влияния курсора на высоту ряда (px) — шире = мягче градиент
+const TILE_RADIUS = 520;    // радиус влияния на ширину плитки (px)
+const ROW_BOOST = 0.35;     // ряд под курсором растёт до +35% (было 72%)
+const TILE_BOOST = 0.5;     // плитка под курсором растёт до +50% по весу (было 100%)
+const PARALLAX = 1.5;       // сдвиг контента внутри плитки, % (было 4)
+const SMOOTH = 0.95;        // доля «остатка» за кадр при 60fps: ближе к 1 = медленнее (было 0.8)
+const SNAP = true;          // цель = центр ближайшей плитки, а не точка курсора:
+                            // пока мышь внутри одной плитки, сетка стоит неподвижно
+
+/* Сглаженное ядро: 1 в центре, 0 на радиусе, гладко без изломов */
+const falloff = d => d >= 1 ? 0 : (1 - d*d) ** 2;
+
+/* ---------- Разметка в покое: обычный flex с grow = вес ---------- */
+const rowsEl = document.getElementById('rows');
+const maxRowSum = Math.max(...ROWS.map(r => r.reduce((s,t) => s + t.cell, 0)));
+rowsEl.style.setProperty('--max-row-sum', maxRowSum.toFixed(4));
+
+const rowEls = [], tileEls = [];
+const restStyle = cell => ({
+  flexGrow: cell, flexShrink: 1, flexBasis: `calc(var(--row-h) * ${cell})`,
+  maxWidth: `calc(var(--row-h) * ${cell * 1.5})`, aspectRatio: cell, width: '', height: '',
+});
+ROWS.forEach((row, ri) => {
+  const rEl = document.createElement('div'); rEl.className = 'row';
+  row.forEach((t, ti) => {
+    const el = document.createElement('div'); el.className = 'tile';
+    Object.assign(el.style, restStyle(t.cell));
+    el.innerHTML = `<div class="ph" style="background-image:linear-gradient(135deg,${t.c})"></div><span class="label">Project ${ri+1}.${ti+1}</span>`;
+    rEl.appendChild(el); tileEls.push(el);
+  });
+  rowsEl.appendChild(rEl); rowEls.push(rEl);
+});
+const flat = ROWS.flat();
+
+/* ---------- Геометрия покоя: центры рядов и плиток ---------- */
+let geo = null;
+function measure() {
+  if (state.cur.s > 0.002) return;          // меряем только в покое
+  const W = rowsEl.clientWidth, H = rowsEl.offsetHeight;
+  const rowH = rowEls.map(r => r.offsetHeight);
+  // работает только если каждый ряд влез в одну строку
+  const singleLine = rowEls.every(r => {
+    const tops = [...r.children].map(c => c.offsetTop);
+    return Math.max(...tops) - Math.min(...tops) < 10;
+  });
+  if (!singleLine) { geo = null; return; }
+  let y = 0; const rowCY = [];
+  rowH.forEach(h => { rowCY.push(y + h/2); y += h + GAP_Y; });
+  const innerW = ROWS.map(r => W - (r.length - 1) * GAP_X);
+  const sum = ROWS.map(r => r.reduce((s,t) => s + t.cell, 0));
+  const tileCX = ROWS.map((r, ri) => { let x = 0; return r.map(t => {
+    const w = innerW[ri] * t.cell / sum[ri]; const cx = x + w/2; x += w + GAP_X; return cx; }); });
+  geo = { H, rowH, rowCY, tileCX, innerW, hAvail: H - (ROWS.length - 1) * GAP_Y };
+}
+
+/* ---------- Состояние: target (куда хотим) и cur (сглаженное) ---------- */
+const state = { target:{x:0,y:0,s:0}, cur:{x:0,y:0,s:0}, active:-1, raf:null, last:0, snapIdx:-1 };
+
+function reset() {
+  rowsEl.style.height = '';
+  rowEls.forEach(r => { r.style.height = ''; r.style.flexWrap = ''; });
+  tileEls.forEach((el, i) => {
+    Object.assign(el.style, restStyle(flat[i].cell));
+    el.firstElementChild.style.backgroundPosition = '';
+  });
+}
+
+function frame(dt) {
+  const { target:T, cur:C } = state;
+  // экспоненциальное сглаживание, независимое от FPS (0.8 за кадр при 60fps)
+  const k = 1 - Math.pow(SMOOTH, dt / (1000/60));
+  C.x += (T.x - C.x) * k; C.y += (T.y - C.y) * k; C.s += (T.s - C.s) * k;
+
+  if (C.s < 0.002 && T.s === 0) { C.s = 0; reset(); setActive(-1); return; }
+
+  // 1) Высоты рядов: ряд под курсором растёт, сумма нормируется к фикс. высоте
+  const want = ROWS.map((_, ri) => geo.rowH[ri] * (1 + ROW_BOOST * C.s * falloff(Math.abs(C.y - geo.rowCY[ri]) / ROW_RADIUS)));
+  const wantSum = want.reduce((a,b) => a + b, 0);
+  rowsEl.style.height = geo.H + 'px';   // общая высота не прыгает
+
+  let idx = 0, best = -1, bestD = Infinity;
+  ROWS.forEach((row, ri) => {
+    const h = geo.hAvail * want[ri] / wantSum;
+    rowEls[ri].style.height = h + 'px'; rowEls[ri].style.flexWrap = 'nowrap';
+
+    // 2) Ширины плиток: вес растёт к курсору, сумма нормируется к ширине ряда
+    const ws = row.map((t, ti) => {
+      const dx = C.x - geo.tileCX[ri][ti], dy = C.y - geo.rowCY[ri];
+      const d = Math.hypot(dx, dy);
+      if (d < bestD) { bestD = d; best = idx + ti; }
+      return t.cell * (1 + TILE_BOOST * C.s * falloff(d / TILE_RADIUS));
+    });
+    const wsSum = ws.reduce((a,b) => a + b, 0);
+
+    row.forEach((t, ti) => {
+      const el = tileEls[idx + ti];
+      Object.assign(el.style, { flexGrow:0, flexShrink:0, flexBasis:'auto', maxWidth:'none', aspectRatio:'auto',
+        width: geo.innerW[ri] * ws[ti] / wsSum + 'px', height: h + 'px' });
+      // 3) Параллакс содержимого: сдвиг в сторону от курсора
+      const dx = C.x - geo.tileCX[ri][ti], dy = C.y - geo.rowCY[ri];
+      const amt = PARALLAX * C.s * falloff(Math.hypot(dx, dy) / TILE_RADIUS);
+      el.firstElementChild.style.backgroundPosition = `${50 - dx/TILE_RADIUS*amt*10}% ${50 - dy/TILE_RADIUS*amt*10}%`;
+      // для <video>/<img> используй objectPosition = `${50 - dx/R*amt}% ${50 - dy/R*amt}%`
+    });
+    idx += row.length;
+  });
+  // 4) Ближайшая плитка = активная (у них — только она проигрывает видео)
+  if (C.s > 0.5) setActive(best);
+}
+
+function setActive(i) {
+  if (i === state.active) return;
+  state.active = i;
+  // тут: play() видео активной плитки, pause() остальных
+}
+
+function loop(t) {
+  const dt = Math.min(t - state.last, 64); state.last = t;
+  frame(dt);
+  state.raf = (state.cur.s > 0 || state.target.s > 0) ? requestAnimationFrame(loop) : null;
+}
+function kick() { if (state.raf === null) { state.last = performance.now(); state.raf = requestAnimationFrame(loop); } }
+
+/* ---------- Включаем только на десктопе с мышью и без reduced-motion ---------- */
+const enabled = () =>
+  matchMedia('(hover: hover) and (pointer: fine)').matches &&
+  !matchMedia('(prefers-reduced-motion: reduce)').matches &&
+  !matchMedia('(max-width: 1023px)').matches;
+
+rowsEl.addEventListener('mousemove', e => {
+  if (!enabled() || !geo) return;
+  const r = rowsEl.getBoundingClientRect();
+  let x = e.clientX - r.left, y = e.clientY - r.top;
+  if (SNAP) {
+    // Ближайшая плитка по геометрии покоя. Чтобы не «щёлкать» на границе двух плиток,
+    // текущая плитка получает фору 15% (гистерезис).
+    let best = null, bestD = Infinity, i = 0;
+    ROWS.forEach((row, ri) => row.forEach((_, ti) => {
+      let d = Math.hypot(x - geo.tileCX[ri][ti], y - geo.rowCY[ri]);
+      if (i === state.snapIdx) d *= 0.85;
+      if (d < bestD) { bestD = d; best = { i, x: geo.tileCX[ri][ti], y: geo.rowCY[ri] }; }
+      i++;
+    }));
+    state.snapIdx = best.i; x = best.x; y = best.y;
+  }
+  state.target = { x, y, s: 1 };
+  if (state.cur.s === 0) { state.cur.x = state.target.x; state.cur.y = state.target.y; } // без «прилёта» из угла
+  kick();
+});
+rowsEl.addEventListener('mouseleave', () => { state.snapIdx = -1; state.target = { ...state.target, s: 0 }; kick(); });
+
+let rt; let lastW = 0;
+new ResizeObserver(() => {
+  if (rowsEl.clientWidth === lastW) return; lastW = rowsEl.clientWidth;
+  clearTimeout(rt); rt = setTimeout(measure, 260);
+}).observe(rowsEl);
+measure();
+</script>
+</body>
+</html>
