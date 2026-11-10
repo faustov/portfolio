@@ -1,985 +1,209 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vlad Faustov — Product Designer</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #0b0d12;
-    --ink: #f4f5f7;
-    --muted: #9aa0aa;
-    --accent: #3d8bd4;
-    --panel: rgba(22, 26, 34, .72);
-    --line: rgba(255, 255, 255, .1);
-  }
-  html, body { background: var(--bg); color: var(--ink); }
-  body {
-    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .hero {
-    position: relative; min-height: 100vh; overflow: hidden;
-    display: grid; place-items: center;
-    background: radial-gradient(60% 50% at 50% 55%, #1b2a40 0%, var(--bg) 70%);
-  }
-  /* Device switch at the top of the hero */
-  .topbar {
-    position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 3;
-    max-width: calc(100vw - 32px); padding: 4px; border-radius: 999px;
-    background: var(--panel); border: 1px solid var(--line);
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    font-size: 14px;
-  }
-  .topbar .segmented { border: 0; padding: 0; }
-  .topbar .segmented button { padding: 7px 16px; }
-
-  /* .device is only the framing box (where the device sits at rest); the canvas covers the
-     whole hero so close-ups can run off the edges of the window instead of being clipped */
-  .device { position: relative; width: min(100vw, 900px); height: min(80vh, 780px); margin-top: 8vh; pointer-events: none; }
-  #stage { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .6s; z-index: 1; }
-  .device .still {
-    position: absolute; left: 50%; top: 50%; width: 30%; transform: translate(-50%, -50%);
-    border-radius: 22%; transition: opacity .4s;
-  }
-  .hero.ready #stage { opacity: 1; }
-  .hero.ready .still { opacity: 0; }
-  .hero.loading #stage { opacity: .25; }
-
-  /* Animation controls */
-  .controls {
-    position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 3;
-    width: min(calc(100vw - 32px), 780px);
-    display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px;
-    padding: 12px 14px; border-radius: 16px;
-    background: var(--panel); border: 1px solid var(--line);
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    font-size: 13px;
-  }
-  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; width: 100%; }
-  .presets { display: flex; flex-wrap: wrap; gap: 4px; }
-  .segmented { display: inline-flex; padding: 2px; border-radius: 999px; border: 1px solid var(--line); }
-  .segmented button { border: 0 !important; }
-  .presets button, .segmented button, .btn {
-    appearance: none; border: 1px solid var(--line); background: transparent; color: var(--ink);
-    font: inherit; padding: 6px 10px; border-radius: 999px; cursor: pointer; white-space: nowrap;
-  }
-  .presets button[aria-pressed="true"], .segmented button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-  .segmented button { padding: 5px 12px; font-weight: 600; }
-  .divider { width: 1px; align-self: stretch; background: var(--line); }
-  .btn { display: inline-flex; align-items: center; gap: 6px; min-width: 76px; justify-content: center; }
-  .btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); }
-  button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .field { display: flex; align-items: center; gap: 8px; color: var(--muted); }
-  .field input[type=range] { width: 110px; accent-color: var(--accent); }
-  .field output { color: var(--ink); min-width: 34px; font-variant-numeric: tabular-nums; }
-  .spacer { flex: 1; }
-  [hidden] { display: none !important; }
-
-  footer { padding: 32px 16px; text-align: center; font-size: 12px; color: var(--muted); line-height: 1.7; }
-  footer a { color: inherit; }
-</style>
-<script type="importmap">
-{ "imports": {
-  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
-  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
-} }
-</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vlad Faustov — Senior Product Designer</title>
+  <meta name="description" content="Vlad Faustov — senior product designer. Mobile, fintech, design systems.">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body id="top">
 
-<section class="hero">
-  <nav class="topbar" aria-label="Device">
-    <div class="segmented" id="devices" role="group" aria-label="Device"></div>
-  </nav>
-
-  <canvas id="stage"></canvas>
-  <div class="device" id="device">
-    <img class="still" src="assets/watch-screen.png" alt="Chat screen on Apple Watch">
-  </div>
-
-  <div class="controls" role="group" aria-label="Animation controls">
-    <div class="row">
-      <div class="presets" id="presets"></div>
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="hero__id">
+      <div class="avatar" aria-hidden="true">VF</div>
+      <div>
+        <h1 class="hero__name">Vlad Faustov</h1>
+        <p class="hero__role">Senior Product Designer · Mobile &amp; Fintech</p>
+      </div>
     </div>
-    <div class="segmented" id="folds" role="group" aria-label="Fold state" hidden></div>
-    <button class="btn" id="play" type="button">⏸ Stop</button>
-    <button class="btn" id="repeat" type="button" aria-pressed="false">↻ Repeat</button>
-    <button class="btn" id="float" type="button" aria-pressed="true">≈ Float</button>
-    <button class="btn" id="follow" type="button" aria-pressed="true">◎ Follow cursor</button>
-    <span class="spacer"></span>
-    <label class="field">Speed <input id="speed" type="range" min="0.25" max="2" step="0.05" value="1"><output id="speedOut">1×</output></label>
-    <label class="field">Glare <input id="glare" type="range" min="0" max="1" step="0.05" value="0"><output id="glareOut">0%</output></label>
-  </div>
-</section>
 
-<footer>
-  3D models:
-  <!-- TODO: replace href with the exact model URL from Sketchfab "Copy Credits" -->
-  <a href="https://sketchfab.com/search?q=apple+watch+series+9+polyman&type=models" target="_blank" rel="noopener">“Apple Watch Series 9”</a>
-  by polyman Studio, licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>
-  ·
-  <a href="https://sketchfab.com/3d-models/apple-iphone-18-pro-max-black-2026-8fd804a9b0ea49249de3f1e0450fbc9c" target="_blank" rel="noopener">“Apple iPhone 18 Pro Max Black 2026”</a>
-  by UnknownOrigin (Sketchfab Free Standard)
-  ·
-  <a href="https://sketchfab.com/3d-models/240492141edd4594ae13082a7fcbbb29" target="_blank" rel="noopener">“Apple iPhone Duo Fold Star White 2026 (Animated)”</a>
-  by UnknownOrigin (Sketchfab Free Standard)
-</footer>
+    <p class="hero__intro">
+      8+ years designing mobile products — two years on TradingView’s native apps for 50M+ traders,
+      then lead roles in fintech and crypto. I design high-stakes flows and the systems behind them,
+      and prototype in Swift and with AI tools, so what I hand off is tested and buildable.
+    </p>
 
-<script type="module">
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+    <dl class="hero__meta">
+      <div><dt>Based in</dt><dd>Tbilisi, Georgia · UTC+4</dd></div>
+      <div><dt>Status</dt><dd>Open to remote roles</dd></div>
+      <div><dt>Contact</dt>
+        <dd>
+          <a href="mailto:vlad.faustoff@gmail.com">vlad.faustoff@gmail.com</a><br>
+          <a href="https://t.me/faustov">Telegram</a> ·
+          <a href="https://www.linkedin.com/in/faustov/">LinkedIn</a>
+        </dd>
+      </div>
+    </dl>
+  </header>
 
-/* ------------------------------------------------------------------ *
- * Timeline helpers.
- * Each property (rx/ry/rz in degrees, y in model-radius units, zoom,
- * f = focus on the preset's target 0..1) is its own keyframe track:
- * [time (s), value, easing into this key].
- * ------------------------------------------------------------------ */
-const ease = {
-  linear: t => t,
-  inOut: t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
-  out: t => 1 - Math.pow(1 - t, 3),
-  back: t => { const c = 1.6; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); },
-};
-const DEFAULTS = { rx: 0, ry: 0, rz: 0, y: 0, zoom: 1, f: 0 };
+  <main>
 
-function sample(track, t) {
-  if (!track) return undefined;
-  if (t <= track[0][0]) return track[0][1];
-  for (let i = 1; i < track.length; i++) {
-    const [t1, v1, e = 'inOut'] = track[i];
-    if (t <= t1) {
-      const [t0, v0] = track[i - 1];
-      return v0 + (v1 - v0) * ease[e]((t - t0) / (t1 - t0));
-    }
-  }
-  return track[track.length - 1][1];
-}
-function pose(preset, t) {
-  const out = {};
-  for (const k in DEFAULTS) out[k] = sample(preset.tracks[k], t) ?? DEFAULTS[k];
-  return out;
-}
+    <!-- ============ WORK ============ -->
+    <section class="section" id="work">
+      <h2 class="section__title"><span class="label">01</span> Selected work</h2>
 
-/* ------------------------------------------------------------------ *
- * Apple Watch presets
- * ------------------------------------------------------------------ */
-const WATCH_PRESETS = {
-  reveal: {
-    label: 'Reveal',
-    note: 'From the recording: 3/4 view turns to the front while zooming in',
-    duration: 2.5, hold: 1.4,
-    tracks: {
-      rx:   [[0, 30], [2.3, 14, 'inOut']],
-      ry:   [[0, 40], [2.3, -14, 'inOut']],
-      rz:   [[0, 9],  [2.3, 0, 'inOut']],
-      zoom: [[0, .82], [2.5, 1.22, 'inOut']],
-    },
-  },
-  sway: {
-    label: 'Idle sway',
-    note: 'Gentle left-right look, good as a calm hero background',
-    duration: 7, hold: 0, seamless: true,
-    tracks: {
-      rx: [[0, 12], [1.75, 8, 'inOut'], [3.5, 12, 'inOut'], [5.25, 8, 'inOut'], [7, 12, 'inOut']],
-      ry: [[0, 0], [1.75, -22, 'inOut'], [3.5, 0, 'inOut'], [5.25, 22, 'inOut'], [7, 0, 'inOut']],
-      zoom: [[0, 1.05]],
-    },
-  },
-  focus: {
-    label: 'Focus pull',
-    note: 'Starts on a screen close-up, then pulls back to show the whole watch',
-    duration: 3.6, hold: 1.4,
-    tracks: {
-      zoom: [[0, 2.7], [1.0, 2.6, 'linear'], [3.6, .95, 'inOut']],
-      rx: [[0, 0], [1.0, 0], [3.6, 18, 'inOut']],
-      ry: [[0, 0], [1.0, 0], [3.6, 26, 'inOut']],
-      rz: [[0, 0], [1.0, 0], [3.6, -4, 'inOut']],
-    },
-  },
-  crown: {
-    label: 'Crown macro',
-    note: 'Opens on the Digital Crown from the side, then swings round to the front',
-    target: 'crown', duration: 3.8, hold: 1.4,
-    tracks: {
-      zoom: [[0, 5.6], [1.0, 5.3, 'linear'], [3.8, .95, 'inOut']],
-      f:    [[0, 1], [1.0, 1], [3.4, 0, 'inOut']],
-      ry:   [[0, -74], [1.0, -70, 'linear'], [3.8, -14, 'inOut']],
-      rx:   [[0, 6], [1.0, 6], [3.8, 14, 'inOut']],
-    },
-  },
-  message: {
-    label: 'Message',
-    note: 'Opens on the incoming message bubble, then pulls back with a tilt',
-    target: 'bubble', duration: 3.6, hold: 1.4,
-    tracks: {
-      zoom: [[0, 3.4], [1.0, 3.25, 'linear'], [3.6, .95, 'inOut']],
-      f:    [[0, 1], [1.0, 1], [3.3, 0, 'inOut']],
-      ry:   [[0, -6], [1.0, -4, 'linear'], [3.6, 22, 'inOut']],
-      rx:   [[0, 2], [1.0, 2], [3.6, 14, 'inOut']],
-      rz:   [[0, 0], [1.0, 0], [3.6, 3, 'inOut']],
-    },
-  },
-  mic: {
-    label: 'Rise from mic',
-    note: 'Starts low on the mic button and rises up and out to the whole watch',
-    target: 'mic', duration: 3.6, hold: 1.4,
-    tracks: {
-      zoom: [[0, 3.6], [1.0, 3.45, 'linear'], [3.6, .95, 'inOut']],
-      f:    [[0, 1], [1.0, 1], [3.3, 0, 'inOut']],
-      rx:   [[0, -24], [1.0, -22, 'linear'], [3.6, 14, 'inOut']],
-      ry:   [[0, 0], [1.0, 0], [3.6, -14, 'inOut']],
-    },
-  },
-  header: {
-    label: 'Top down',
-    note: 'Looks down onto the time and avatar, then sweeps down and out',
-    target: 'header', duration: 3.6, hold: 1.4,
-    tracks: {
-      zoom: [[0, 3.6], [1.0, 3.45, 'linear'], [3.6, .95, 'inOut']],
-      f:    [[0, 1], [1.0, 1], [3.3, 0, 'inOut']],
-      rx:   [[0, 38], [1.0, 36, 'linear'], [3.6, 10, 'inOut']],
-      ry:   [[0, 8], [1.0, 8], [3.6, 16, 'inOut']],
-    },
-  },
-  orbit: {
-    label: 'Pull & orbit',
-    note: 'Screen close-up, then pulls back while orbiting to the side and settling at 3/4',
-    target: 'screen', duration: 5, hold: 1.4,
-    tracks: {
-      zoom: [[0, 2.7], [0.9, 2.6, 'linear'], [3.0, 1.05, 'inOut'], [5, .95, 'inOut']],
-      f:    [[0, 1], [0.9, 1], [2.8, 0, 'inOut']],
-      ry:   [[0, 0], [0.9, 0], [3.0, -58, 'inOut'], [5, -18, 'inOut']],
-      rx:   [[0, 0], [0.9, 0], [3.0, 10, 'inOut'], [5, 14, 'inOut']],
-    },
-  },
-};
+      <!-- Independent -->
+      <article class="job">
+        <div class="job__info">
+          <h3 class="job__company">Independent</h3>
+          <p class="job__role">Product Designer</p>
+          <p class="job__dates">2026 — Present</p>
+          <p class="job__about">Design systems and code-first prototyping for my own and client products.</p>
+        </div>
+        <div class="job__cases">
+          <a class="case case--link" href="#">
+            <div class="case__img ph">Image</div>
+            <h4 class="case__title">Multi-platform design system</h4>
+            <p class="case__desc">Semantic tokens, light/dark themes, documented variants and states.</p>
+          </a>
+          <a class="case case--link" href="#">
+            <div class="case__img ph">Image</div>
+            <h4 class="case__title">Prototyping with Claude Code &amp; SwiftUI</h4>
+            <p class="case__desc">Validating flows in code before high-fidelity design.</p>
+          </a>
+        </div>
+      </article>
 
-/* ------------------------------------------------------------------ *
- * iPhone presets (same family, tuned for a tall device)
- * ------------------------------------------------------------------ */
-const IPHONE_PRESETS = {
-  reveal: {
-    label: 'Reveal',
-    note: '3/4 tilt turns to the front while zooming in',
-    duration: 2.5, hold: 1.4,
-    tracks: {
-      rx:   [[0, 16], [2.3, 6, 'inOut']],
-      ry:   [[0, 34], [2.3, -10, 'inOut']],
-      rz:   [[0, 8],  [2.3, 0, 'inOut']],
-      zoom: [[0, .85], [2.5, 1.08, 'inOut']],
-    },
-  },
-  sway: {
-    label: 'Idle sway',
-    note: 'Gentle left-right look, good as a calm hero background',
-    duration: 7, hold: 0, seamless: true,
-    tracks: {
-      rx: [[0, 8], [1.75, 5, 'inOut'], [3.5, 8, 'inOut'], [5.25, 5, 'inOut'], [7, 8, 'inOut']],
-      ry: [[0, 0], [1.75, -20, 'inOut'], [3.5, 0, 'inOut'], [5.25, 20, 'inOut'], [7, 0, 'inOut']],
-      zoom: [[0, 1]],
-    },
-  },
-  focus: {
-    label: 'Focus pull',
-    note: 'Starts on a screen close-up, then pulls back to show the whole phone',
-    target: 'screen', duration: 3.6, hold: 1.4,
-    tracks: {
-      zoom: [[0, 2.2], [1.0, 2.1, 'linear'], [3.6, .95, 'inOut']],
-      f:    [[0, 1], [1.0, 1], [3.3, 0, 'inOut']],
-      rx: [[0, 0], [1.0, 0], [3.6, 10, 'inOut']],
-      ry: [[0, 0], [1.0, 0], [3.6, 24, 'inOut']],
-      rz: [[0, 0], [1.0, 0], [3.6, -3, 'inOut']],
-    },
-  },
-  camera: {
-    label: 'Camera macro',
-    note: 'Opens on the rear camera, then flips round to the screen',
-    target: 'camera', duration: 4, hold: 1.4,
-    tracks: {
-      zoom: [[0, 4.6], [1.0, 4.4, 'linear'], [4, .95, 'inOut']],
-      f:    [[0, 1], [1.0, 1], [3.4, 0, 'inOut']],
-      ry:   [[0, 196], [1.0, 192, 'linear'], [4, -12, 'inOut']],
-      rx:   [[0, 8], [1.0, 8], [4, 8, 'inOut']],
-    },
-  },
-  island: {
-    label: 'Top down',
-    note: 'Looks down onto the Dynamic Island area, then sweeps down and out',
-    target: 'island', duration: 3.6, hold: 1.4,
-    tracks: {
-      zoom: [[0, 4.2], [1.0, 4.0, 'linear'], [3.6, .95, 'inOut']],
-      f:    [[0, 1], [1.0, 1], [3.3, 0, 'inOut']],
-      rx:   [[0, 36], [1.0, 34, 'linear'], [3.6, 8, 'inOut']],
-      ry:   [[0, 6], [1.0, 6], [3.6, 14, 'inOut']],
-    },
-  },
-  bottom: {
-    label: 'Rise from bottom',
-    note: 'Starts low on the bottom of the screen and rises up and out',
-    target: 'bottom', duration: 3.6, hold: 1.4,
-    tracks: {
-      zoom: [[0, 3.6], [1.0, 3.45, 'linear'], [3.6, .95, 'inOut']],
-      f:    [[0, 1], [1.0, 1], [3.3, 0, 'inOut']],
-      rx:   [[0, -26], [1.0, -24, 'linear'], [3.6, 8, 'inOut']],
-      ry:   [[0, 0], [1.0, 0], [3.6, -12, 'inOut']],
-    },
-  },
-  orbit: {
-    label: 'Pull & orbit',
-    note: 'Screen close-up, then pulls back while orbiting to the side and settling at 3/4',
-    target: 'screen', duration: 5, hold: 1.4,
-    tracks: {
-      zoom: [[0, 2.2], [0.9, 2.1, 'linear'], [3.0, 1.0, 'inOut'], [5, .95, 'inOut']],
-      f:    [[0, 1], [0.9, 1], [2.8, 0, 'inOut']],
-      ry:   [[0, 0], [0.9, 0], [3.0, -62, 'inOut'], [5, -16, 'inOut']],
-      rx:   [[0, 0], [0.9, 0], [3.0, 8, 'inOut'], [5, 8, 'inOut']],
-    },
-  },
-};
+      <!-- Crypto wallet -->
+      <article class="job">
+        <div class="job__info">
+          <h3 class="job__company">Crypto Wallet <span class="tag">NDA</span></h3>
+          <p class="job__role">Lead Product Designer</p>
+          <p class="job__dates">2025 — 2026</p>
+          <p class="job__about">Crypto wallet app. Details available on request.</p>
+        </div>
+        <div class="job__cases">
+          <div class="case">
+            <div class="case__img ph">Image</div>
+            <h4 class="case__title">Case title</h4>
+            <p class="case__desc">Short description · available on request</p>
+          </div>
+          <div class="case">
+            <div class="case__img ph">Image</div>
+            <h4 class="case__title">Case title</h4>
+            <p class="case__desc">Short description · available on request</p>
+          </div>
+        </div>
+      </article>
 
-/* ------------------------------------------------------------------ *
- * iPhone Duo Fold presets. Extra track `fold`: 0 = open, 0.5 = half
- * (90°), 1 = closed. Presets without a fold track use the Open / Half /
- * Closed switch on the panel.
- * ------------------------------------------------------------------ */
-const FOLD_PRESETS = {
-  unfold: {
-    label: 'Unfold',
-    note: 'Opens on the cover screen, pulls back and unfolds to the big screen',
-    target: 'cover', duration: 3.6, hold: 1.4,
-    tracks: {
-      fold: [[0, 1], [1.3, 1], [3.3, 0, 'inOut']],
-      zoom: [[0, 2.3], [0.8, 2.2, 'linear'], [1.9, 1.05, 'inOut'], [3.6, 1, 'inOut']],
-      f:    [[0, 1], [0.8, 1], [1.9, 0, 'inOut']],
-      ry:   [[0, 0], [0.8, 0], [2.0, 22, 'inOut'], [3.6, -8, 'inOut']],
-      rx:   [[0, 0], [0.8, 0], [2.0, 10, 'inOut'], [3.6, 6, 'inOut']],
-    },
-  },
-  reveal: {
-    label: 'Reveal',
-    note: '3/4 tilt turns to the front while zooming in (open)',
-    duration: 2.5, hold: 1.4,
-    tracks: {
-      fold: [[0, 0]],
-      rx:   [[0, 14], [2.3, 6, 'inOut']],
-      ry:   [[0, 34], [2.3, -10, 'inOut']],
-      rz:   [[0, 6],  [2.3, 0, 'inOut']],
-      zoom: [[0, .85], [2.5, 1.05, 'inOut']],
-    },
-  },
-  close: {
-    label: 'Fold shut',
-    note: 'Starts open, folds closed and turns to show the cover screen',
-    duration: 2.8, hold: 1.4,
-    tracks: {
-      fold: [[0, 0], [0.5, 0], [2.4, 1, 'inOut']],
-      ry:   [[0, -10], [2.8, 18, 'inOut']],
-      rx:   [[0, 6], [2.8, 10, 'inOut']],
-      zoom: [[0, 1]],
-    },
-  },
-  flex: {
-    label: 'Flex mode',
-    note: 'Open phone bends to 90° while the camera moves to show the L shape',
-    duration: 2.8, hold: 1.4,
-    tracks: {
-      fold: [[0, 0], [0.4, 0], [2.2, 0.5, 'inOut']],
-      ry:   [[0, 0], [2.8, -38, 'inOut']],
-      rx:   [[0, 6], [2.8, 16, 'inOut']],
-      zoom: [[0, 1], [2.8, 1.05, 'inOut']],
-    },
-  },
-  focus: {
-    label: 'Focus pull',
-    note: 'Starts on the inner screen close-up, then pulls back (open)',
-    target: 'inner', duration: 3.6, hold: 1.4,
-    tracks: {
-      fold: [[0, 0]],
-      zoom: [[0, 2.4], [1.0, 2.3, 'linear'], [3.6, .95, 'inOut']],
-      f:    [[0, 1], [1.0, 1], [3.3, 0, 'inOut']],
-      rx: [[0, 0], [1.0, 0], [3.6, 10, 'inOut']],
-      ry: [[0, 0], [1.0, 0], [3.6, 22, 'inOut']],
-    },
-  },
-  sway: {
-    label: 'Idle sway',
-    note: 'Gentle left-right look; uses the Open / Half / Closed switch',
-    duration: 7, hold: 0, seamless: true,
-    tracks: {
-      rx: [[0, 8], [1.75, 5, 'inOut'], [3.5, 8, 'inOut'], [5.25, 5, 'inOut'], [7, 8, 'inOut']],
-      ry: [[0, 0], [1.75, -20, 'inOut'], [3.5, 0, 'inOut'], [5.25, 20, 'inOut'], [7, 0, 'inOut']],
-      zoom: [[0, 1]],
-    },
-  },
-};
+      <!-- Fintech -->
+      <article class="job">
+        <div class="job__info">
+          <h3 class="job__company">Fintech Investment Platform <span class="tag">NDA</span></h3>
+          <p class="job__role">Lead Product Designer</p>
+          <p class="job__dates">2024 — 2025</p>
+          <p class="job__about">Investment platform for Web, iOS and Android. Worked directly with the Product Owner.</p>
+        </div>
+        <div class="job__cases">
+          <a class="case case--link" href="#">
+            <div class="case__img ph">Image</div>
+            <h4 class="case__title">KYC &amp; onboarding redesign</h4>
+            <p class="case__desc">+8.3% verification conversion.</p>
+          </a>
+          <div class="case">
+            <div class="case__img ph">Image</div>
+            <h4 class="case__title">Cross-platform design tokens</h4>
+            <p class="case__desc">One source of truth for Web, iOS and Android.</p>
+          </div>
+          <div class="case">
+            <div class="case__img ph">Image</div>
+            <h4 class="case__title">Product concepts</h4>
+            <p class="case__desc">Concepts that fed annual and multi-year roadmaps.</p>
+          </div>
+        </div>
+      </article>
 
-/* ------------------------------------------------------------------ *
- * Devices: model, screen, presets and their own default settings.
- * screen points are (u, v) on the screen: u 0→1 left→right, v 0→1 bottom→top.
- * ------------------------------------------------------------------ */
-const DEVICES = {
-  watch: {
-    label: 'Apple Watch',
-    model: 'assets/watch.glb',
-    // flipY: this model's screen UVs are V-flipped (checked visually)
-    screens: [{ mesh: 'Screen', image: 'assets/watch-screen.png', flipY: true }],
-    fit: 0.8,
-    presets: WATCH_PRESETS,
-    targets: ({ onScreen, find }) => ({
-      screen: onScreen(0.5, 0.5),
-      bubble: onScreen(0.6, 0.66),
-      mic:    onScreen(0.5, 0.14),
-      header: onScreen(0.5, 0.86),
-      crown:  find(m => m.name === 'jyrZueUADaKElsi'),          // Digital Crown knurl
-    }),
-    settings: { preset: 'focus', speed: 1, repeat: false, float: true, follow: true, glare: 0 },
-    look:  { maxDeg: 10, depth: 3, reach: 2, smooth: 1.75 },
-    float: { y: 0.012, rx: 0.47, rz: 0.33 },
-  },
-  iphone: {
-    label: 'iPhone',
-    model: 'assets/iphone.glb',
-    // image is optional: a placeholder is drawn if the file is missing
-    screens: [{ mesh: 'Front_Screen', image: 'assets/iphone-screen.png', flipY: false, placeholder: [1320, 2868], label: 'Your UI here' }],
-    fit: 1.2,                     // tall device: more padding than the watch
-    presets: IPHONE_PRESETS,
-    targets: ({ onScreen, find }) => ({
-      screen: onScreen(0.5, 0.5),
-      island: onScreen(0.5, 0.95),
-      bottom: onScreen(0.5, 0.1),
-      camera: find(m => /^BASE_Cam_Lens0\d$/.test(m.material.name)), // rear lenses
-    }),
-    settings: { preset: 'reveal', speed: 1, repeat: false, float: true, follow: true, glare: 0 },
-    look:  { maxDeg: 10, depth: 3, reach: 2, smooth: 1.75 },
-    float: { y: 0.012, rx: 0.47, rz: 0.33 },
-  },
-  fold: {
-    label: 'iPhone Duo',
-    model: 'assets/fold.glb',
-    screens: [
-      // blur (only while folding, like apple.com/iphone-duo): the moving half goes soft and dark.
-      // crease = u of the hinge line, side = which way from it the blur grows, from/to = ramp in u.
-      // On this model the left half (u < 0.5) moves; the cover sits behind it, hinge at u = 0.
-      { mesh: 'Front_Screen', video: 'assets/fold-inner.mp4', flipY: false, placeholder: [2000, 1400], label: 'Inner screen',
-        blur: { crease: 0.5, side: -1, from: -0.04, to: 0.45, maxLod: 6.5, minShade: 0.3, creaseShadow: 0.35 } },
-      { mesh: 'Back_Screen',  image: 'assets/fold-cover.png', flipY: false, placeholder: [1000, 1446], label: 'Cover screen',
-        blur: { crease: 0, side: 1, from: -0.1, to: 0.9, maxLod: 6, minShade: 0.35, creaseShadow: 0 } },
-    ],
-    fit: 1.0,
-    fold: { clip: 'open-close' },   // clip time 0 s = open, 1 s = 90°, 2 s = closed
-    presets: FOLD_PRESETS,
-    targets: ({ onScreen }) => ({
-      inner: onScreen(0.5, 0.5, 0, 0),   // inner screen, measured open
-      cover: onScreen(0.5, 0.5, 1, 1),   // cover screen, measured closed
-    }),
-    settings: { preset: 'unfold', fold: 0, speed: 1, repeat: false, float: true, follow: true, glare: 0 },
-    look:  { maxDeg: 10, depth: 3, reach: 2, smooth: 1.75 },
-    float: { y: 0.012, rx: 0.47, rz: 0.33 },
-  },
-};
+      <!-- TradingView -->
+      <article class="job">
+        <div class="job__info">
+          <h3 class="job__company">TradingView</h3>
+          <p class="job__role">Product Designer, Mobile</p>
+          <p class="job__dates">2022 — 2024</p>
+          <p class="job__about">Native iOS &amp; Android apps for 50M+ traders. Phone, tablet, 20 localizations.</p>
+        </div>
+        <div class="job__cases">
+          <a class="case case--link" href="#">
+            <div class="case__img ph">Image</div>
+            <h4 class="case__title">Explore</h4>
+            <p class="case__desc">From requirements and research to release and analytics.</p>
+          </a>
+          <a class="case case--link" href="#">
+            <div class="case__img ph">Image</div>
+            <h4 class="case__title">Lock Screen widgets</h4>
+            <p class="case__desc">Prototyped in Xcode during iOS 16 beta, handed off as code.</p>
+          </a>
+          <a class="case case--link" href="#">
+            <div class="case__img ph">Image</div>
+            <h4 class="case__title">Arabic &amp; Hebrew RTL</h4>
+            <p class="case__desc">Research with native speakers, guidelines, QA support.</p>
+          </a>
+        </div>
+      </article>
 
-/* ------------------------------------------------------------------ *
- * Shared scene
- * ------------------------------------------------------------------ */
-const wrap = document.querySelector('.hero');        // canvas covers the whole hero
-const frame = document.getElementById('device');     // framing box for the device at rest
-const canvas = document.getElementById('stage');
-const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const FOV = 12;
+      <!-- Earlier -->
+      <article class="job">
+        <div class="job__info">
+          <h3 class="job__company">Earlier &amp; side projects</h3>
+          <p class="job__role">Wallp, Fogu, contests</p>
+          <p class="job__dates">2013 — 2024</p>
+          <p class="job__about">Founded an iOS app, won design contests and a hackathon.</p>
+        </div>
+        <div class="job__cases">
+          <a class="case case--link" href="#">
+            <div class="case__img ph">Image</div>
+            <h4 class="case__title">Telegram Wallet redesign</h4>
+            <p class="case__desc">2nd place in the design contest, 2024.</p>
+          </a>
+          <a class="case case--link" href="#">
+            <div class="case__img ph">Image</div>
+            <h4 class="case__title">Blood Pressure for Apple Watch</h4>
+            <p class="case__desc">Concept and a watchOS UI kit, 2022.</p>
+          </a>
+          <a class="case case--link" href="#">
+            <div class="case__img ph">Image</div>
+            <h4 class="case__title">Wallp</h4>
+            <p class="case__desc">Wallpaper platform for artists — design and Swift code.</p>
+          </a>
+        </div>
+      </article>
+    </section>
 
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.outputColorSpace = THREE.SRGBColorSpace;
+    <!-- ============ PLAYGROUND ============ -->
+    <section class="section" id="playground">
+      <h2 class="section__title"><span class="label">02</span> Playground</h2>
+      <p class="section__lead">Explorations, concepts and visual bits that didn’t fit into case studies.</p>
 
-const scene = new THREE.Scene();
-const pmrem = new THREE.PMREMGenerator(renderer);
-scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-scene.add(new THREE.AmbientLight(0xffffff, 0.4));
-const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(2, 3, 4); scene.add(key);
-const fill = new THREE.DirectionalLight(0xbfd4ff, 0.8); fill.position.set(-3, 1, -2); scene.add(fill);
-const camera = new THREE.PerspectiveCamera(FOV, 1, 0.01, 1000);
+      <div class="shots">
+        <div class="shot ph">Shot</div>
+        <div class="shot shot--wide ph">Shot</div>
+        <div class="shot ph">Shot</div>
+        <div class="shot shot--tall ph">Shot</div>
+        <div class="shot ph">Shot</div>
+        <div class="shot ph">Shot</div>
+        <div class="shot shot--wide ph">Shot</div>
+        <div class="shot ph">Shot</div>
+      </div>
+    </section>
 
-// Safari: GLTFLoader decodes textures with createImageBitmap, which in Safari sometimes
-// yields empty bitmaps (model renders black / invisible, only our <img>-loaded screen shows).
-// Without createImageBitmap GLTFLoader falls back to plain <img> decoding, which is reliable.
-const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(navigator.userAgent);
-if (isSafari) globalThis.createImageBitmap = undefined;
-const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
-const texLoader = new THREE.TextureLoader();
+  </main>
 
-function placeholderTexture([w, h], label = 'Your UI here') {
-  const c = document.createElement('canvas');
-  c.width = w / 2; c.height = h / 2;
-  const x = c.getContext('2d'), m = Math.min(c.width, c.height);
-  const g = x.createLinearGradient(0, 0, 0, c.height);
-  g.addColorStop(0, '#1d2a3f'); g.addColorStop(1, '#0c1018');
-  x.fillStyle = g; x.fillRect(0, 0, c.width, c.height);
-  x.fillStyle = 'rgba(255,255,255,.85)';
-  x.textAlign = 'center';
-  x.font = `600 ${m * 0.075}px -apple-system, Helvetica, Arial`;
-  x.fillText(label, c.width / 2, c.height / 2);
-  x.fillStyle = 'rgba(255,255,255,.45)';
-  x.font = `400 ${m * 0.045}px -apple-system, Helvetica, Arial`;
-  x.fillText(`${w} × ${h}`, c.width / 2, c.height / 2 + m * 0.08);
-  return new THREE.CanvasTexture(c);
-}
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="contact">
+    <h2 class="footer__title">Let’s work together</h2>
+    <a class="footer__email" href="mailto:vlad.faustoff@gmail.com">vlad.faustoff@gmail.com</a>
 
-/* Looping muted video as a screen texture. Mipmaps are regenerated every frame
- * so the fold blur (which samples smaller mip levels) works on video too. */
-function videoTexture(url) {
-  return new Promise((resolve, reject) => {
-    const v = document.createElement('video');
-    Object.assign(v, { src: url, muted: true, loop: true, playsInline: true, autoplay: true, preload: 'auto' });
-    v.setAttribute('playsinline', '');
-    v.addEventListener('loadeddata', () => {
-      v.play().catch(() => {});
-      const tex = new THREE.VideoTexture(v);
-      tex.generateMipmaps = true;
-      tex.minFilter = THREE.LinearMipmapLinearFilter;
-      resolve(tex);
-    }, { once: true });
-    v.addEventListener('error', () => reject(new Error('video ' + url)), { once: true });
-  });
-}
+    <div class="footer__bottom">
+      <ul class="footer__links">
+        <li><a href="https://t.me/faustov">Telegram</a></li>
+        <li><a href="https://www.linkedin.com/in/faustov/">LinkedIn</a></li>
+        <li><a href="#">CV (PDF)</a></li>
+      </ul>
+      <p class="footer__copy">© 2026 Vlad Faustov</p>
+      <a class="to-top" href="#top">Back to top ↑</a>
+    </div>
+  </footer>
 
-/* Fold blur: as the device folds, the half of the screen that turns away gets
- * blurred (sampled from a smaller mip level, with bicubic filtering so it stays
- * smooth instead of blocky) and darkened. Same idea as Apple's iPhone Duo viewer.
- * Drive it with mesh.userData.wipe.value (0 = sharp, 1 = full effect). */
-const FOLD_BLUR_GLSL = /* glsl */`
-uniform float uWipe, uCrease, uSide, uFrom, uTo, uMaxLod, uMinShade, uCreaseShadow;
-float bw0(float a) { return (1.0/6.0)*(a*(a*(-a + 3.0) - 3.0) + 1.0); }
-float bw1(float a) { return (1.0/6.0)*(a*a*(3.0*a - 6.0) + 4.0); }
-float bw2(float a) { return (1.0/6.0)*(a*(a*(-3.0*a + 3.0) + 3.0) + 1.0); }
-float bw3(float a) { return (1.0/6.0)*(a*a*a); }
-// Cubic B-spline sample of one mip level, 4 bilinear taps
-vec4 bicubicLevel(sampler2D tex, vec2 uv, float lod) {
-  vec2 size = vec2(textureSize(tex, int(lod)));
-  vec2 st = uv * size - 0.5;
-  vec2 i = floor(st), f = fract(st);
-  vec2 g0 = vec2(bw0(f.x) + bw1(f.x), bw0(f.y) + bw1(f.y));
-  vec2 g1 = vec2(bw2(f.x) + bw3(f.x), bw2(f.y) + bw3(f.y));
-  vec2 h0 = vec2(-1.0 + bw1(f.x) / g0.x, -1.0 + bw1(f.y) / g0.y);
-  vec2 h1 = vec2( 1.0 + bw3(f.x) / g1.x,  1.0 + bw3(f.y) / g1.y);
-  vec2 p0 = (i + h0 + 0.5) / size, p1 = (i + h1 + 0.5) / size;
-  return g0.y * (g0.x * textureLod(tex, p0, lod) + g1.x * textureLod(tex, vec2(p1.x, p0.y), lod))
-       + g1.y * (g0.x * textureLod(tex, vec2(p0.x, p1.y), lod) + g1.x * textureLod(tex, p1, lod));
-}
-vec4 textureBlur(sampler2D tex, vec2 uv, float lod) {
-  if (lod < 0.01) return texture(tex, uv);
-  return mix(bicubicLevel(tex, uv, floor(lod)), bicubicLevel(tex, uv, ceil(lod)), fract(lod));
-}
-`;
-function addFoldBlur(mesh, { crease = 0.5, side = 1, from = 0, to = 0.5, maxLod = 6.5, minShade = 0.3, creaseShadow = 0 } = {}) {
-  const u = {
-    uWipe: { value: 0 }, uCrease: { value: crease }, uSide: { value: side },
-    uFrom: { value: from }, uTo: { value: to },
-    uMaxLod: { value: maxLod }, uMinShade: { value: minShade }, uCreaseShadow: { value: creaseShadow },
-  };
-  mesh.userData.wipe = u.uWipe;
-  mesh.material.onBeforeCompile = shader => {
-    Object.assign(shader.uniforms, u);
-    shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\n' + FOLD_BLUR_GLSL)
-      .replace('#include <emissivemap_fragment>', /* glsl */`
-        #ifdef USE_EMISSIVEMAP
-          // signed distance from the hinge line, positive towards the blurred side
-          float sd = (vEmissiveMapUv.x - uCrease) * uSide;
-          float area = smoothstep(uFrom, uTo, sd) * uWipe;
-          float lod = pow(area, 0.75) * uMaxLod;
-          float shade = mix(1.0, uMinShade, smoothstep(0.0, 1.0, area));
-          // soft shadow right along the crease while it bends
-          shade *= 1.0 - uCreaseShadow * uWipe * (1.0 - smoothstep(0.0, 0.06, abs(vEmissiveMapUv.x - uCrease)));
-          totalEmissiveRadiance *= textureBlur(emissiveMap, vEmissiveMapUv, lod).rgb * shade;
-        #endif`);
-  };
-  mesh.material.customProgramCacheKey = () => 'fold-blur';
-}
-
-/* Build a "rig" per device: pivot > inner > centred model, screens, fold, targets */
-const rigs = {}, rigLoads = {};
-function loadRig(id) {
-  // Cache the promise so a preload and a click never load the same model twice
-  return (rigLoads[id] ??= buildRig(id));
-}
-async function buildRig(id) {
-  const d = DEVICES[id];
-  const [gltf, ...texes] = await Promise.all([
-    loader.loadAsync(d.model),
-    ...d.screens.map(sc => (sc.video ? videoTexture(sc.video) : texLoader.loadAsync(sc.image))
-      .catch(() => placeholderTexture(sc.placeholder, sc.label))),
-  ]);
-  const model = gltf.scene;
-
-  // Our UI on each screen
-  const screens = d.screens.map((sc, i) => {
-    const tex = texes[i];
-    tex.flipY = sc.flipY;
-    tex.colorSpace = THREE.SRGBColorSpace;
-    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    tex.needsUpdate = true;
-    const mesh = model.getObjectByName(sc.mesh);
-    mesh.material = mesh.material.clone();
-    // A Standard material always keeps a 4% specular highlight from the lights; Physical lets
-    // setGlare() scale specular all the way to 0, so Glare 0 = no reflection at all
-    if (!mesh.material.isMeshPhysicalMaterial) {
-      const phys = new THREE.MeshPhysicalMaterial();
-      THREE.MeshStandardMaterial.prototype.copy.call(phys, mesh.material);
-      phys.defines = { STANDARD: '', PHYSICAL: '' };
-      mesh.material = phys;
-    }
-    mesh.userData.clearcoat = mesh.material.clearcoat ?? 0;
-    Object.assign(mesh.material, { emissiveMap: tex, emissiveIntensity: 1, toneMapped: false, metalness: 0 });
-    mesh.material.emissive.set(0xffffff);
-    if (sc.blur) addFoldBlur(mesh, sc.blur);
-    mesh.material.needsUpdate = true;
-    return mesh;
-  });
-
-  // Fold animation: kept paused, we scrub its time (0..1 → open..closed)
-  let setFold = null;
-  if (d.fold) {
-    const mixer = new THREE.AnimationMixer(model);
-    const clip = THREE.AnimationClip.findByName(gltf.animations, d.fold.clip);
-    const action = mixer.clipAction(clip);
-    action.play(); action.paused = true;
-    setFold = v => { action.time = THREE.MathUtils.clamp(v, 0, 1) * clip.duration; mixer.update(0); };
-    setFold(0);
-  }
-  const precise = !!d.fold;   // skinned meshes need per-vertex bounds
-
-  // Face the first screen to the camera (+Z), then centre the model
-  model.updateMatrixWorld(true);
-  const mb = new THREE.Box3().setFromObject(model, precise);
-  const sb = new THREE.Box3().setFromObject(screens[0], precise);
-  const faceDir = sb.getCenter(new THREE.Vector3()).sub(mb.getCenter(new THREE.Vector3())).normalize();
-  model.quaternion.premultiply(new THREE.Quaternion().setFromUnitVectors(faceDir, new THREE.Vector3(0, 0, 1)));
-  model.updateMatrixWorld(true);
-  const box = new THREE.Box3().setFromObject(model, precise);
-  model.position.sub(box.getCenter(new THREE.Vector3()));
-  const inner = new THREE.Group();   // re-centres the model as it folds
-  const pivot = new THREE.Group();   // timeline + float + cursor rotation
-  inner.add(model); pivot.add(inner);
-  pivot.visible = false;
-  scene.add(pivot);
-
-  // Sample the fold: pose centre + radius, to re-centre and re-frame while folding
-  const N = 20, samples = [];
-  const measure = () => {
-    pivot.updateMatrixWorld(true);
-    const b = new THREE.Box3().setFromObject(model, precise);
-    return { c: b.getCenter(new THREE.Vector3()), r: b.getSize(new THREE.Vector3()).length() / 2 };
-  };
-  if (setFold) { for (let i = 0; i <= N; i++) { setFold(i / N); samples.push(measure()); } setFold(0); }
-  else samples.push(measure());
-  const sampleAt = v => {
-    if (samples.length === 1) return samples[0];
-    const x = THREE.MathUtils.clamp(v, 0, 1) * N, i = Math.min(N - 1, Math.floor(x)), f = x - i;
-    return { c: samples[i].c.clone().lerp(samples[i + 1].c, f), r: THREE.MathUtils.lerp(samples[i].r, samples[i + 1].r, f) };
-  };
-
-  // Focus targets in pivot space, measured at a given fold and relative to that pose's centre.
-  // onScreen(u, v, screenIndex, fold): u 0→1 left→right, v 0→1 bottom→top
-  const atFold = (fold, fn) => {
-    if (setFold) setFold(fold);
-    pivot.updateMatrixWorld(true);
-    const pt = fn().sub(sampleAt(fold).c);
-    if (setFold) setFold(0);
-    return pt;
-  };
-  const onScreen = (u, v, i = 0, fold = 0) => atFold(fold, () => {
-    const b = new THREE.Box3().setFromObject(screens[i], precise);
-    return new THREE.Vector3(
-      THREE.MathUtils.lerp(b.min.x, b.max.x, u),
-      THREE.MathUtils.lerp(b.min.y, b.max.y, v),
-      b.max.z);
-  });
-  const find = (test, fold = 0) => atFold(fold, () => {
-    const b = new THREE.Box3();
-    model.traverse(o => { if (o.isMesh && test(o)) b.expandByObject(o, precise); });
-    return b.isEmpty() ? new THREE.Vector3() : b.getCenter(new THREE.Vector3());
-  });
-
-  // Compile shaders and upload textures before the rig is ever shown, so the first frame
-  // doesn't stall (Safari compiles shaders slowly) or show half-initialised materials
-  // (taken out of the scene meanwhile, so the render loop can't draw it half-ready)
-  scene.remove(pivot); pivot.visible = true;
-  try { await renderer.compileAsync(pivot, camera, scene); } catch (e) { console.warn(e); }
-  pivot.visible = false; scene.add(pivot);
-  model.traverse(o => {
-    if (!o.isMesh) return;
-    for (const m of [].concat(o.material)) for (const v of Object.values(m))
-      if (v && v.isTexture && !v.isVideoTexture) renderer.initTexture(v);
-  });
-
-  return (rigs[id] = {
-    id, pivot, inner, model, screens, setFold, sampleAt,
-    radius: samples[0].r,
-    targets: d.targets({ onScreen, find }),
-    baseDist: 1,
-  });
-}
-
-function setGlare(rig, v) {
-  // Screen materials are near-perfect mirrors; 0 = matte, 1 = original gloss
-  for (const m of rig.screens) {
-    m.material.envMapIntensity = v;
-    m.material.roughness = THREE.MathUtils.lerp(0.6, 0.001, v);
-    // envMapIntensity doesn't touch highlights from the scene lights: scale specular itself,
-    // otherwise a grey veil stays (and the bent crease catches a light streak)
-    if ('specularIntensity' in m.material) m.material.specularIntensity = v;
-    if ('clearcoat' in m.material) m.material.clearcoat = m.userData.clearcoat * v;
-  }
-}
-
-function resize() {
-  const w = canvas.clientWidth, h = canvas.clientHeight;
-  renderer.setSize(w, h, false);
-  camera.aspect = w / h;
-  // Shift the projection so the scene origin lands on the centre of the framing box
-  const cr = canvas.getBoundingClientRect(), fr = frame.getBoundingClientRect();
-  const dx = (fr.left + fr.width / 2) - (cr.left + w / 2);
-  const dy = (fr.top + fr.height / 2) - (cr.top + h / 2);
-  camera.setViewOffset(w, h, -dx, -dy, w, h);
-  camera.updateProjectionMatrix();
-  if (!rig) return;
-  // Fit the device to the framing box (not the whole canvas): angular size of the box
-  const t = Math.tan(THREE.MathUtils.degToRad(FOV) / 2);
-  const fovV = 2 * Math.atan(t * fr.height / h);
-  const fovH = 2 * Math.atan(t * fr.width / h);
-  rig.baseDist = (rig.radius * DEVICES[rig.id].fit) / Math.sin(Math.min(fovV, fovH) / 2);
-  camera.near = rig.baseDist / 100; camera.far = rig.baseDist * 10;
-  camera.updateProjectionMatrix();
-}
-addEventListener('resize', resize);
-
-/* ------------------------------------------------------------------ *
- * Per-device playback state (each device keeps its own settings)
- * ------------------------------------------------------------------ */
-const states = {};
-for (const [id, d] of Object.entries(DEVICES)) {
-  states[id] = {
-    ...d.settings, t: 0, floatT: 0, playing: !reduceMotion, look: { x: 0, y: 0 },
-    fold: d.settings.fold ?? 0, foldCur: d.settings.fold ?? 0, foldManual: false,
-  };
-}
-let deviceId = 'watch';
-let rig = null;
-const S = () => states[deviceId];
-const P = () => DEVICES[deviceId].presets[S().preset];
-
-const $ = id => document.getElementById(id);
-const deviceBar = $('devices'), presetBar = $('presets'), foldBar = $('folds');
-
-for (const id of ['iphone', 'fold', 'watch']) {      // order of the top switch
-  const b = document.createElement('button');
-  b.type = 'button'; b.textContent = DEVICES[id].label; b.dataset.id = id;
-  b.onclick = () => selectDevice(id);
-  deviceBar.append(b);
-}
-
-// Fold switch, like the Xcode simulator's device posture
-const FOLD_STATES = [['Open', 0], ['Half', 0.5], ['Closed', 1]];
-for (const [label, v] of FOLD_STATES) {
-  const b = document.createElement('button');
-  b.type = 'button'; b.textContent = label; b.dataset.v = v;
-  b.onclick = () => { const s = S(); s.fold = v; s.foldManual = true; syncFoldUI(); };
-  foldBar.append(b);
-}
-function syncFoldUI() {
-  foldBar.hidden = !DEVICES[deviceId].fold;
-  for (const b of foldBar.children) b.setAttribute('aria-pressed', Math.abs(S().fold - +b.dataset.v) < 0.01);
-}
-
-function buildPresetBar() {
-  presetBar.replaceChildren();
-  for (const [id, p] of Object.entries(DEVICES[deviceId].presets)) {
-    const b = document.createElement('button');
-    b.type = 'button'; b.textContent = p.label; b.title = p.note; b.dataset.id = id;
-    b.onclick = () => selectPreset(id);
-    presetBar.append(b);
-  }
-}
-
-function syncUI() {
-  const s = S();
-  for (const b of deviceBar.children) b.setAttribute('aria-pressed', b.dataset.id === deviceId);
-  for (const b of presetBar.children) b.setAttribute('aria-pressed', b.dataset.id === s.preset);
-  $('play').textContent = s.playing ? '⏸ Stop' : '▶ Play';
-  $('play').setAttribute('aria-pressed', s.playing);
-  $('repeat').setAttribute('aria-pressed', s.repeat);
-  $('float').setAttribute('aria-pressed', s.float);
-  $('follow').setAttribute('aria-pressed', s.follow);
-  $('speed').value = s.speed;
-  $('speedOut').textContent = s.speed.toFixed(2).replace(/\.?0+$/, '') + '×';
-  $('glare').value = s.glare;
-  $('glareOut').textContent = Math.round(s.glare * 100) + '%';
-  syncFoldUI();
-}
-
-let switchToken = 0;
-async function selectDevice(id) {
-  const token = ++switchToken;
-  deviceId = id;
-  buildPresetBar(); syncUI();
-  wrap.classList.add('loading');
-  const next = await loadRig(id);
-  if (token !== switchToken) return;               // user switched again while loading
-  if (rig) rig.pivot.visible = false;
-  rig = next;
-  rig.pivot.visible = true;
-  setGlare(rig, S().glare);
-  // Restart the device's animation from the top when switching to it
-  S().t = 0; S().playing = !reduceMotion; S().foldManual = false; syncUI();
-  resize();
-  wrap.classList.remove('loading');
-}
-
-function selectPreset(id) {
-  const s = S();
-  s.preset = id; s.t = 0; s.playing = true; s.foldManual = false;
-  if (P().seamless) s.repeat = true;               // looping presets only make sense with repeat on
-  syncUI();
-}
-function setPlaying(v) {
-  const s = S(), p = P();
-  if (v && !s.playing && s.t >= p.duration + p.hold) { s.t = 0; s.foldManual = false; }   // Play on a finished one-shot restarts it
-  s.playing = v; syncUI();
-}
-
-$('play').onclick = () => setPlaying(!S().playing);
-$('repeat').onclick = () => { S().repeat = !S().repeat; syncUI(); };
-$('float').onclick = () => { S().float = !S().float; syncUI(); };
-$('follow').onclick = () => { S().follow = !S().follow; syncUI(); };
-$('speed').oninput = e => { S().speed = +e.target.value; syncUI(); };
-$('glare').oninput = e => { S().glare = +e.target.value; if (rig) setGlare(rig, S().glare); syncUI(); };
-
-/* ------------------------------------------------------------------ *
- * Cursor follow: the screen turns a little to face the cursor.
- * Aim = angle to be perpendicular to a cursor hovering `depth` radii in
- * front of the page; influence fades with distance from the device;
- * exponential smoothing turns fast flicks into a soft turn.
- * ------------------------------------------------------------------ */
-const pointer = { x: 0, y: 0, active: false };
-addEventListener('pointermove', e => {
-  if (e.pointerType !== 'mouse') return;
-  pointer.x = e.clientX; pointer.y = e.clientY; pointer.active = true;
-}, { passive: true });
-document.documentElement.addEventListener('pointerleave', () => { pointer.active = false; });
-addEventListener('blur', () => { pointer.active = false; });
-
-const qLook = new THREE.Quaternion(), eLook = new THREE.Euler(), _c = new THREE.Vector3();
-function updateLook(dt, zoom) {
-  const s = S(), L = DEVICES[deviceId].look, look = s.look;
-  let tx = 0, ty = 0;
-  if (s.follow && pointer.active && !reduceMotion) {
-    const rect = canvas.getBoundingClientRect();
-    _c.copy(rig.pivot.position).project(camera);
-    const cx = rect.left + (_c.x + 1) / 2 * rect.width;
-    const cy = rect.top + (1 - _c.y) / 2 * rect.height;
-    const rPx = (rect.height / 2) * rig.radius /
-      ((rig.baseDist / zoom) * Math.tan(THREE.MathUtils.degToRad(FOV) / 2));
-    const dx = (pointer.x - cx) / rPx, dy = (pointer.y - cy) / rPx;
-    const w = 1 / (1 + 4 * (Math.hypot(dx, dy) / L.reach) ** 2);
-    const cap = THREE.MathUtils.degToRad(L.maxDeg);
-    ty = THREE.MathUtils.clamp(Math.atan(dx / L.depth) * w, -cap, cap);
-    tx = THREE.MathUtils.clamp(Math.atan(dy / L.depth) * w, -cap, cap);
-  }
-  const a = 1 - Math.exp(-dt * L.smooth);
-  look.x += (tx - look.x) * a;
-  look.y += (ty - look.y) * a;
-  qLook.setFromEuler(eLook.set(look.x, look.y, 0, 'YXZ'));
-}
-
-/* ------------------------------------------------------------------ *
- * Loop
- * ------------------------------------------------------------------ */
-let visible = true;
-new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(wrap);
-
-const d2r = THREE.MathUtils.degToRad;
-const clock = new THREE.Clock();
-const _v = new THREE.Vector3();
-const FOLD_SMOOTH = 3.5;   // Open/Half/Closed switch: higher = faster; 3.5 ≈ settles in ~1 s
-let first = true;
-
-renderer.setAnimationLoop(() => {
-  const dt = Math.min(clock.getDelta(), 0.05);
-  if (!rig || (!visible && !first)) return;
-
-  const s = S(), p = P(), F = DEVICES[deviceId].float;
-  if (s.playing) {
-    s.t += dt * s.speed;
-    s.floatT += dt * s.speed;
-    const end = p.duration + p.hold;
-    if (s.t >= end) {
-      if (s.repeat) { s.t = p.seamless ? s.t % p.duration : 0; s.foldManual = false; }
-      else { s.t = end; if (!s.float) setPlaying(false); }
-    }
-  }
-  const t = p.seamless ? s.t % p.duration : s.t;
-  const k = reduceMotion ? pose(p, p.duration) : pose(p, t);
-  let zoom = k.zoom;
-
-  // Fold: driven by the preset's fold track, or eased towards the panel switch
-  if (rig.setFold) {
-    const track = p.tracks.fold;
-    if (track && !s.foldManual) {
-      const v = reduceMotion ? track[track.length - 1][1] : sample(track, t);
-      if (Math.abs(v - s.fold) > 1e-4) { s.fold = v; syncFoldUI(); }
-      s.foldCur = v;
-    } else {
-      s.foldCur += (s.fold - s.foldCur) * (reduceMotion ? 1 : 1 - Math.exp(-dt * FOLD_SMOOTH));
-    }
-    rig.setFold(s.foldCur);
-    // Screen blur only while the hinge is moving: follows fold speed, eased so it fades out smoothly
-    const vel = dt > 0 ? Math.abs(s.foldCur - (s.foldPrev ?? s.foldCur)) / dt : 0;
-    s.foldPrev = s.foldCur;
-    const wipeTarget = reduceMotion ? 0 : THREE.MathUtils.smoothstep(vel, 0.05, 0.5);
-    s.wipe = (s.wipe ?? 0) + (wipeTarget - (s.wipe ?? 0)) * (1 - Math.exp(-dt * 7));
-    for (const m of rig.screens) if (m.userData.wipe) m.userData.wipe.value = s.wipe;
-    const smp = rig.sampleAt(s.foldCur);
-    rig.inner.position.copy(smp.c).negate();               // keep the pose centred
-    zoom *= THREE.MathUtils.lerp(1, rig.radius / smp.r, 0.75);   // folded = smaller, so frame closer
-  }
-
-  // Levitation layer
-  let fy = 0, frx = 0, frz = 0;
-  if (s.float && !reduceMotion) {
-    fy = Math.sin(s.floatT * 1.6) * F.y;
-    frx = Math.sin(s.floatT * 1.1 + 1) * F.rx;
-    frz = Math.sin(s.floatT * 0.8) * F.rz;
-  }
-
-  const pivot = rig.pivot;
-  pivot.rotation.set(d2r(k.rx + frx), d2r(k.ry), d2r(k.rz + frz));
-  updateLook(dt, zoom);                            // cursor look, in camera space
-  pivot.quaternion.premultiply(qLook);
-
-  pivot.position.set(0, (k.y + fy) * rig.radius, 0);
-  if (p.target && k.f > 0) {                       // centre the (rotated) detail
-    _v.copy(rig.targets[p.target]).applyQuaternion(pivot.quaternion);
-    pivot.position.addScaledVector(_v, -k.f);
-  }
-  camera.position.set(0, 0, rig.baseDist / zoom);
-  camera.lookAt(0, 0, 0);
-
-  renderer.render(scene, camera);
-  if (first) { wrap.classList.add('ready'); first = false; }
-});
-
-await selectDevice('watch');
-// Warm the other devices in the background, one after another (parallel loads slow the first one down)
-loadRig('iphone').then(() => loadRig('fold')).catch(console.warn);
-
-window.__stage = { scene, camera, rigs, states, DEVICES, get rig() { return rig; }, get device() { return deviceId; }, selectDevice };
-</script>
 </body>
 </html>
