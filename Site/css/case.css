@@ -54,6 +54,7 @@
 
 .cs-head__lead {
   grid-column: 1 / 8;
+  margin: 0;
   font-size: clamp(18px, 2vw, 22px);
   line-height: 1.35;
 }
@@ -116,13 +117,36 @@ img.cs-img    { height: auto; object-fit: cover; }
   align-items: center;
 }
 
+/* Real text inside a block */
+.cs-text { display: grid; gap: 1em; font-size: 17px; line-height: 1.55; }
+.cs-text p { margin: 0; }
+.cs-text--lead { font-size: clamp(18px, 2vw, 22px); line-height: 1.35; }
+
+/* Image with its own aspect ratio (screenshots, mockups) */
+.cs-figure { margin: 0; display: grid; gap: 10px; }
+.cs-figure img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
+.cs-figure--white img { background: #fff; padding: 4% 3%; }
+.cs-figure figcaption { font-size: 13px; color: var(--muted); }
+
+/* Stack: text above media inside one body column */
+.cs-stack { display: grid; gap: 32px; }
+
 /* Metrics row */
-.cs-metric { display: grid; gap: 6px; padding: 20px; border-radius: var(--radius); background: var(--ph); }
-.cs-metric__value { height: 32px; width: 60%; border-radius: 4px; background: #cfcfca; }
-.cs-metric__label { height: 10px; width: 80%; border-radius: 3px; background: #d8d8d3; }
+.cs-metric { display: grid; gap: 6px; align-content: start; padding: 20px; border-radius: var(--radius); background: var(--ph); }
+.cs-metric__value { font-size: clamp(28px, 3.2vw, 40px); font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
+.cs-metric__label { font-size: 13px; line-height: 1.35; color: var(--muted); }
 
 /* Quote */
-.cs-quote { padding-left: 20px; border-left: 2px solid var(--fg); }
+.cs-quote {
+  margin: 0;
+  padding-left: 20px;
+  border-left: 2px solid var(--fg);
+  font-size: clamp(20px, 2.2vw, 26px);
+  line-height: 1.35;
+  letter-spacing: -.01em;
+  font-weight: 500;
+}
+.cs-quote cite { display: block; margin-top: 12px; font-size: 13px; font-style: normal; font-weight: 500; color: var(--muted); letter-spacing: 0; }
 
 /* Block type hint (for the skeleton only) */
 .cs-hint {

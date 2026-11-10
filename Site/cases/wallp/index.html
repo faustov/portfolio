@@ -34,11 +34,13 @@
         <img class="cs-head__icon" src="../../assets/cases/wallp/icon.png" width="256" height="256" alt="">
         Wallp
       </h1>
-      <div class="cs-head__lead ph-text" aria-label="Lead paragraph placeholder">
-        <span></span><span></span><span></span>
-      </div>
+      <p class="cs-head__lead">
+        An iPhone wallpaper app where artists and photographers published their work
+        and people set it as their wallpaper. A side project built with a developer
+        friend, from the first sketch to the App&nbsp;Store.
+      </p>
       <dl class="cs-head__meta">
-        <div><dt>Role</dt><dd>Founder &amp; Designer</dd></div>
+        <div><dt>Role</dt><dd>Co-founder &amp; Designer</dd></div>
         <div><dt>Timeline</dt><dd>2017 — 2020</dd></div>
         <div><dt>Platform</dt><dd>iOS</dd></div>
         <div><dt>Stack</dt><dd>Sketch, Swift</dd></div>
@@ -51,39 +53,64 @@
            alt="Wallp app screens: authors, wallpaper, artist profile, settings">
     </section>
 
-    <!-- Block: label + text -->
+    <!-- Block: background -->
     <section class="cs-block">
-      <p class="cs-hint">Block · label + text</p>
-      <h2 class="cs-block__label">Problem</h2>
-      <div class="cs-block__body--text ph-text">
-        <span></span><span></span><span></span><span></span>
+      <h2 class="cs-block__label">Background</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          Egor, a developer friend, and I decided to build a wallpaper app for iPhone.
+          We weren’t out to make anything revolutionary. The goal was experience:
+          build something that works and get it into the App Store.
+        </p>
       </div>
     </section>
 
-    <!-- Block: two images -->
+    <!-- Block: quote -->
     <section class="cs-block">
-      <p class="cs-hint">Block · two images</p>
-      <div class="cs-block__body cs-cols-2">
-        <div class="cs-img cs-img--4x3"></div>
-        <div class="cs-img cs-img--4x3"></div>
-      </div>
+      <blockquote class="cs-block__body--text cs-quote">
+        We had two MacBooks, ₽75 a month for hosting, a focus group of five,
+        a developer account and plenty of free time.
+      </blockquote>
     </section>
 
-    <!-- Block: text + image side by side -->
+    <!-- Block: first version -->
     <section class="cs-block">
-      <p class="cs-hint">Block · text + image</p>
-      <h2 class="cs-block__label">Solution</h2>
-      <div class="cs-block__body cs-split">
-        <div class="ph-text ph-text--title">
-          <span></span><span></span><span></span><span></span><span></span>
+      <h2 class="cs-block__label">First version</h2>
+      <div class="cs-block__body cs-stack">
+        <div class="cs-text" style="max-width: 40em">
+          <p>
+            The MVP was as simple as it gets: a grid of categories like Nature, Cities and
+            Flowers, a full-screen preview with the lock screen clock on top, and one button
+            to save the wallpaper.
+          </p>
+          <p>
+            The app earned on ads. A Premium collection unlocked the best wallpapers
+            and removed the ads.
+          </p>
         </div>
-        <div class="cs-img cs-img--4x3"></div>
+        <figure class="cs-figure cs-figure--white">
+          <img src="../../assets/cases/wallp/mvp.webp" width="1544" height="978" loading="lazy"
+               alt="Wallp MVP: category grid, full-screen wallpaper preview with the lock screen clock, settings with Premium">
+          <figcaption>MVP: categories, wallpaper preview, settings</figcaption>
+        </figure>
       </div>
     </section>
 
-    <!-- Block: phone screens gallery -->
+    <!-- Block: from categories to authors -->
     <section class="cs-block">
-      <p class="cs-hint">Block · phone screens</p>
+      <h2 class="cs-block__label">A platform for artists</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          Later Wallp grew from a set of pictures into a platform. Artists and photographers
+          could publish their own collections, and the catalog was split into authors
+          and categories. Each author got a profile with their work.
+        </p>
+      </div>
+    </section>
+
+    <!-- Block: phone screens gallery (images to be added) -->
+    <section class="cs-block">
+      <p class="cs-hint">Block · phone screens (add images)</p>
       <div class="cs-block__body cs-cols-4">
         <div class="cs-img cs-img--phone"></div>
         <div class="cs-img cs-img--phone"></div>
@@ -92,31 +119,39 @@
       </div>
     </section>
 
-    <!-- Block: metrics -->
+    <!-- Block: results -->
     <section class="cs-block">
-      <p class="cs-hint">Block · results / metrics</p>
       <h2 class="cs-block__label">Results</h2>
-      <div class="cs-block__body cs-cols-3">
-        <div class="cs-metric"><div class="cs-metric__value"></div><div class="cs-metric__label"></div></div>
-        <div class="cs-metric"><div class="cs-metric__value"></div><div class="cs-metric__label"></div></div>
-        <div class="cs-metric"><div class="cs-metric__value"></div><div class="cs-metric__label"></div></div>
+      <div class="cs-block__body cs-stack">
+        <div class="cs-cols-3">
+          <div class="cs-metric"><div class="cs-metric__value">16.1K</div><div class="cs-metric__label">downloads</div></div>
+          <div class="cs-metric"><div class="cs-metric__value">402K</div><div class="cs-metric__label">App Store impressions</div></div>
+          <div class="cs-metric"><div class="cs-metric__value">5.7%</div><div class="cs-metric__label">average monthly conversion rate</div></div>
+        </div>
+        <div class="cs-text" style="max-width: 40em">
+          <p>
+            81% of downloads came from App Store search. The top countries were Russia,
+            China, the US, Belarus and Kazakhstan. Engaged users came back: 3.66 sessions
+            per active device on average.
+          </p>
+        </div>
+        <figure class="cs-figure">
+          <img src="../../assets/cases/wallp/analytics.png" width="1200" height="829" loading="lazy"
+               alt="App Store Connect analytics for Wallp, July 2018 to December 2020: 402K impressions, 31.7K product page views, 5.7% conversion rate, 16.1K downloads">
+          <figcaption>App Store Connect, July 2018 — December 2020</figcaption>
+        </figure>
       </div>
     </section>
 
-    <!-- Block: quote -->
+    <!-- Block: outcome -->
     <section class="cs-block">
-      <p class="cs-hint">Block · quote</p>
-      <div class="cs-block__body--text cs-quote ph-text">
-        <span></span><span></span><span></span>
-      </div>
-    </section>
-
-    <!-- Block: label + text -->
-    <section class="cs-block">
-      <p class="cs-hint">Block · label + text</p>
-      <h2 class="cs-block__label">What I learned</h2>
-      <div class="cs-block__body--text ph-text">
-        <span></span><span></span><span></span>
+      <h2 class="cs-block__label">Outcome</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          We closed the project in 2020. Wallp never set out to be a business, and it gave
+          us what we wanted: the full path from an idea to a live App Store app with
+          real users.
+        </p>
       </div>
     </section>
 
