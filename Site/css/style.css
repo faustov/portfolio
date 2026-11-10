@@ -288,6 +288,15 @@ ul { padding: 0; list-style: none; }
   aspect-ratio: 4 / 3;
   margin-bottom: 8px;
 }
+
+/* Real image in a card (placeholders use .ph) */
+img.case__img {
+  display: block;
+  height: auto;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--ph);
+}
 .case__title { font-size: 16px; font-weight: 600; }
 .case__desc { font-size: 14px; color: var(--muted); }
 

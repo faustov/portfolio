@@ -1,0 +1,153 @@
+/* ==========================================================
+   Case study page — rough skeleton.
+   Loaded after style.css; reuses its tokens, nav, blur, footer.
+
+   Cases won't all look the same, so the page is built from
+   independent blocks. Each block is a 12-column row: an optional
+   side label in columns 1-3, content in 4-12 or full width.
+   Mix and reorder blocks freely per case.
+   ========================================================== */
+
+/* --- Back link (top-left, mirrors the nav) ---------------------------- */
+
+.back {
+  position: fixed;
+  top: 16px;
+  left: var(--gutter);
+  z-index: 20;
+}
+
+/* --- Case header ------------------------------------------------------- */
+
+.cs-head {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 32px var(--gap);
+  padding: 120px var(--gutter) 48px;
+}
+
+.cs-head__title {
+  grid-column: 1 / -1;
+  font-size: clamp(40px, 6vw, 80px);
+  line-height: 1;
+  letter-spacing: -.03em;
+  font-weight: 600;
+}
+
+.cs-head__lead {
+  grid-column: 1 / 8;
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.35;
+}
+
+.cs-head__meta {
+  grid-column: 9 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-content: start;
+}
+
+.cs-head__meta dt { font-size: 13px; font-weight: 500; color: var(--muted); }
+.cs-head__meta dd { margin: 2px 0 0; font-size: 15px; font-weight: 600; }
+
+/* --- Blocks ------------------------------------------------------------ */
+
+.cs-block {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--card-gap);
+  padding: 32px var(--gutter);
+}
+
+.cs-block__label {
+  grid-column: 1 / 4;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.cs-block__body       { grid-column: 4 / -1; }
+.cs-block__body--text { grid-column: 4 / 10; }   /* comfortable line length */
+.cs-block--full > *   { grid-column: 1 / -1; }
+
+/* Placeholder media */
+.cs-img      { display: block; width: 100%; border-radius: var(--radius); background: var(--ph); }
+.cs-img--16x9 { aspect-ratio: 16 / 9; }
+.cs-img--4x3  { aspect-ratio: 4 / 3; }
+.cs-img--phone { aspect-ratio: 9 / 19.5; }
+img.cs-img    { height: auto; object-fit: cover; }
+
+/* Placeholder text: grey lines */
+.ph-text { display: grid; gap: 10px; }
+.ph-text span { height: 12px; border-radius: 3px; background: var(--ph); }
+.ph-text span:nth-child(3n)   { width: 92%; }
+.ph-text span:nth-child(4n)   { width: 76%; }
+.ph-text span:last-child      { width: 48%; }
+.ph-text--title span:first-child { height: 22px; width: 40%; margin-bottom: 6px; }
+
+/* Grids inside a block */
+.cs-cols-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
+.cs-cols-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
+.cs-cols-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--card-gap); }
+
+/* Text + image side by side */
+.cs-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+}
+
+/* Metrics row */
+.cs-metric { display: grid; gap: 6px; padding: 20px; border-radius: var(--radius); background: var(--ph); }
+.cs-metric__value { height: 32px; width: 60%; border-radius: 4px; background: #cfcfca; }
+.cs-metric__label { height: 10px; width: 80%; border-radius: 3px; background: #d8d8d3; }
+
+/* Quote */
+.cs-quote { padding-left: 20px; border-left: 2px solid var(--fg); }
+
+/* Block type hint (for the skeleton only) */
+.cs-hint {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* --- Next case --------------------------------------------------------- */
+
+.cs-next {
+  display: grid;
+  gap: 8px;
+  margin: 64px var(--gutter) 0;
+  padding: 48px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.cs-next__label { font-size: 13px; font-weight: 500; color: var(--muted); }
+.cs-next__title { font-size: clamp(28px, 4vw, 48px); font-weight: 600; letter-spacing: -.02em; }
+.cs-next__title::after { content: " →"; }
+
+/* --- Responsive -------------------------------------------------------- */
+
+@media (max-width: 960px) {
+  .cs-head__lead,
+  .cs-head__meta,
+  .cs-block__label,
+  .cs-block__body,
+  .cs-block__body--text { grid-column: 1 / -1; }
+
+  .cs-head__meta { grid-template-columns: repeat(4, 1fr); }
+  .cs-block__label { margin-bottom: 8px; }
+}
+
+@media (max-width: 600px) {
+  .cs-head { padding-top: 112px; }
+  .cs-head__meta { grid-template-columns: 1fr 1fr; }
+  .cs-split,
+  .cs-cols-2 { grid-template-columns: 1fr; }
+  .cs-cols-3,
+  .cs-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
