@@ -155,16 +155,18 @@ ul { padding: 0; list-style: none; }
 
 /* --- Hero -------------------------------------------------------------- */
 
+/* text | flexible space | links | photo — links stay next to the photo
+   on any screen width, like in the Framer version */
 .hero {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 32px var(--gap);
+  grid-template-columns: minmax(0, 560px) 1fr auto auto;
+  gap: 32px 24px;
   padding: 120px var(--gutter) 64px;
   border-bottom: 1px solid var(--line);
 }
 
 .hero__text {
-  grid-column: 1 / 6;
+  grid-column: 1;
   display: grid;
   gap: 20px;
   align-content: start;
@@ -182,7 +184,7 @@ ul { padding: 0; list-style: none; }
 }
 
 .hero__links {
-  grid-column: 7 / 11;
+  grid-column: 3;
   display: grid;
   justify-items: end;
   align-content: start;
@@ -190,8 +192,7 @@ ul { padding: 0; list-style: none; }
 }
 
 .hero__photo {
-  grid-column: 11 / -1;
-  justify-self: end;
+  grid-column: 4;
   width: 150px;
   aspect-ratio: 3 / 4;
   border-radius: 8px;
@@ -320,9 +321,10 @@ ul { padding: 0; list-style: none; }
 /* --- Tablet ------------------------------------------------------------ */
 
 @media (max-width: 960px) {
-  .hero__text { grid-column: 1 / 8; }
-  .hero__links { grid-column: 8 / -1; }
-  .hero__photo { grid-column: 1 / -1; grid-row: 1; justify-self: start; width: 96px; }
+  .hero { grid-template-columns: 1fr auto; }
+  .hero__text { grid-column: 1; }
+  .hero__links { grid-column: 2; }
+  .hero__photo { grid-column: 1 / -1; grid-row: 1; width: 96px; }
 
   .job__info,
   .job__cases { grid-column: 1 / -1; }
@@ -335,7 +337,7 @@ ul { padding: 0; list-style: none; }
 @media (max-width: 600px) {
   :root { --gutter: 16px; }
 
-  .hero { padding-top: 80px; padding-bottom: 48px; gap: 24px; }
+  .hero { grid-template-columns: 1fr; padding-top: 80px; padding-bottom: 48px; gap: 24px; }
   .hero__text,
   .hero__links { grid-column: 1 / -1; }
   .hero__links { justify-items: start; gap: 0; }
