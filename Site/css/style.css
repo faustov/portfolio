@@ -417,10 +417,9 @@ ul { padding: 0; list-style: none; }
 /* --- Tablet ------------------------------------------------------------ */
 
 @media (max-width: 960px) {
-  .hero { grid-template-columns: 1fr auto; }
-  .hero__text { grid-column: 1; }
-  .hero__links { grid-column: 2; }
-  .hero__photo { grid-column: 1 / -1; grid-row: 1; width: 96px; }
+  /* Hero keeps the desktop layout (text | links | photo), like on Framer */
+  .hero { column-gap: 16px; }
+  .hero__photo { width: 130px; }
 
   .job__info,
   .job__cases,
@@ -430,15 +429,23 @@ ul { padding: 0; list-style: none; }
   .awards { grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
 }
 
+/* --- Hero on narrow screens (Framer layout) ----------------------------
+   Text on top, full width. Below: links on the left, photo on the right,
+   bottom-aligned with the last link. */
+
+@media (max-width: 700px) {
+  .hero { grid-template-columns: 1fr auto; row-gap: 32px; }
+  .hero__text { grid-column: 1 / -1; }
+  .hero__links { grid-column: 1; align-self: end; justify-items: start; gap: 4px; }
+  .hero__photo { grid-column: 2; align-self: end; width: 100px; }
+}
+
 /* --- Phone ------------------------------------------------------------- */
 
 @media (max-width: 600px) {
   :root { --gutter: 24px; }
 
-  .hero { grid-template-columns: 1fr; padding-top: 80px; padding-bottom: 48px; gap: 24px; }
-  .hero__text,
-  .hero__links { grid-column: 1 / -1; }
-  .hero__links { justify-items: start; gap: 0; }
+  .hero { padding-top: 112px; padding-bottom: 48px; }  /* text starts below the top blur */
   .nav { gap: 16px; }
 
   .job__cases { grid-template-columns: 1fr; }
