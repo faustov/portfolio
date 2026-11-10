@@ -5,37 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Vlad Faustov — Senior Product Designer</title>
   <meta name="description" content="Vlad Faustov — senior product designer. Mobile, fintech, design systems.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body id="top">
 
+  <!-- ============ TOP BLUR + NAV ============ -->
+  <div class="top-blur" aria-hidden="true">
+    <div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+
+  <nav class="nav" aria-label="Main">
+    <a class="link" href="#work">Work</a>
+    <a class="link" href="#playground">Playground</a>
+    <a class="link" href="#">CV <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L12.5 4.5v10h-8.5z M9.5 1.5v3h3 M6.5 8h4 M6.5 10.5h4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></a>
+  </nav>
+
   <!-- ============ HERO ============ -->
   <header class="hero">
-    <div class="hero__id">
-      <div class="avatar" aria-hidden="true">VF</div>
-      <div>
-        <h1 class="hero__name">Vlad Faustov</h1>
-        <p class="hero__role">Senior Product Designer · Mobile &amp; Fintech</p>
-      </div>
+    <div class="hero__text">
+      <h1 class="hero__hi">Hi, I’m Vlad Faustov, a Senior Product Designer with 8+ years in mobile.</h1>
+      <p>
+        Two years on TradingView’s native apps for 50M+ traders, then lead roles in fintech and crypto.
+        I design high-stakes flows and the systems behind them, and prototype in Swift and with AI tools —
+        so what I hand off is tested and buildable.
+      </p>
+      <p class="hero__note">Tbilisi, Georgia · Open to remote roles</p>
     </div>
 
-    <p class="hero__intro">
-      8+ years designing mobile products — two years on TradingView’s native apps for 50M+ traders,
-      then lead roles in fintech and crypto. I design high-stakes flows and the systems behind them,
-      and prototype in Swift and with AI tools, so what I hand off is tested and buildable.
-    </p>
+    <ul class="hero__links">
+      <li><a class="link link--ext" href="https://t.me/faustov">Telegram</a></li>
+      <li><a class="link link--ext" href="https://www.linkedin.com/in/faustov/">LinkedIn</a></li>
+      <li><a class="link link--ext" href="mailto:vlad.faustoff@gmail.com">vlad.faustoff@gmail.com</a></li>
+    </ul>
 
-    <dl class="hero__meta">
-      <div><dt>Based in</dt><dd>Tbilisi, Georgia · UTC+4</dd></div>
-      <div><dt>Status</dt><dd>Open to remote roles</dd></div>
-      <div><dt>Contact</dt>
-        <dd>
-          <a href="mailto:vlad.faustoff@gmail.com">vlad.faustoff@gmail.com</a><br>
-          <a href="https://t.me/faustov">Telegram</a> ·
-          <a href="https://www.linkedin.com/in/faustov/">LinkedIn</a>
-        </dd>
-      </div>
-    </dl>
+    <div class="hero__photo ph">Photo</div>
   </header>
 
   <main>
@@ -196,9 +202,9 @@
 
     <div class="footer__bottom">
       <ul class="footer__links">
-        <li><a href="https://t.me/faustov">Telegram</a></li>
-        <li><a href="https://www.linkedin.com/in/faustov/">LinkedIn</a></li>
-        <li><a href="#">CV (PDF)</a></li>
+        <li><a class="link link--ext" href="https://t.me/faustov">Telegram</a></li>
+        <li><a class="link link--ext" href="https://www.linkedin.com/in/faustov/">LinkedIn</a></li>
+        <li><a class="link link--ext" href="#">CV</a></li>
       </ul>
       <p class="footer__copy">© 2026 Vlad Faustov</p>
       <a class="to-top" href="#top">Back to top ↑</a>
