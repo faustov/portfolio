@@ -221,9 +221,13 @@ ul { padding: 0; list-style: none; }
 
 .hero__photo {
   grid-column: 4;
+  display: block;
   width: 150px;
+  height: auto;
   aspect-ratio: 3 / 4;
+  object-fit: cover;
   border-radius: var(--radius);
+  background: var(--ph);   /* while the image loads */
 }
 
 /* --- Sections ---------------------------------------------------------- */
