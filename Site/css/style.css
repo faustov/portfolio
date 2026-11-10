@@ -17,7 +17,6 @@
      web, but -apple-system renders it on macOS/iOS. Elsewhere — Inter,
      the closest free match (only downloaded when actually used). */
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --mono: ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 *,
@@ -47,11 +46,10 @@ ul { padding: 0; list-style: none; }
 
 .label,
 .tag,
-.job__dates {
-  font-family: var(--mono);
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: .04em;
+.job__dates,
+.award__place {
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
 }
 
@@ -69,7 +67,6 @@ ul { padding: 0; list-style: none; }
   place-items: center;
   background: var(--ph);
   border-radius: var(--radius);
-  font-family: var(--mono);
   font-size: 12px;
   color: var(--muted);
 }
@@ -311,7 +308,6 @@ ul { padding: 0; list-style: none; }
 }
 
 .award__img { grid-row: 1 / span 3; aspect-ratio: 1; }
-.award__place { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
 .award__title { font-size: 15px; font-weight: 600; }
 .award__desc { font-size: 13px; color: var(--muted); }
 .award--link .award__title::after { content: " ↗"; font-weight: 500; }
