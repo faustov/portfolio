@@ -1,6 +1,19 @@
 /* Case rows: arrows for rows with more than two cards.
    CSS shows two cards at a time; the arrows scroll by one card. */
 (function () {
+  /* Empty cards get one of three grey phone-skeleton placeholders.
+     Random start, then in turn, so neighbouring cards differ. */
+  var n = Math.floor(Math.random() * 3);
+  document.querySelectorAll('.case__img.ph').forEach(function (ph) {
+    var img = document.createElement('img');
+    img.className = 'case__img';
+    img.src = 'assets/placeholders/case-' + (n++ % 3 + 1) + '.svg';
+    img.width = 800;
+    img.height = 600;
+    img.alt = '';
+    ph.replaceWith(img);
+  });
+
   document.querySelectorAll('.job__cases').forEach(function (track) {
     if (track.children.length <= 2) return;
 
