@@ -112,11 +112,17 @@ ul { padding: 0; list-style: none; }
 .top-blur {
   --blur-h: 96px;     /* visible band height */
   --blur-extra: 32px; /* sampling area below the band */
+  --blur-pad: 40px;   /* part hidden above the viewport */
   --s: calc(var(--blur-h) / 6);
 
+  /* The layer's top edge sits above the screen. backdrop-filter leaves
+     the outermost pixel row of an element unblurred (very visible in
+     Safari as a 1px see-through line), so we push that edge off-screen. */
   position: fixed;
-  inset: 0 0 auto 0;
-  height: calc(var(--blur-h) + var(--blur-extra));
+  top: calc(var(--blur-pad) * -1);
+  left: 0;
+  right: 0;
+  height: calc(var(--blur-pad) + var(--blur-h) + var(--blur-extra));
   z-index: 10;
   pointer-events: none;
 }
@@ -126,11 +132,13 @@ ul { padding: 0; list-style: none; }
   inset: 0;
   -webkit-backdrop-filter: blur(var(--b));
   backdrop-filter: blur(var(--b));
-  /* band for layer n: fade in → hold → fade out, measured from the top */
+  /* band for layer n: fade in → hold → fade out, measured from the screen top */
   -webkit-mask-image: linear-gradient(to bottom,
-    transparent var(--m1), #000 var(--m2), #000 var(--m3), transparent var(--m4));
+    transparent calc(var(--blur-pad) + var(--m1)), #000 calc(var(--blur-pad) + var(--m2)),
+    #000 calc(var(--blur-pad) + var(--m3)), transparent calc(var(--blur-pad) + var(--m4)));
   mask-image: linear-gradient(to bottom,
-    transparent var(--m1), #000 var(--m2), #000 var(--m3), transparent var(--m4));
+    transparent calc(var(--blur-pad) + var(--m1)), #000 calc(var(--blur-pad) + var(--m2)),
+    #000 calc(var(--blur-pad) + var(--m3)), transparent calc(var(--blur-pad) + var(--m4)));
 }
 
 /* strongest at the top … weakest at the bottom */
@@ -145,7 +153,7 @@ ul { padding: 0; list-style: none; }
 .top-blur::after {
   content: "";
   position: absolute;
-  inset: 0 0 var(--blur-extra) 0;
+  inset: var(--blur-pad) 0 var(--blur-extra) 0;
   background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 55%, transparent), transparent);
 }
 
