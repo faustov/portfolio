@@ -404,7 +404,7 @@ ul { padding: 0; list-style: none; }
   font-size: 14px;
 }
 
-.footer__links { display: flex; gap: 24px; }
+.footer__links { display: flex; flex-wrap: wrap; gap: 4px 24px; }
 .footer__copy { color: var(--muted); }
 
 .to-top {
