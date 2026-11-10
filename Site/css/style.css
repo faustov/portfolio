@@ -46,7 +46,6 @@ ul { padding: 0; list-style: none; }
 /* --- Helpers ----------------------------------------------------------- */
 
 .label,
-.tag,
 .job__dates,
 .award__place {
   font-size: 13px;
@@ -54,12 +53,20 @@ ul { padding: 0; list-style: none; }
   color: var(--muted);
 }
 
+/* NDA badge: same grey as empty case cards, dark grey text */
 .tag {
+  --tag-fg: #555;
   display: inline-block;
-  padding: 2px 6px;
-  border: 1px solid var(--line);
-  border-radius: 2px;
-  vertical-align: middle;
+  margin-left: 2px;            /* + the space in the markup */
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--ph);
+  color: var(--tag-fg);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 14px;
+  letter-spacing: .02em;
+  vertical-align: 6px;         /* centered on the title's cap height */
 }
 
 /* Grey placeholder for future images */
