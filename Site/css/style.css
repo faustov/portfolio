@@ -13,7 +13,10 @@
   --gap: 16px;
   --radius: 4px;
 
-  --font: "Manrope", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  /* SF Pro via the system font: Apple doesn't allow hosting SF Pro on the
+     web, but -apple-system renders it on macOS/iOS. Elsewhere — Inter,
+     the closest free match (only downloaded when actually used). */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, monospace;
 }
 
