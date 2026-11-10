@@ -11,6 +11,7 @@
 
   --gutter: 48px;
   --gap: 16px;
+  --card-gap: 8px;     /* between case cards and Playground tiles */
   --radius: 8px;      /* as on the Framer site: cards, playground tiles, photo */
 
   /* SF Pro via the system font: Apple doesn't allow hosting SF Pro on the
@@ -254,7 +255,7 @@ ul { padding: 0; list-style: none; }
   display: grid;
   /* capped width: cards a bit smaller and don't balloon on wide screens */
   grid-template-columns: repeat(3, minmax(0, 300px));
-  gap: var(--gap);
+  gap: var(--card-gap);
 }
 
 /* --- Case card --------------------------------------------------------- */
@@ -317,15 +318,16 @@ ul { padding: 0; list-style: none; }
 
 /* Container width sets the row height via container query units */
 .pg { container-type: inline-size; }
-.pg__rows { --row-h: max(150px, calc((100cqw - 52px) / var(--max-row-sum))); }
+.pg__rows { --row-h: max(150px, calc((100cqw - 3 * var(--card-gap) - 4px) / var(--max-row-sum))); }
 
 .pg__row {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  column-gap: 16px;
-  row-gap: 12px;        /* when tiles wrap on narrow screens */
-  margin-bottom: 12px;
+  /* js/playground.js reads these gaps, so CSS is the only place to change them */
+  column-gap: var(--card-gap);
+  row-gap: var(--card-gap);   /* when tiles wrap on narrow screens */
+  margin-bottom: var(--card-gap);
 }
 .pg__row:last-child { margin-bottom: 0; }
 

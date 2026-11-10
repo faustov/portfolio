@@ -18,7 +18,6 @@
     [{ a: 910/512, c: '#f2f2ef,#a9a9a3' }, { a: 410/512, c: '#262626,#6b6b67' }, { a: 910/512, c: '#d8d8d3,#8f8f8a' }, { a: 910/512, c: '#151515,#3d3d3d' }],
   ].map(r => r.map(t => ({ ...t, cell: 0.816 * t.a })));   // cell = tile "weight" = its aspect
 
-  const GAP_X = 16, GAP_Y = 12;
   const ROW_RADIUS = 380;   // cursor influence on row height (px) — wider = softer
   const TILE_RADIUS = 520;  // cursor influence on tile width (px)
   const ROW_BOOST = 0.35;   // row under cursor grows up to +35%
@@ -36,6 +35,7 @@
   rowsEl.style.setProperty('--max-row-sum', maxRowSum.toFixed(4));
 
   const rowEls = [], tileEls = [];
+  let GAP_X = 8, GAP_Y = 8;   // read from CSS (--card-gap) in measure()
   const restStyle = cell => ({
     flexGrow: cell, flexShrink: 1, flexBasis: `calc(var(--row-h) * ${cell})`,
     maxWidth: `calc(var(--row-h) * ${cell * 1.5})`, aspectRatio: cell, width: '', height: '',
@@ -66,6 +66,9 @@
   function measure() {
     if (state.cur.s > 0.002) return;          // measure only at rest
     const W = rowsEl.clientWidth, H = rowsEl.offsetHeight;
+    const rs = getComputedStyle(rowEls[0]);
+    GAP_X = parseFloat(rs.columnGap) || 0;
+    GAP_Y = parseFloat(rs.marginBottom) || 0;
     const rowH = rowEls.map(r => r.offsetHeight);
     // the effect only works when every row fits on a single line
     const singleLine = rowEls.every(r => {
