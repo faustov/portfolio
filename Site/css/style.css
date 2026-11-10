@@ -23,6 +23,11 @@
 
 html { scroll-behavior: smooth; }
 
+/* No rubber-band bounce at the page edges: in Safari the bounce moves
+   the content under the fixed blur and leaves the blur offset. */
+html,
+body { overscroll-behavior-y: none; }
+
 body {
   margin: 0;
   background: var(--bg);
@@ -112,12 +117,14 @@ ul { padding: 0; list-style: none; }
 .top-blur {
   --blur-h: 96px;     /* visible band height */
   --blur-extra: 32px; /* sampling area below the band */
-  --blur-pad: 40px;   /* part hidden above the viewport */
+  --blur-pad: 2px;    /* part hidden above the viewport */
   --s: calc(var(--blur-h) / 6);
 
-  /* The layer's top edge sits above the screen. backdrop-filter leaves
-     the outermost pixel row of an element unblurred (very visible in
-     Safari as a 1px see-through line), so we push that edge off-screen. */
+  /* Top edge sits 2px above the screen: backdrop-filter leaves the
+     outermost pixel row unblurred (1px see-through line in Safari).
+     Kept tiny on purpose — Safari can lose the off-screen part of a
+     fixed backdrop layer while scrolling, which shifts the whole blur
+     down by that amount. */
   position: fixed;
   top: calc(var(--blur-pad) * -1);
   left: 0;
@@ -125,6 +132,11 @@ ul { padding: 0; list-style: none; }
   height: calc(var(--blur-pad) + var(--blur-h) + var(--blur-extra));
   z-index: 10;
   pointer-events: none;
+
+  /* Own compositing layer: keeps Safari from desyncing the backdrop
+     from the scrolled content during fast/momentum scrolling. */
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .top-blur > div {
