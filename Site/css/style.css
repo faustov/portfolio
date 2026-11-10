@@ -9,7 +9,7 @@
   --line: #d6d6d2;
   --ph: #e2e2de;
 
-  --gutter: 24px;
+  --gutter: 48px;
   --gap: 16px;
   --radius: 4px;
 
@@ -272,23 +272,42 @@ ul { padding: 0; list-style: none; }
 /* Clickable cases get an arrow; static ones don't */
 .case--link .case__title::after { content: " →"; }
 
-/* --- Awards (smaller than case cards: 4 per row instead of 3) ---------- */
+/* --- Awards (left) + Playground (right) -------------------------------
+   Same columns as a job row: awards take the info column, playground
+   takes the cases area. */
 
-.awards {
-  grid-column: 4 / -1;
+.split {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--gap);
+  grid-template-columns: repeat(12, 1fr);
+  gap: 40px var(--gap);
+  align-items: start;
+}
+
+.split__awards {
+  grid-column: 1 / 4;
+  display: grid;
+  gap: 4px;
+}
+
+.split__pg { grid-column: 4 / -1; }
+
+/* Compact list: small thumbnail on the left, text on the right */
+.awards {
+  display: grid;
+  gap: 20px;
+  margin-top: 24px;
 }
 
 .award {
   display: grid;
-  gap: 4px;
+  grid-template-columns: 72px 1fr;
+  column-gap: 14px;
+  row-gap: 2px;
   align-content: start;
   text-decoration: none;
 }
 
-.award__img { aspect-ratio: 1; margin-bottom: 8px; }
+.award__img { grid-row: 1 / span 3; aspect-ratio: 1; }
 .award__place { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
 .award__title { font-size: 15px; font-weight: 600; }
 .award__desc { font-size: 13px; color: var(--muted); }
@@ -387,13 +406,16 @@ ul { padding: 0; list-style: none; }
 
   .job__info,
   .job__cases,
-  .awards { grid-column: 1 / -1; }
+  .split__awards,
+  .split__pg { grid-column: 1 / -1; }
+
+  .awards { grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
 }
 
 /* --- Phone ------------------------------------------------------------- */
 
 @media (max-width: 600px) {
-  :root { --gutter: 16px; }
+  :root { --gutter: 24px; }
 
   .hero { grid-template-columns: 1fr; padding-top: 80px; padding-bottom: 48px; gap: 24px; }
   .hero__text,
@@ -402,7 +424,7 @@ ul { padding: 0; list-style: none; }
   .nav { gap: 16px; }
 
   .job__cases { grid-template-columns: 1fr; }
-  .awards { grid-template-columns: repeat(2, 1fr); }
+  .awards { grid-template-columns: 1fr; gap: 20px; }
 
   .footer__bottom { flex-direction: column; align-items: flex-start; }
 }
