@@ -361,6 +361,10 @@ img.case__img {
 /* Clickable cases get an arrow; static ones don't */
 .case--link .case__title::after { content: " →"; }
 
+/* Title with an NDA tag: arrow goes right after the text, tag last */
+.case__title:has(.tag) { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .3em; }
+.case__title:has(.tag) .tag { order: 1; align-self: center; margin-left: 2px; vertical-align: 0; }
+
 /* --- Awards (left) + Playground (right) -------------------------------
    Same columns as a job row: awards take the info column, playground
    takes the cases area. */
