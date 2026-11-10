@@ -262,12 +262,21 @@ ul { padding: 0; list-style: none; }
 
 .case {
   display: grid;
+  /* Safari: an aspect-ratio child can push its grid item wider than the
+     track, so cards overlapped. Lock the card to its track width. */
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
   gap: 6px;
   align-content: start;
   text-decoration: none;
 }
 
-.case__img { aspect-ratio: 429 / 273; margin-bottom: 8px; }  /* Framer card ratio, ~11:7 */
+.case__img {
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 429 / 273;  /* Framer card ratio, ~11:7 */
+  margin-bottom: 8px;
+}
 .case__title { font-size: 16px; font-weight: 600; }
 .case__desc { font-size: 14px; color: var(--muted); }
 
