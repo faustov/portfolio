@@ -24,7 +24,7 @@ const DEVICES = {
   iphone: {
     model: 'assets/iphone.glb',
     screens: [{ mesh: 'Front_Screen', texture: () => phoneScreen('assets/fold-cover.png', 1320, 2868) }],
-    fit: 1.0,
+    fit: 1.3,
     loop: 10,
     pose: t => {
       const a = seg(t, 0.5, 4.5), b = seg(t, 5.5, 9.5);
@@ -40,7 +40,7 @@ const DEVICES = {
       { mesh: 'Back_Screen', texture: () => new THREE.TextureLoader().loadAsync('assets/fold-cover.png') },
     ],
     fold: 'open-close',
-    fit: 0.82,
+    fit: 1.0,
     loop: 10,
     pose: t => {
       const open = seg(t, 1.2, 3.4), shut = seg(t, 6.6, 8.6);
