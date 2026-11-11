@@ -13,8 +13,8 @@
 
   /* ---------- Data: swap colors for real images/videos later (src) ---------- */
   const ROWS = [
-    [{ a: 910/512, c: '#cfcfca,#9d9d97' }, { a: 910/512, c: '#2a2a2a,#555' },    { a: 910/512, c: '#e6e6e1,#b5b5ae' }],
-    [{ a: 910/512, c: '#777,#c9c9c4' },    { a: 410/512, c: '#1d1d1d,#4a4a4a' }, { a: 910/512, c: '#ededea,#c4c4bf' }, { a: 1, c: '#000,#000', v: 'assets/playground/stardust-button', label: 'Stardust button' }],
+    [{ a: 910/512, c: '#cfcfca,#9d9d97' }, { a: 910/512, c: '#000,#000', v: 'assets/playground/stardust-button', label: 'Stardust button' },    { a: 910/512, c: '#e6e6e1,#b5b5ae' }],
+    [{ a: 910/512, c: '#777,#c9c9c4' },    { a: 410/512, c: '#1d1d1d,#4a4a4a' }, { a: 910/512, c: '#ededea,#c4c4bf' }, { a: 1, c: '#3a3a3a,#8a8a85' }],
     [{ a: 910/512, c: '#f2f2ef,#a9a9a3' }, { a: 410/512, c: '#262626,#6b6b67' }, { a: 910/512, c: '#d8d8d3,#8f8f8a' }, { a: 910/512, c: '#151515,#3d3d3d' }],
   ].map(r => r.map(t => ({ ...t, cell: 0.816 * t.a })));   // cell = tile "weight" = its aspect
 
