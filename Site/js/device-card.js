@@ -13,6 +13,7 @@ if (isSafari) globalThis.createImageBitmap = undefined;
 
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const FOV = 14;
+const HOVER_ZOOM = 0.12;   // how much closer the camera gets on hover
 const d2r = THREE.MathUtils.degToRad;
 const lerp = THREE.MathUtils.lerp;
 const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -142,13 +143,15 @@ async function start(box, cfg, state) {
   resize();
 
   // Cursor tilt, only while the pointer is over the card
-  const look = { x: 0, y: 0, tx: 0, ty: 0 };
+  // Hover: tilt towards the cursor and move the camera a bit closer
+  const look = { x: 0, y: 0, tx: 0, ty: 0, hover: 0, thover: 0 };
   card.addEventListener('pointermove', e => {
     const r = box.getBoundingClientRect();
     look.tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
     look.ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
   });
-  card.addEventListener('pointerleave', () => { look.tx = 0; look.ty = 0; });
+  card.addEventListener('pointerenter', () => { look.thover = 1; });
+  card.addEventListener('pointerleave', () => { look.tx = 0; look.ty = 0; look.thover = 0; });
 
   const clock = new THREE.Clock();
   let t = 0;
@@ -166,6 +169,7 @@ async function start(box, cfg, state) {
 
     look.x += (look.tx - look.x) * (1 - Math.exp(-dt * 4));
     look.y += (look.ty - look.y) * (1 - Math.exp(-dt * 4));
+    look.hover += (look.thover - look.hover) * (1 - Math.exp(-dt * (reduceMotion ? 30 : 5)));
     const fl = reduceMotion ? 0 : 1;
     pivot.rotation.set(
       d2r(k.rx + look.y * 8 + Math.sin(t * 1.1) * 0.6 * fl),
@@ -174,7 +178,7 @@ async function start(box, cfg, state) {
     pivot.position.y = Math.sin(t * 1.6) * 0.012 * R * fl;
 
     // Fit to the card; a folded pose is framed a bit closer
-    const zoom = lerp(1, R / s.r, 0.6);
+    const zoom = lerp(1, R / s.r, 0.6) * (1 + HOVER_ZOOM * ease(look.hover));
     const tan = Math.tan(d2r(FOV) / 2);
     const half = Math.min(tan, tan * camera.aspect);
     camera.position.set(0, 0, (R * cfg.fit) / Math.sin(Math.atan(half)) / zoom);
