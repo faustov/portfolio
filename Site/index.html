@@ -17,7 +17,7 @@
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
   } }
   </script>
-  <script type="module" src="js/fold-card.js"></script>
+  <script type="module" src="js/device-card.js"></script>
 </head>
 <body id="top">
 
@@ -70,18 +70,20 @@
           <p class="job__about">Design systems and code-first prototyping for my own and client products.</p>
         </div>
         <div class="job__cases">
-          <a class="case case--link" href="#">
-            <div class="case__img ph">Image</div>
-            <h4 class="case__title">Multi-platform design system</h4>
-            <p class="case__desc">Semantic tokens, light/dark themes, documented variants and states.</p>
+          <a class="case case--link" href="devices.html">
+            <!-- Live 3D devices, rendered by js/device-card.js -->
+            <div class="case__img case__3d" data-device-card="iphone">
+              <canvas aria-label="3D iPhone showing the Swatchbook token list"></canvas>
+            </div>
+            <h4 class="case__title">Swatchbook for iPhone</h4>
+            <p class="case__desc">A pocket reference for semantic tokens, themes and states.</p>
           </a>
           <a class="case case--link" href="devices.html">
-            <!-- Live 3D model, rendered by js/fold-card.js -->
-            <div class="case__img case__3d" data-fold-card>
-              <canvas aria-label="iPhone Duo 3D model, folding and unfolding"></canvas>
+            <div class="case__img case__3d" data-device-card="fold">
+              <canvas aria-label="3D iPhone Duo unfolding to the Swatchbook colour palette"></canvas>
             </div>
-            <h4 class="case__title">iPhone Duo in 3D</h4>
-            <p class="case__desc">Interactive WebGL device scene, built with Claude Code.</p>
+            <h4 class="case__title">Swatchbook on foldables</h4>
+            <p class="case__desc">One layout that unfolds from a token list into a full palette.</p>
           </a>
           <div class="case">
             <div class="case__img ph">Image</div>
