@@ -442,7 +442,8 @@ div.job__icon { padding: 0; }
 .award__desc { font-size: 13px; color: var(--muted); }
 .award--link .award__title::after { content: " ↗"; font-weight: 500; }
 
-.community__title { margin-top: 48px; }
+/* Second list in the left column (Awards under Community) */
+.split__next { margin-top: 48px; }
 
 /* --- Playground (cursor grid, logic in js/playground.js) --------------- */
 
