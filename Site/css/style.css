@@ -478,6 +478,15 @@ div.job__icon { padding: 0; }
   background-position: 50% 50%;
 }
 
+/* Video tiles: the whole frame stays visible as the tile's aspect changes on hover;
+   videos sit on black, so the letterbox merges with the frame */
+.pg__media--video {
+  display: block;
+  object-fit: contain;
+  object-position: 50% 50%;
+  background: #000;
+}
+
 .pg__label {
   position: absolute;
   left: 14px;

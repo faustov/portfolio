@@ -14,7 +14,7 @@
   /* ---------- Data: swap colors for real images/videos later (src) ---------- */
   const ROWS = [
     [{ a: 910/512, c: '#cfcfca,#9d9d97' }, { a: 910/512, c: '#2a2a2a,#555' },    { a: 910/512, c: '#e6e6e1,#b5b5ae' }],
-    [{ a: 910/512, c: '#777,#c9c9c4' },    { a: 410/512, c: '#1d1d1d,#4a4a4a' }, { a: 910/512, c: '#ededea,#c4c4bf' }, { a: 1, c: '#3a3a3a,#8a8a85' }],
+    [{ a: 910/512, c: '#777,#c9c9c4' },    { a: 410/512, c: '#1d1d1d,#4a4a4a' }, { a: 910/512, c: '#ededea,#c4c4bf' }, { a: 1, c: '#000,#000', v: 'assets/playground/stardust-button', label: 'Stardust button' }],
     [{ a: 910/512, c: '#f2f2ef,#a9a9a3' }, { a: 410/512, c: '#262626,#6b6b67' }, { a: 910/512, c: '#d8d8d3,#8f8f8a' }, { a: 910/512, c: '#151515,#3d3d3d' }],
   ].map(r => r.map(t => ({ ...t, cell: 0.816 * t.a })));   // cell = tile "weight" = its aspect
 
@@ -48,8 +48,18 @@
       const el = document.createElement('div');
       el.className = 'pg__tile';
       Object.assign(el.style, restStyle(t.cell));
-      el.innerHTML = `<div class="pg__media" style="background-image:linear-gradient(135deg,${t.c})"></div>` +
-                     `<span class="pg__label">Shot ${ri + 1}.${ti + 1}</span>`;
+      // t.v = video path without extension: <v>.mp4 + <v>.jpg (poster).
+      // muted + playsinline so Safari/iOS allow play() without a user gesture.
+      const media = t.v
+        ? `<video class="pg__media pg__media--video" src="${t.v}.mp4" poster="${t.v}.jpg" muted loop playsinline preload="metadata" disablepictureinpicture></video>`
+        : `<div class="pg__media" style="background-image:linear-gradient(135deg,${t.c})"></div>`;
+      el.innerHTML = media + `<span class="pg__label">${t.label || `Shot ${ri + 1}.${ti + 1}`}</span>`;
+      const video = el.querySelector('video');
+      if (video) {
+        // Plays while the cursor is over the tile, pauses (keeps the frame) when it leaves
+        el.addEventListener('mouseenter', () => { video.play().catch(() => {}); });
+        el.addEventListener('mouseleave', () => { video.pause(); });
+      }
       rEl.appendChild(el);
       tileEls.push(el);
     });
@@ -93,6 +103,7 @@
     tileEls.forEach((el, i) => {
       Object.assign(el.style, restStyle(flat[i].cell));
       el.firstElementChild.style.backgroundPosition = '';
+      el.firstElementChild.style.objectPosition = '';
     });
   }
 
@@ -132,9 +143,9 @@
         // 3) Content parallax: shift away from the cursor
         const dx = C.x - geo.tileCX[ri][ti], dy = C.y - geo.rowCY[ri];
         const amt = PARALLAX * C.s * falloff(Math.hypot(dx, dy) / TILE_RADIUS);
-        el.firstElementChild.style.backgroundPosition =
-          `${50 - dx / TILE_RADIUS * amt * 10}% ${50 - dy / TILE_RADIUS * amt * 10}%`;
-        // for <video>/<img> use objectPosition = `${50 - dx/R*amt}% ${50 - dy/R*amt}%`
+        const pos = `${50 - dx / TILE_RADIUS * amt * 10}% ${50 - dy / TILE_RADIUS * amt * 10}%`;
+        if (t.v) el.firstElementChild.style.objectPosition = pos;
+        else el.firstElementChild.style.backgroundPosition = pos;
       });
       idx += row.length;
     });
