@@ -478,11 +478,11 @@ div.job__icon { padding: 0; }
   background-position: 50% 50%;
 }
 
-/* Video tiles: the whole frame stays visible as the tile's aspect changes on hover;
-   videos sit on black, so the letterbox merges with the frame */
+/* Video tiles: fill the tile, cropping the frame as needed (source videos are shot
+   with spare room, e.g. a square video in a wide tile loses only its top and bottom) */
 .pg__media--video {
   display: block;
-  object-fit: contain;
+  object-fit: cover;
   object-position: 50% 50%;
   background: #000;
 }
