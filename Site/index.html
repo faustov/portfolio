@@ -11,6 +11,13 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/playground.js" defer></script>
   <script src="js/cases.js" defer></script>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  } }
+  </script>
+  <script type="module" src="js/fold-card.js"></script>
 </head>
 <body id="top">
 
@@ -68,10 +75,13 @@
             <h4 class="case__title">Multi-platform design system</h4>
             <p class="case__desc">Semantic tokens, light/dark themes, documented variants and states.</p>
           </a>
-          <a class="case case--link" href="#">
-            <div class="case__img ph">Image</div>
-            <h4 class="case__title">Prototyping with Claude Code &amp; SwiftUI</h4>
-            <p class="case__desc">Validating flows in code before high-fidelity design.</p>
+          <a class="case case--link" href="devices.html">
+            <!-- Live 3D model, rendered by js/fold-card.js -->
+            <div class="case__img case__3d" data-fold-card>
+              <canvas aria-label="iPhone Duo 3D model, folding and unfolding"></canvas>
+            </div>
+            <h4 class="case__title">iPhone Duo in 3D</h4>
+            <p class="case__desc">Interactive WebGL device scene, built with Claude Code.</p>
           </a>
           <div class="case">
             <div class="case__img ph">Image</div>
