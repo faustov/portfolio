@@ -355,14 +355,18 @@ img.case__img {
   border-radius: var(--radius);
   background: var(--ph);
 }
-/* Live 3D card: grey tile, canvas fades in once the model is ready */
-.case__3d {
-  position: relative;
-  overflow: hidden;
+/* Live 3D card: the grey tile is only the lower half of the image area,
+   the model is drawn over it and rises above, for more depth */
+.case__3d { position: relative; }
+.case__3d::before {
+  content: "";
+  position: absolute;
+  inset: 50% 0 0;
   border-radius: var(--radius);
   background: var(--ph);
 }
 .case__3d canvas {
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
