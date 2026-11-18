@@ -193,3 +193,35 @@ img.cs-img    { height: auto; object-fit: cover; }
   .cs-cols-3,
   .cs-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* NDA badge next to the case title: the card badge, scaled up */
+/* A title with a badge flows as text, so the badge follows the last word */
+.cs-head__title:has(> .tag) { display: block; }
+.cs-head__title .tag {
+  margin-left: .1em;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: .03em;
+  vertical-align: .9em;
+}
+
+/* Token table: scrolls inside its box on narrow screens */
+.cs-table-wrap { overflow-x: auto; border-radius: var(--radius); background: var(--ph); }
+.cs-table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14px; line-height: 1.4; }
+.cs-table th { text-align: left; font-size: 12px; font-weight: 500; color: var(--muted); padding: 14px 16px 10px; }
+.cs-table td { padding: 10px 16px; border-top: 1px solid var(--line); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.cs-table td:last-child { color: var(--muted); }
+.cs-table code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px; }
+.cs-table .sw {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  vertical-align: -1px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .12);
+}
+.cs-caption { margin: -20px 0 0; font-size: 13px; color: var(--muted); }

@@ -355,6 +355,141 @@ img.case__img {
   border-radius: var(--radius);
   background: var(--ph);
 }
+/* Inlined SVG cover (js/cases.js): same box as an <img> cover */
+svg.case__img {
+  display: block;
+  height: auto;
+  clip-path: inset(0 round var(--radius));
+}
+
+/* --- Animated case covers ----------------------------------------------
+   The motion runs only while the card is hovered or focused, and pauses
+   in place when the pointer leaves. Paused at 0% the keyframes give the
+   resting state, so "reduce motion" just keeps everything paused. */
+
+.kyc-col,
+.tk {
+  animation-play-state: paused;
+}
+.case:hover :is(.kyc-col, .tk),
+.case:focus-visible :is(.kyc-col, .tk) {
+  animation-play-state: running;
+}
+@media (prefers-reduced-motion: reduce) {
+  .case:hover :is(.kyc-col, .tk),
+  .case:focus-visible :is(.kyc-col, .tk) { animation-play-state: paused; }
+}
+
+/* KYC: three columns of screens drift, the middle one the other way.
+   A column repeats every three screens (990 units), so the loop is seamless. */
+.kyc-col {
+  animation-duration: 60s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.kyc-col--up   { animation-name: kyc-up; }
+.kyc-col--down { animation-name: kyc-down; }
+@keyframes kyc-up   { to { transform: translateY(-990px); } }
+@keyframes kyc-down { to { transform: translateY(990px); } }
+
+/* Tokens: the component sheet gets used. One ~9s timeline, played forward
+   and then back (alternate), so changes are undone in reverse. Controls
+   overlap and jump around the sheet a bit, but never more than two at once. */
+.tk {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-duration: 9.3s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+.tk-b1  { animation-name: tk-b1; }
+.tk-b2  { animation-name: tk-b2; }
+.tk-focus { animation-name: tk-focus; }
+.tk-caret { animation-name: tk-caret; }
+.tk-d1 { animation-name: tk-d1; }
+.tk-d2 { animation-name: tk-d2; }
+.tk-d3 { animation-name: tk-d3; }
+.tk-d4 { animation-name: tk-d4; }
+.tk-d5 { animation-name: tk-d5; }
+.tk-d6 { animation-name: tk-d6; }
+.tk-d7 { animation-name: tk-d7; }
+.tk-d8 { animation-name: tk-d8; }
+.tk-t2-track { animation-name: tk-on; }
+.tk-t2-knob  { animation-name: tk-t2-knob; }
+.tk-cb       { animation-name: tk-cb; }
+.tk-cb-mark  { animation-name: tk-cb-mark; stroke-dasharray: 1; }
+.tk-r1, .tk-r1-dot { animation-name: tk-r1; }
+.tk-r2, .tk-r2-dot { animation-name: tk-r2; }
+.tk-seg   { animation-name: tk-seg; }
+.tk-fill  { animation-name: tk-fill; transform-origin: left center; }
+.tk-knob  { animation-name: tk-knob; }
+.tk-chip1 { animation-name: tk-chip1; }
+.tk-chip2 { animation-name: tk-chip2; }
+.tk-t1-track { animation-name: tk-off; }
+.tk-t1-knob  { animation-name: tk-t1-knob; }
+.tk-tab1 { animation-name: tk-tab1; }
+.tk-tab3 { animation-name: tk-tab3; }
+
+/* 2%: press primary button */
+@keyframes tk-b1 { 0%, 2% { transform: scale(1); } 4% { transform: scale(.94); } 7%, 100% { transform: scale(1); } }
+/* 6-40%: focus the password field, dots appear one by one, the caret follows */
+@keyframes tk-focus { 0%, 6% { opacity: 0; } 8%, 37% { opacity: 1; } 40%, 100% { opacity: 0; } }
+@keyframes tk-d1 { 0%, 10% { opacity: 0; transform: scale(.3); } 11%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes tk-d2 { 0%, 13% { opacity: 0; transform: scale(.3); } 14%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes tk-d3 { 0%, 16% { opacity: 0; transform: scale(.3); } 17%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes tk-d4 { 0%, 19% { opacity: 0; transform: scale(.3); } 20%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes tk-d5 { 0%, 22% { opacity: 0; transform: scale(.3); } 23%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes tk-d6 { 0%, 25% { opacity: 0; transform: scale(.3); } 26%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes tk-d7 { 0%, 28% { opacity: 0; transform: scale(.3); } 29%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes tk-d8 { 0%, 31% { opacity: 0; transform: scale(.3); } 32%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes tk-caret {
+  0%, 6% { opacity: 0; transform: translateX(0); }
+  8% { opacity: 1; }
+  10% { transform: translateX(0px); }
+  11% { transform: translateX(12px); }
+  13% { transform: translateX(12px); }
+  14% { transform: translateX(25px); }
+  16% { transform: translateX(25px); }
+  17% { transform: translateX(38px); }
+  19% { transform: translateX(38px); }
+  20% { transform: translateX(51px); }
+  22% { transform: translateX(51px); }
+  23% { transform: translateX(64px); }
+  25% { transform: translateX(64px); }
+  26% { transform: translateX(77px); }
+  28% { transform: translateX(77px); }
+  29% { transform: translateX(90px); }
+  31% { transform: translateX(90px); }
+  32% { transform: translateX(103px); }
+  37% { opacity: 1; }
+  40%, 100% { opacity: 0; transform: translateX(103px); }
+}
+/* 16%: slider, while the password is still being typed */
+@keyframes tk-fill { 0%, 16% { transform: scaleX(1); } 24%, 100% { transform: scaleX(1.46); } }
+@keyframes tk-knob { 0%, 16% { transform: translateX(0); } 24%, 100% { transform: translateX(60px); } }
+/* 28%: chips */
+@keyframes tk-chip1 { 0%, 28% { opacity: 1; } 31%, 100% { opacity: 0; } }
+@keyframes tk-chip2 { 0%, 28% { opacity: 0; } 31%, 100% { opacity: 1; } }
+/* 35%: tab bar */
+@keyframes tk-tab1 { 0%, 35% { opacity: 1; } 38%, 100% { opacity: 0; } }
+@keyframes tk-tab3 { 0%, 35% { opacity: 0; } 38%, 100% { opacity: 1; } }
+/* 44%: switch on */
+@keyframes tk-on      { 0%, 44% { opacity: 0; } 47%, 100% { opacity: 1; } }
+@keyframes tk-t2-knob { 0%, 44% { transform: translateX(0); } 47%, 100% { transform: translateX(18px); } }
+/* 52% and 55%: segmented control and radio, overlapping */
+@keyframes tk-seg { 0%, 52% { transform: translateX(0); } 56%, 100% { transform: translateX(94px); } }
+@keyframes tk-r1 { 0%, 55% { opacity: 1; transform: scale(1); } 58%, 100% { opacity: 0; transform: scale(.4); } }
+@keyframes tk-r2 { 0%, 55% { opacity: 0; transform: scale(.4); } 58%, 100% { opacity: 1; transform: scale(1); } }
+/* 64%: checkbox */
+@keyframes tk-cb      { 0%, 64% { opacity: 0; } 66%, 100% { opacity: 1; } }
+@keyframes tk-cb-mark { 0%, 65% { stroke-dashoffset: 1; } 68%, 100% { stroke-dashoffset: 0; } }
+/* 74%: switch off */
+@keyframes tk-off     { 0%, 74% { opacity: 1; } 77%, 100% { opacity: 0; } }
+@keyframes tk-t1-knob { 0%, 74% { transform: translateX(18px); } 77%, 100% { transform: translateX(0); } }
+/* 86%: press secondary button */
+@keyframes tk-b2 { 0%, 86% { transform: scale(1); } 88% { transform: scale(.94); } 91%, 100% { transform: scale(1); } }
+
 /* Live 3D card: the grey tile is half the size of the image area, centred;
    the model is drawn over the whole area and spills past the tile */
 .case__3d { position: relative; }

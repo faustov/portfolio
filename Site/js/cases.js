@@ -1,6 +1,24 @@
 /* Case rows: arrows for rows with more than two cards.
    CSS shows two cards at a time; the arrows scroll by one card. */
 (function () {
+  /* Animated covers: SVGs marked data-inline are swapped for the SVG itself,
+     so the page CSS can run their motion while the card is hovered
+     (see "Animated case covers" in style.css). The <img> stays as the
+     fallback if the fetch fails. */
+  document.querySelectorAll('img.case__img[data-inline]').forEach(function (img) {
+    fetch(img.src)
+      .then(function (res) { return res.ok ? res.text() : Promise.reject(); })
+      .then(function (text) {
+        var svg = new DOMParser().parseFromString(text, 'image/svg+xml').documentElement;
+        if (svg.nodeName !== 'svg') return;
+        svg.classList.add('case__img');
+        svg.setAttribute('role', 'img');
+        svg.setAttribute('aria-label', img.alt);
+        img.replaceWith(document.importNode(svg, true));
+      })
+      .catch(function () {});
+  });
+
   /* Empty cards get one of three grey phone-skeleton placeholders.
      Random start, then in turn, so neighbouring cards differ. */
   var n = Math.floor(Math.random() * 3);

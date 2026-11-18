@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cross-platform design tokens · Vlad Faustov</title>
+  <meta name="description" content="Cross-platform design tokens for a fintech product: one token set and one component library for Web, iOS and Android.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/case.css">
+</head>
+<body id="top">
+
+  <!-- ============ TOP BLUR + NAV ============ -->
+  <div class="top-blur" aria-hidden="true">
+    <div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+
+  <a class="link back" href="../../#work">← Back</a>
+
+  <nav class="nav" aria-label="Main">
+    <a class="link" href="../../#work">Work</a>
+    <a class="link" href="../../#playground">Playground</a>
+    <a class="link" href="#">CV <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L12.5 4.5v10h-8.5z M9.5 1.5v3h3 M6.5 8h4 M6.5 10.5h4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></a>
+  </nav>
+
+  <main>
+
+    <!-- ============ CASE HEADER ============ -->
+    <header class="cs-head">
+      <h1 class="cs-head__title">Cross-platform design tokens <span class="tag">NDA</span></h1>
+      <p class="cs-head__lead">
+        One design language for Web, iOS and Android in a fintech product:
+        a shared token set, the same names on every platform, and a rebuilt
+        component library.
+      </p>
+      <dl class="cs-head__meta">
+        <div><dt>Company</dt><dd>Garage IT</dd></div>
+        <div><dt>Role</dt><dd>Lead Product Designer</dd></div>
+        <div><dt>Platform</dt><dd>Web, iOS, Android</dd></div>
+        <div><dt>Timeline</dt><dd>6 weeks design, 4 weeks development</dd></div>
+      </dl>
+    </header>
+
+    <!-- Block: context -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Context</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          The iOS app was close to release, the Android app was already live,
+          and the web was in the middle of a redesign. The three platforms looked
+          like three different products.
+        </p>
+        <p>
+          The same element had a different name, color and size on each platform.
+          Every new screen had to be designed and explained three times, and the
+          differences kept growing with every release.
+        </p>
+      </div>
+    </section>
+
+    <!-- Block: token structure -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Three levels of tokens</h2>
+      <div class="cs-block__body cs-stack">
+        <div class="cs-text" style="max-width: 40em">
+          <p>
+            Primitives hold raw values. Semantic tokens say what a value means.
+            Component tokens say where it is used. Light and dark themes and
+            different brands switch at the semantic level, so components never
+            need to know which theme or brand they are in.
+          </p>
+        </div>
+        <figure class="cs-figure">
+          <img src="../../assets/cases/tokens/levels.svg" width="800" height="420" loading="lazy"
+               alt="Diagram: primitive tokens (green-500, gray-900, radius-12) map to semantic tokens (color-action-primary, color-text-primary, radius-control), which map to component tokens (button-primary-bg, input-text, button-radius). Themes and brands switch at the semantic level.">
+          <figcaption>Primitive → semantic → component</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Block: one source -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">One token, three platforms</h2>
+      <div class="cs-block__body cs-stack">
+        <div class="cs-text" style="max-width: 40em">
+          <p>
+            Tokens live in Figma Variables and are exported to JSON in the project
+            repository. From there each platform gets the same token under the same
+            name. A designer and a developer on any platform now use the same word
+            for the same thing.
+          </p>
+        </div>
+        <figure class="cs-figure">
+          <img src="../../assets/cases/tokens/platforms.svg" width="800" height="400" loading="lazy"
+               alt="Diagram: the token color-action-primary is defined in Figma Variables for light and dark themes, exported to tokens.json in the repository, and used as a CSS variable on Web, Color.actionPrimary in SwiftUI and AppTheme.colors.actionPrimary in Compose.">
+          <figcaption>Figma Variables → JSON in the repo → Web, iOS, Android</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Block: components -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Components</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          I rebuilt about 60 components on top of the new tokens and put together
+          the design system in Figma and in Storybook.
+        </p>
+        <p>
+          Platforms were allowed to differ only where a native element serves
+          people better. Everything else is shared: the same structure, states
+          and names on Web, iOS and Android.
+        </p>
+      </div>
+    </section>
+
+    <!-- Block: engineering -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Working with engineering</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          The system only works if it lands in code the same way everywhere, so
+          I worked closely with the Web, iOS and Android leads on naming, token
+          structure and how tokens get into each codebase. We aligned even the
+          animations, so a component moves the same way on every platform.
+          Every component was tested on all three platforms before it went
+          to production.
+        </p>
+      </div>
+    </section>
+
+    <!-- Block: company level -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Beyond the product</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          The design system was aligned with other projects inside the company.
+          Its token structure, naming and process were adopted at the company level.
+        </p>
+      </div>
+    </section>
+
+    <!-- Block: results -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Results</h2>
+      <div class="cs-block__body cs-stack">
+        <div class="cs-cols-3">
+          <div class="cs-metric"><div class="cs-metric__value">2×+</div><div class="cs-metric__label">faster screen design once the system was in place</div></div>
+          <div class="cs-metric"><div class="cs-metric__value">≈ 60</div><div class="cs-metric__label">components in Figma and Storybook</div></div>
+          <div class="cs-metric"><div class="cs-metric__value">1 → 3</div><div class="cs-metric__label">one token set for Web, iOS and Android</div></div>
+          <div class="cs-metric"><div class="cs-metric__value">Light + Dark</div><div class="cs-metric__label">themes across several brands</div></div>
+          <div class="cs-metric"><div class="cs-metric__value">6 + 4</div><div class="cs-metric__label">weeks of design, then development</div></div>
+          <div class="cs-metric"><div class="cs-metric__value">Company-wide</div><div class="cs-metric__label">tokens, naming and process adopted by other teams</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Block: takeaway -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Takeaway</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          Setting the system up took real time from design and engineering.
+          It paid off on every screen after that: design got more than twice as fast,
+          and releases went out on all platforms on schedule.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="contact">
+    <h2 class="footer__title">Let’s work together</h2>
+    <a class="footer__email" href="mailto:vlad.faustoff@gmail.com">vlad.faustoff@gmail.com</a>
+
+    <div class="footer__bottom">
+      <ul class="footer__links">
+        <li><a class="link link--ext" href="https://t.me/faustov" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+        <li><a class="link link--ext" href="https://instagram.com/vladfaustov" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        <li><a class="link link--ext" href="https://www.linkedin.com/in/faustov/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a class="link link--ext" href="#">CV</a></li>
+      </ul>
+      <p class="footer__copy">© 2026 Vlad Faustov</p>
+      <a class="to-top" href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+</body>
+</html>

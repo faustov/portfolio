@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KYC &amp; onboarding · Vlad Faustov</title>
+  <link rel="icon" href="../../favicon.ico" sizes="any">
+  <link rel="icon" href="../../assets/favicon/favicon-32.png" type="image/png">
+  <link rel="apple-touch-icon" href="../../assets/favicon/apple-touch-icon.png">
+  <meta name="description" content="KYC & onboarding redesign for a European fintech product: fewer steps, plain language, verify later.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/case.css">
+</head>
+<body id="top">
+
+  <!-- ============ TOP BLUR + NAV ============ -->
+  <div class="top-blur" aria-hidden="true">
+    <div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+
+  <a class="link back" href="../../#work">← Back</a>
+
+  <nav class="nav" aria-label="Main">
+    <a class="link" href="#">Download CV <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L12.5 4.5v10h-8.5z M9.5 1.5v3h3 M6.5 8h4 M6.5 10.5h4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></a>
+    <a class="btn btn--primary" href="https://calendar.notion.so/meet/faustov/interview" target="_blank" rel="noopener">Book a call</a>
+  </nav>
+
+  <main>
+
+    <!-- ============ CASE HEADER ============ -->
+    <header class="cs-head">
+      <h1 class="cs-head__title">KYC &amp; onboarding <span class="tag">NDA</span></h1>
+      <p class="cs-head__lead">
+        Redesign of identity verification in a fintech app for the European market.
+        Fewer steps, plain language, and a product people can start using before
+        verification is done.
+      </p>
+      <dl class="cs-head__meta">
+        <div><dt>Company</dt><dd>Garage IT</dd></div>
+        <div><dt>Role</dt><dd>Lead Product Designer</dd></div>
+        <div><dt>Platform</dt><dd>Web, iOS, Android</dd></div>
+        <div><dt>Worked with</dt><dd>Copywriting, Compliance</dd></div>
+      </dl>
+    </header>
+
+    <!-- Block: problem -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Problem</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          Before people could do anything in the product, they had to pass 12 KYC steps.
+          The questions were written in legal language, the flow had no navigation,
+          and there was no way to stop and come back later.
+        </p>
+        <p>
+          The heaviest moment was document and selfie verification: about 60% of
+          the people who reached it dropped off there. Many of those who stayed
+          wrote to support, asking what a question meant or why it was needed.
+        </p>
+      </div>
+    </section>
+
+    <!-- Block: research -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Research</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          I went through the KYC flows of our direct competitors in the market and of
+          large international fintech players. For each one I looked at four things:
+          how many steps and in what order, what is asked upfront and what can wait,
+          how the questions are worded, and what happens if you leave halfway.
+        </p>
+        <p>
+          The pattern was clear. The strongest flows ask only what regulation
+          requires right now, explain every question in one plain sentence,
+          and let you into the product before verification is done.
+        </p>
+      </div>
+    </section>
+
+    <!-- Block: steps -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Fewer steps</h2>
+      <div class="cs-block__body cs-stack">
+        <div class="cs-text" style="max-width: 40em">
+          <p>
+            I merged related steps and removed three that didn’t need to be separate,
+            which left 9 required steps. I also added one optional step: a short
+            question that gives marketing data we didn’t have before.
+          </p>
+        </div>
+        <figure class="cs-figure">
+          <img src="../../assets/cases/kyc/steps.svg" width="800" height="380" loading="lazy"
+               alt="Diagram: 12 required steps before; 3 removed or merged; 9 required plus 1 optional after. Sumsub verification stays in the flow.">
+          <figcaption>12 required steps → 9 required + 1 optional</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Block: copy -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Plain language</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          Every question was rewritten together with our copywriter and then approved
+          by compliance. The new wording had to be simple for users and still
+          legally correct. Each step now says what we ask and why, in one sentence.
+        </p>
+      </div>
+    </section>
+
+    <!-- Block: verify later -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Verify later</h2>
+      <div class="cs-block__body cs-stack">
+        <div class="cs-text" style="max-width: 40em">
+          <p>
+            The biggest change wasn’t in the form itself but in the onboarding model.
+            KYC no longer blocks the product. People can start using it with some limits,
+            and finish verification when they’re ready.
+          </p>
+          <p>
+            The flow got navigation and a progress bar, and can be paused at any step.
+            Progress is visible on Home and in Profile, so getting back takes one tap.
+            Push notifications and calls from the support team remind people who
+            postponed it.
+          </p>
+        </div>
+        <figure class="cs-figure">
+          <img src="../../assets/cases/kyc/screens.svg" width="800" height="450" loading="lazy"
+               alt="Schematic screens: a KYC step with a progress bar, a ‘finish later’ screen, a KYC progress card on Home, KYC status in Profile">
+          <figcaption>Screens are redrawn as schematics.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Block: constraint -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Working around Sumsub</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          Document and selfie checks ran on Sumsub, and its interface was out of our hands.
+          So I worked on everything around it. With fewer steps before it, people arrive
+          at verification less tired. And if they don’t have their documents at hand,
+          they can postpone instead of quitting.
+        </p>
+      </div>
+    </section>
+
+    <!-- Block: results -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Results</h2>
+      <div class="cs-block__body cs-stack">
+        <div class="cs-cols-3">
+          <div class="cs-metric"><div class="cs-metric__value">≈ +10%</div><div class="cs-metric__label">KYC completion rate</div></div>
+          <div class="cs-metric"><div class="cs-metric__value">60% → 50%</div><div class="cs-metric__label">drop-off at document &amp; selfie verification</div></div>
+          <div class="cs-metric"><div class="cs-metric__value">≈ +20%</div><div class="cs-metric__label">start using the product on day one</div></div>
+          <div class="cs-metric"><div class="cs-metric__value">30% → 20%</div><div class="cs-metric__label">of users contact support about KYC</div></div>
+          <div class="cs-metric"><div class="cs-metric__value">≈ 35%</div><div class="cs-metric__label">of those who postponed finish within two weeks</div></div>
+          <div class="cs-metric"><div class="cs-metric__value">12 → 9</div><div class="cs-metric__label">required steps, plus 1 optional for marketing</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Block: takeaway -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Takeaway</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          Shortening the form helped, but letting people in before verification
+          helped more. When a step is required by regulation and can’t be simplified,
+          you can still change when and how people get to it.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="contact">
+    <h2 class="footer__title">Let’s work together</h2>
+    <a class="footer__email" href="mailto:vlad.faustoff@gmail.com">vlad.faustoff@gmail.com</a>
+
+    <div class="footer__bottom">
+      <ul class="footer__links">
+        <li><a class="link link--ext" href="https://t.me/faustov" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+        <li><a class="link link--ext" href="https://instagram.com/vladfaustov" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        <li><a class="link link--ext" href="https://www.linkedin.com/in/faustov/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a class="link link--ext" href="#">CV</a></li>
+      </ul>
+      <p class="footer__copy">© 2026 Vlad Faustov</p>
+      <a class="to-top" href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+</body>
+</html>
