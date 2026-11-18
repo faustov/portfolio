@@ -10,7 +10,7 @@
   <meta name="description" content="iOS Widgets: a redesign of TradingView’s Home Screen widgets for iPhone and iPad, and new Lock Screen widgets for iOS 16, featured on the App Store.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="../../css/style.css">
   <link rel="stylesheet" href="../../css/case.css">
 </head>
@@ -160,7 +160,7 @@
          Row pitch (46.7 pt) is measured from the large widget mockup. -->
     <section class="cs-block">
       <h2 class="cs-block__label">Sizes</h2>
-      <div class="cs-block__body wd-split wd-split--sizes">
+      <div class="cs-block__body wd-split">
         <div class="cs-text">
           <p>
             I checked every decision against <mark class="hl">Apple’s guidelines for widgets</mark> and
@@ -328,14 +328,10 @@
     </section>
 
     <!-- ================= Chapter 2: Lock Screen widgets ================= -->
-    <section class="cs-part" id="lock-screen">
-      <h2 class="cs-part__title">Lock Screen</h2>
-    </section>
-
-
-    <!-- Block: iOS 16 beta, the turn of the story -->
-    <section class="cs-block">
-      <h2 class="cs-block__label">Lock Screen</h2>
+    <!-- Block: iOS 16 beta, the turn of the story. Opens chapter 2, so the
+         big black chapter title stands in for the grey block label. -->
+    <section class="cs-block cs-block--chapter" id="lock-screen">
+      <h2 class="cs-block__label cs-block__label--chapter">Lock Screen</h2>
       <div class="cs-block__body wd-split">
         <div class="cs-text">
           <p>
@@ -381,84 +377,49 @@
     <section class="cs-block">
       <h2 class="cs-block__label">Constraints</h2>
       <div class="cs-block__body cs-stack">
-        <div class="cs-text" style="max-width: 40em">
-          <p>
-            The Lock Screen is the tightest place to show market data I have worked with.
-          </p>
-        </div>
         <div class="wd-limits">
           <div class="wd-limit">
             <h3 class="wd-limit__title">No templates</h3>
             <p>A beta without design resources from Apple. Sizes and rendering had to be checked on a real phone.</p>
           </div>
           <div class="wd-limit">
-            <h3 class="wd-limit__title">One colour</h3>
-            <p>The system draws widgets in a single tint and blends images its own way, so a logo looks different on the phone than in a mockup.</p>
-          </div>
-          <div class="wd-limit">
-            <h3 class="wd-limit__title">A few characters</h3>
-            <p>A widget fits a few letters and a few digits: a ticker and a price, and that’s it.</p>
+            <h3 class="wd-limit__title">Monochrome only</h3>
+            <p>The system draws the widget in a single tint. No colours at all: no red and green for price moves, no coloured logos.</p>
           </div>
           <div class="wd-limit">
             <h3 class="wd-limit__title">Every pixel counts</h3>
-            <p>I tuned the size of every letter and digit by hand, so that tickers and prices fit side by side.</p>
+            <p>The widgets are tiny and fit very little data: a ticker and a price. Every pixel was a fight.</p>
+          </div>
+          <div class="wd-limit">
+            <h3 class="wd-limit__title">No custom layout</h3>
+            <p>Nothing outside the circle or rectangle, no animation. A tap just opens the app.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Block: rules from the spec -->
+    <!-- Block: states and corner cases from the spec -->
     <section class="cs-block">
-      <h2 class="cs-block__label">Rules</h2>
-      <div class="cs-block__body wd-split">
-        <div class="cs-text">
-          <p>
-            I wrote down <mark class="hl">the rules for every widget, state and corner case</mark>:
-          </p>
-          <ul class="wd-list">
-            <li>Tickers of up to five letters are never cut. Longer ones are cut to four letters and an ellipsis.</li>
-            <li>Digits are cut last, and a ticker and its price are always at least 4&nbsp;pt apart.</li>
-            <li>In a circular widget, text first shrinks to fit and only then gets cut.</li>
-            <li>An error or an empty watchlist shows a message with the app logo instead of an empty widget.</li>
-            <li>Loading skeletons are built automatically: every line of text turns into a bar.</li>
-            <li>Arabic and Hebrew get mirrored layouts.</li>
-          </ul>
-        </div>
-        <div class="cs-stack wd-spec">
-          <figure class="cs-figure">
-            <img src="../../assets/cases/widgets/ls-spec-truncation.webp" width="1400" height="568" loading="lazy"
-                 alt="Truncation rules for the watchlist widget: long tickers cut to four letters with an ellipsis, long prices cut at the end, missing prices shown as dashes">
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <!-- Block: four widgets, tested on a device -->
-    <section class="cs-block">
-      <h2 class="cs-block__label">Four widgets</h2>
-      <div class="cs-block__body wd-split">
-        <div class="cs-text">
-          <p>
-            In the end we made <mark class="hl">four widgets</mark>: an inline one next to the date,
-            a circular one with a logo, a circular one with a symbol, and a rectangular
-            watchlist with three symbols.
-          </p>
-          <p>
-            I checked them on a real phone with the hardest cases we could find:
-            tiny prices, long futures tickers and symbols without data.
-          </p>
-        </div>
-        <figure class="cs-figure">
-          <img class="wd-shot" src="../../assets/cases/widgets/ls-device.webp" width="1200" height="1178" loading="lazy"
-               alt="Photo of an iPhone Lock Screen with the widgets: a watchlist with HCMC 0.000100, ESH2023 3957.00 and US:BAIDEN without data, a circular widget in the error state and AAPL −1.10%">
+      <h2 class="cs-block__label">States</h2>
+      <div class="cs-block__body cs-stack cs-stack--tight">
+        <figure class="cs-figure wd-spec">
+          <img src="../../assets/cases/widgets/ls-states.webp" width="2000" height="1280" loading="lazy"
+               alt="Table of widget states. Symbol: AAPL, APEUSD, ADAUSDT shrunk to fit, BEBEBEB… cut, and prices −25.96%, +3.14159, +2.2814… cut; the same without a background; logos; one error state with the app logo for all circular widgets. List: four watchlists with long tickers and prices cut and missing prices as dashes, the same without a background, and three error messages.">
         </figure>
+        <ul class="wd-list">
+          <li>Tickers up to five letters stay whole. Longer ones are cut to four letters and an ellipsis.</li>
+          <li>Digits are cut last. Ticker and price stay at least 4&nbsp;pt apart.</li>
+          <li>Circular widgets shrink the text first, then cut it.</li>
+          <li>Errors and empty lists show a message with the app logo.</li>
+          <li>Loading skeletons are automatic: each text line becomes a bar.</li>
+        </ul>
       </div>
     </section>
 
     <!-- Block: release and App Store featuring -->
     <section class="cs-block">
       <h2 class="cs-block__label">Release</h2>
-      <div class="cs-block__body wd-split wd-split--phone">
+      <div class="cs-block__body wd-split wd-split--phone wd-split--end">
         <div class="cs-text">
           <p>
             Both sets of widgets shipped. The Lock Screen widgets came out

@@ -271,24 +271,50 @@ img.cs-img    { height: auto; object-fit: cover; }
 
 /* --- iOS Widgets case --------------------------------------------------- */
 
+/* iPad Pro 12.9" (3rd–5th gen): the screenshots are 2048×2732.
+   Body 214.9 × 280.6 mm, display 197.0 × 262.9 mm (264 ppi), so the bezel
+   is ~8.9 mm on every side = 4.15% of the body width (vertical % padding
+   is also taken from the width). Display corner 18 pt (36 px of 2048);
+   outer corner ≈ display corner + bezel ≈ 12.4 mm. Front camera sits in
+   the middle of the top bezel. Space Grey aluminium edge. */
 .wd-ipad {
-  padding: 3.4%;
-  border-radius: 6.5% / 5%;
-  background: #1d1d1b;
+  position: relative;
+  padding: 2.8%;                               /* slimmer than the real 4.15%, reads better small */
+  border-radius: 4.56% / 3.5%;
+  background: #0b0b0c;
+  box-shadow:
+    0 0 0 1.5px #5d5e62,                       /* aluminium edge */
+    0 0 0 2.5px #2c2c2e,
+    inset 0 0 0 1px rgba(255, 255, 255, .06);  /* glass rim */
 }
-.wd-ipad__screen { overflow: hidden; border-radius: 3.6% / 2.7%; aspect-ratio: 3 / 4; }
+.wd-ipad::before {                             /* front camera */
+  content: "";
+  position: absolute;
+  top: 1.08%;                                  /* half the bezel, as % of height */
+  left: 50%;
+  width: 0.9%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 35% 35%, #2a3140, #0d0f14 70%);
+}
+.wd-ipad__screen { overflow: hidden; border-radius: 1.76% / 1.32%; aspect-ratio: 2048 / 2732; }
 .cs-figure .wd-ipad__screen img,
 .cs-figure .ex-phone__screen img { border-radius: 0; }
 .wd-ipad__screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* Widget screenshot on the page background */
+/* box-shadow, not filter: drop-shadow: Safari clips a filter's shadow at the
+   image edge. The radius follows the widget's visible corner (58 of 1092 px
+   wide @3x), given as % of width / % of height for each image's proportions. */
 .cs-figure img.wd-shadow,
-.wd-marked img { border-radius: 0; filter: drop-shadow(0 1px 2px rgba(0,0,0,.08)) drop-shadow(0 8px 24px rgba(0,0,0,.06)); }
+.wd-marked img { box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.06); }
+.cs-figure img.wd-shadow { border-radius: 5.31% / 11.37%; }   /* medium, 1092×510 */
+.wd-marked img { border-radius: 5.31% / 5.06%; }              /* large, 1092×1146 */
 .cs-figure img.wd-shadow { max-width: 440px; }
 
 /* Data cell anatomy: image with outlined spots + numbered legend */
-.wd-anatomy { width: min(100%, 400px); gap: 28px; }
-.cs-figure .wd-legend-wrap { font-size: inherit; color: inherit; }
+.wd-anatomy { width: min(100%, 400px); gap: 14px; }  /* 10px like other figures + the 3px outline */
 .wd-marked { position: relative; container-type: inline-size; }
 .wd-mark {
   position: absolute;
@@ -302,8 +328,8 @@ img.cs-img    { height: auto; object-fit: cover; }
 .wd-mark::before {
   content: attr(data-n);
   position: absolute;
-  right: -16px;
-  bottom: -16px;
+  left: -16px;
+  top: -16px;
   width: 22px;
   height: 22px;
   border-radius: 50%;
@@ -314,24 +340,24 @@ img.cs-img    { height: auto; object-fit: cover; }
   line-height: 22px;
   text-align: center;
 }
-.wd-legend { margin: 0; padding: 0; list-style: none; display: grid; gap: 16px; counter-reset: wdl; font-size: 15px; line-height: 1.45; }
-.wd-legend li { position: relative; padding-left: 34px; counter-increment: wdl; }
+.wd-legend { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; counter-reset: wdl; font-size: 13px; line-height: 1.45; color: var(--muted); }
+.wd-legend li { position: relative; padding-left: 26px; counter-increment: wdl; }
 .wd-legend li::before {
   content: counter(wdl);
   position: absolute;
   left: 0;
   top: 0;
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: #2962ff;
   color: #fff;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  line-height: 22px;
+  line-height: 18px;
   text-align: center;
 }
-.wd-legend b { font-weight: 600; }
+.wd-legend b { font-weight: 600; color: var(--text, #111); }
 
 /* Two "home screens": light and dark, widgets on the iOS grid.
    Horizontal layout: two small + medium on the left, large on the right.
@@ -383,8 +409,7 @@ img.cs-img    { height: auto; object-fit: cover; }
   gap: 40px;
   align-items: start;   /* text starts at the top edge of the picture */
 }
-.wd-split--sizes { grid-template-columns: minmax(0, 1fr) minmax(0, 460px); }
-.wd-sizes { width: min(100%, 520px); }
+.wd-sizes { width: min(100%, 460px); }
 .wd-sizes svg { display: block; width: 100%; height: auto; font-family: var(--font); --bp: #2251d1; }
 .bp-grid        { fill: none; stroke: var(--bp); stroke-width: .5; opacity: .14; }
 .bp-grid--major { stroke-width: .8; opacity: .3; }
@@ -399,6 +424,9 @@ img.cs-img    { height: auto; object-fit: cover; }
 @media (max-width: 1100px) {
   .wd-split { grid-template-columns: 1fr; gap: 24px; }
 }
+
+/* Picture pushed to the right edge shared by the other pictures (884px) */
+.wd-split--end { max-width: 884px; grid-template-columns: minmax(0, 1fr) minmax(0, 260px); }
 
 /* A phone screenshot stays right of the text until phone widths */
 @media (max-width: 1100px) {
@@ -418,25 +446,28 @@ img.cs-img    { height: auto; object-fit: cover; }
 .cs-figure img.wd-plain,
 .cs-figure img.wd-shot { width: 100%; max-width: 420px; height: auto; }
 .cs-figure img.wd-shot--wide { max-width: 400px; }
-.wd-spec .cs-figure img { border-radius: 12px; }
+.wd-spec img { border-radius: 12px; }
+.wd-spec { max-width: 884px; }          /* right edge in line with the Sizes diagram */
+.cs-stack--tight { gap: 16px; }
 
 .wd-limits {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--card-gap);
+  max-width: 884px;   /* right edge in line with the other pictures */
 }
 .wd-limit {
   display: grid;
   align-content: start;
-  gap: 8px;
-  padding: 20px;
+  gap: 6px;
+  padding: 16px;
   border-radius: var(--radius);
   background: linear-gradient(160deg, #d6e1f5, #dfe4f6 55%, #e6e6f6);
 }
-.wd-limit__title { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
-.wd-limit p { margin: 0; font-size: 15px; line-height: 1.45; color: #3c4256; }
+.wd-limit__title { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+.wd-limit p { margin: 0; font-size: 13px; line-height: 1.45; color: #3c4256; }
 
-.wd-list { margin: 0; padding-left: 1.2em; display: grid; gap: .5em; }
+.wd-list { margin: 0; padding-left: 1.2em; list-style: disc; display: grid; gap: .35em; max-width: 680px; font-size: 15px; line-height: 1.5; }
 .wd-list li::marker { color: var(--muted); }
 
 .wd-phones {
@@ -456,7 +487,8 @@ img.cs-img    { height: auto; object-fit: cover; }
   .wd-limits { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 600px) {
-  .wd-limits { grid-template-columns: 1fr; }
+  .wd-limits { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .wd-limit { padding: 14px; }
 }
 
 /* Chapters inside a case, linked from the lead */
@@ -468,6 +500,22 @@ img.cs-img    { height: auto; object-fit: cover; }
   border-top: 1px solid var(--line);
   scroll-margin-top: 72px;
 }
+/* A block that opens a chapter: the chapter title sits in the label column */
+.cs-block--chapter {
+  position: relative;
+  margin-top: 48px;
+  padding-top: 48px;
+  scroll-margin-top: 72px;
+}
+.cs-block--chapter::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--gutter);
+  right: var(--gutter);
+  border-top: 1px solid var(--line);
+}
+.cs-block__label--chapter { font-size: clamp(28px, 4vw, 48px); color: #111; }
 .cs-head + .cs-part { margin-top: 0; border-top: 0; padding-top: 16px; }
 .cs-part__num { margin: 0; font-size: 13px; font-weight: 500; color: var(--muted); }
 .cs-part__title { margin: 0; font-size: clamp(28px, 4vw, 48px); font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
