@@ -133,6 +133,12 @@ ul { padding: 0; list-style: none; }
 
 .btn--primary:hover { opacity: .8; }
 
+.btn--lg {
+  height: 44px;
+  padding: 0 20px;
+  font-size: 16px;
+}
+
 /* --- Progressive top blur ----------------------------------------------
    Stack of layers; each blurs twice as strong as the previous one and is
    masked to its own band, so blur grows smoothly towards the top edge.
@@ -694,21 +700,28 @@ div.job__icon { padding: 0; }
 /* --- Footer ------------------------------------------------------------ */
 
 .footer {
-  padding: 96px var(--gutter) 32px;
+  padding: 80px var(--gutter) 32px;
 }
 
+/* Same as the case header title (.cs-head__title) */
 .footer__title {
-  font-size: clamp(40px, 7vw, 96px);
-  line-height: .95;
+  font-size: clamp(40px, 6vw, 80px);
+  line-height: 1;
   letter-spacing: -.03em;
-  font-weight: 600;
+  font-weight: 800;
 }
 
-.footer__email {
-  display: inline-block;
+.footer__contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
   margin-top: 24px;
-  font-size: clamp(18px, 2.5vw, 28px);
+  font-size: clamp(17px, 1.8vw, 20px);
 }
+
+.footer__email { font-weight: 500; }
+.footer__or { color: var(--muted); }
 
 .footer__bottom {
   display: flex;
@@ -716,7 +729,7 @@ div.job__icon { padding: 0; }
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 96px;
+  margin-top: 72px;
   padding-top: 24px;
   border-top: 1px solid var(--line);
   font-size: 14px;
