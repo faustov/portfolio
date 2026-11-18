@@ -13,7 +13,6 @@ if (isSafari) globalThis.createImageBitmap = undefined;
 
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const FOV = 14;
-const HOVER_ZOOM = 0.12;   // how much closer the camera gets on hover
 const d2r = THREE.MathUtils.degToRad;
 const lerp = THREE.MathUtils.lerp;
 const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -24,11 +23,12 @@ const DEVICES = {
   iphone: {
     model: 'assets/iphone.glb',
     screens: [{ mesh: 'Front_Screen', texture: () => phoneScreen('assets/fold-cover.png', 1320, 2868) }],
-    fit: 1.3,
+    fit: 1.0,
+    hoverZoom: 0.28,   // how much bigger the model gets on hover
     loop: 10,
     pose: t => {
       const a = seg(t, 0.5, 4.5), b = seg(t, 5.5, 9.5);
-      return { ry: lerp(-22, 22, a) - 44 * b, rx: 8, fold: 0 };
+      return { ry: lerp(-30, 30, a) - 60 * b, rx: 10, fold: 0 };
     },
     still: { ry: -12, rx: 6, fold: 0 },
   },
@@ -40,7 +40,8 @@ const DEVICES = {
       { mesh: 'Back_Screen', texture: () => new THREE.TextureLoader().loadAsync('assets/fold-cover.png') },
     ],
     fold: 'open-close',
-    fit: 1.0,
+    fit: 0.86,
+    hoverZoom: 0.2,
     loop: 10,
     pose: t => {
       const open = seg(t, 1.2, 3.4), shut = seg(t, 6.6, 8.6);
@@ -132,11 +133,19 @@ async function start(box, cfg, state) {
   };
   const R = samples[0].r;
 
+  // The canvas is bigger than the card picture (room to spill past it):
+  // frame the model on the picture area, not on the whole canvas
+  const frame = { w: 1, h: 1, H: 1 };
   const resize = () => {
     const w = canvas.clientWidth, h = canvas.clientHeight;
     if (!w || !h) return;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
+    const cr = canvas.getBoundingClientRect(), br = box.getBoundingClientRect();
+    const dx = (br.left + br.width / 2) - (cr.left + cr.width / 2);
+    const dy = (br.top + br.height / 2) - (cr.top + cr.height / 2);
+    camera.setViewOffset(w, h, -dx, -dy, w, h);
+    Object.assign(frame, { w: br.width, h: br.height, H: cr.height });
     camera.updateProjectionMatrix();
   };
   new ResizeObserver(resize).observe(canvas);
@@ -172,15 +181,19 @@ async function start(box, cfg, state) {
     look.hover += (look.thover - look.hover) * (1 - Math.exp(-dt * (reduceMotion ? 30 : 5)));
     const fl = reduceMotion ? 0 : 1;
     pivot.rotation.set(
-      d2r(k.rx + look.y * 8 + Math.sin(t * 1.1) * 0.6 * fl),
-      d2r(k.ry + look.x * 12),
+      d2r(k.rx + look.y * 14 + Math.sin(t * 1.1) * 0.6 * fl),
+      d2r(k.ry + look.x * 22),
       d2r(Math.sin(t * 0.8) * 0.4 * fl));
-    pivot.position.y = Math.sin(t * 1.6) * 0.012 * R * fl;
+    // Hover grows the model from its bottom edge, so it rises up
+    // instead of covering the card title below
+    const g = cfg.hoverZoom * ease(look.hover);
+    const lift = s.r * 0.85 * g / (1 + g);
+    pivot.position.y = Math.sin(t * 1.6) * 0.012 * R * fl + lift;
 
-    // Fit to the card; a folded pose is framed a bit closer
-    const zoom = lerp(1, R / s.r, 0.6) * (1 + HOVER_ZOOM * ease(look.hover));
-    const tan = Math.tan(d2r(FOV) / 2);
-    const half = Math.min(tan, tan * camera.aspect);
+    // Fit to the card picture; a folded pose is framed a bit closer
+    const zoom = lerp(1, R / s.r, 0.6) * (1 + g);
+    const tanV = Math.tan(d2r(FOV) / 2) * frame.h / frame.H;
+    const half = Math.min(tanV, tanV * frame.w / frame.h);
     camera.position.set(0, 0, (R * cfg.fit) / Math.sin(Math.atan(half)) / zoom);
     camera.lookAt(0, 0, 0);
     renderer.render(scene, camera);

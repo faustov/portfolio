@@ -3,8 +3,9 @@
    Loaded after style.css; reuses its tokens, nav, blur, footer.
 
    Cases won't all look the same, so the page is built from
-   independent blocks. Each block is a 12-column row: an optional
-   side label in columns 1-3, content in 4-12 or full width.
+   independent blocks. Each block is a two-column row: a narrow
+   label column on the left (so a short label isn't far from its
+   text), content on the right; or full width.
    Mix and reorder blocks freely per case.
    ========================================================== */
 
@@ -34,7 +35,7 @@
   font-size: clamp(40px, 6vw, 80px);
   line-height: 1;
   letter-spacing: -.03em;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 /* App icon before the title. The icon is a squircle with transparent
@@ -74,19 +75,26 @@
 
 .cs-block {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--card-gap);
+  grid-template-columns: minmax(200px, 22%) minmax(0, 1fr);
+  gap: var(--card-gap) 48px;
   padding: 32px var(--gutter);
 }
 
+/* Big grey label, half the case title size. Lighter than --muted:
+   it shouldn't compete with the text. */
 .cs-block__label {
-  grid-column: 1 / 4;
-  font-size: 15px;
-  font-weight: 600;
+  grid-column: 1;
+  margin: 0;
+  font-size: clamp(24px, 3vw, 40px);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  font-weight: 800;
+  color: #bdbdb9;
 }
 
-.cs-block__body       { grid-column: 4 / -1; }
-.cs-block__body--text { grid-column: 4 / 10; }   /* comfortable line length */
+.cs-block__body,
+.cs-block__body--text { grid-column: 2; }
+.cs-block__body--text { max-width: 680px; }   /* comfortable line length */
 .cs-block--full > *   { grid-column: 1 / -1; }
 
 /* Placeholder media */
@@ -176,10 +184,13 @@ img.cs-img    { height: auto; object-fit: cover; }
 
 @media (max-width: 960px) {
   .cs-head__lead,
-  .cs-head__meta,
+  .cs-head__meta { grid-column: 1 / -1; }
+
+  /* blocks: the label goes above its content */
+  .cs-block { grid-template-columns: minmax(0, 1fr); }
   .cs-block__label,
   .cs-block__body,
-  .cs-block__body--text { grid-column: 1 / -1; }
+  .cs-block__body--text { grid-column: 1; }
 
   .cs-head__meta { grid-template-columns: repeat(4, 1fr); }
   .cs-block__label { margin-bottom: 8px; }
@@ -260,11 +271,14 @@ img.cs-img    { height: auto; object-fit: cover; }
 .ex-phone__tabs img { bottom: 0; }
 
 /* Highlighted key point inside case text: semi-bold with a 10% blue
-   marker stroke on the lower part of the line. Test on the Explore case. */
+   marker stroke on the lower part of the line. Test on the Explore case.
+   The marker colour follows the company: add .hl-garage (or set --hl) on the page’s <main>. */
+:root { --hl: rgba(41, 98, 255, .1); }                /* TradingView blue */
+.hl-garage { --hl: rgba(245, 78, 57, .12); } /* Garage IT orange, #F54E39 */
 .hl {
   color: inherit;
   font-weight: 600;
-  background: linear-gradient(transparent 58%, rgba(41, 98, 255, .1) 58%, rgba(41, 98, 255, .1) 92%, transparent 92%);
+  background: linear-gradient(transparent 72%, var(--hl) 72%, var(--hl) 89%, transparent 89%);
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -518,7 +532,7 @@ img.cs-img    { height: auto; object-fit: cover; }
 .cs-block__label--chapter { font-size: clamp(28px, 4vw, 48px); color: #111; }
 .cs-head + .cs-part { margin-top: 0; border-top: 0; padding-top: 16px; }
 .cs-part__num { margin: 0; font-size: 13px; font-weight: 500; color: var(--muted); }
-.cs-part__title { margin: 0; font-size: clamp(28px, 4vw, 48px); font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
+.cs-part__title { margin: 0; font-size: clamp(28px, 4vw, 48px); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
 
 .cs-head__lead a {
   color: inherit;

@@ -3,7 +3,7 @@
    ========================================================== */
 
 :root {
-  --bg: #f4f4f2;
+  --bg: #f8f8f6;
   --fg: #111;
   --muted: #777;
   --line: #d6d6d2;
@@ -306,6 +306,10 @@ ul { padding: 0; list-style: none; }
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   scrollbar-width: none;
+  /* room for 3D models that spill past their card (see .case__3d):
+     the scroll box clips, so it gets taller without moving the layout */
+  padding: 96px 0 12px;
+  margin: -96px 0 -12px;
 }
 .job__cases::-webkit-scrollbar { display: none; }
 
@@ -534,7 +538,7 @@ svg.case__img {
 
 /* Live 3D card: the grey tile is half the size of the image area, centred;
    the model is drawn over the whole area and spills past the tile */
-.case__3d { position: relative; }
+.case__3d { --spill-top: 96px; --spill-x: 24px; --spill-bottom: 12px; position: relative; }
 .case__3d::before {
   content: "";
   position: absolute;
@@ -542,11 +546,17 @@ svg.case__img {
   border-radius: var(--radius);
   background: var(--ph);
 }
+/* The canvas is bigger than the image area, so the model can be big and
+   never get cut: it spills past the card picture, mostly upwards (on hover
+   it grows from its bottom edge and rises, see js/device-card.js) */
 .case__3d canvas {
-  position: relative;
+  position: absolute;
+  top: calc(-1 * var(--spill-top));
+  left: calc(-1 * var(--spill-x));
   display: block;
-  width: 100%;
-  height: 100%;
+  width: calc(100% + 2 * var(--spill-x));
+  height: calc(100% + var(--spill-top) + var(--spill-bottom));
+  pointer-events: none;
   opacity: 0;
   transition: opacity .6s;
 }
