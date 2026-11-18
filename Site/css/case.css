@@ -529,3 +529,51 @@ img.cs-img    { height: auto; object-fit: cover; }
   transition: text-decoration-color .2s;
 }
 .cs-head__lead a:hover { text-decoration-color: currentColor; }
+
+/* --- Image viewer (js/lightbox.js) -------------------------------------
+   Backdrop: the same blur strength and tint as the strongest layer of
+   the header blur (16px, background at 55%), but even over the page. */
+.zoomable { cursor: zoom-in; }
+.zoomable:focus-visible { outline: 2px solid var(--fg); outline-offset: 4px; }
+html.lb-lock { overflow: hidden; }
+
+.lb { position: fixed; inset: 0; z-index: 100; }
+.lb[hidden] { display: none; }
+/* While closing, the image flies back to its place: go under the header
+   blur (z-index 10) and nav (20), so it doesn't cover them for a moment. */
+.lb.is-closing { z-index: 9; }
+.lb__backdrop {
+  position: absolute;
+  inset: 0;
+  cursor: zoom-out;
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  opacity: 0;
+  transition: opacity .45s cubic-bezier(.2, .7, .2, 1);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .lb__backdrop { background: color-mix(in srgb, var(--bg) 94%, transparent); }
+}
+.lb.is-open .lb__backdrop { opacity: 1; }
+.lb__stage { position: absolute; transform-origin: 0 0; }
+.lb__stage > * { display: block; }
+.lb__close {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--fg);
+  color: var(--bg);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.lb__close svg { width: 16px; height: 16px; }
+.lb.is-open .lb__close { opacity: 1; transition: opacity .3s .2s; }
+.lb.is-open .lb__close:hover { opacity: .8; transition-delay: 0s; }
+.lb__close:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
