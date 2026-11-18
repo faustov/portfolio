@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>iOS Widgets · Vlad Faustov</title>
+  <link rel="icon" href="../../favicon.ico" sizes="any">
+  <link rel="icon" href="../../assets/favicon/favicon-32.png" type="image/png">
+  <link rel="apple-touch-icon" href="../../assets/favicon/apple-touch-icon.png">
+  <meta name="description" content="iOS Widgets: a redesign of TradingView’s Home Screen widgets for iPhone and iPad, and new Lock Screen widgets for iOS 16, featured on the App Store.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/case.css">
+</head>
+<body id="top">
+
+  <!-- ============ TOP BLUR + NAV ============ -->
+  <div class="top-blur" aria-hidden="true">
+    <div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+
+  <a class="link back" href="../../#work">← Back</a>
+
+  <nav class="nav" aria-label="Main">
+    <a class="link" href="#">Download CV <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L12.5 4.5v10h-8.5z M9.5 1.5v3h3 M6.5 8h4 M6.5 10.5h4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></a>
+    <a class="btn btn--primary" href="https://calendar.notion.so/meet/faustov/interview" target="_blank" rel="noopener">Book a call</a>
+  </nav>
+
+  <main>
+
+    <!-- ============ CASE HEADER ============ -->
+    <header class="cs-head">
+      <h1 class="cs-head__title">
+        <img class="cs-head__icon" src="../../assets/cases/widgets/icon.svg" width="180" height="180" alt="">
+        iOS Widgets
+      </h1>
+      <p class="cs-head__lead">
+        Widgets for TradingView’s iOS app: a redesign of the
+        <a href="#home-screen">Home Screen widgets</a> for iPhone and iPad, and then
+        new <a href="#lock-screen">Lock Screen widgets</a> for iOS 16, which
+        <mark class="hl">got featured on the App Store</mark>.
+      </p>
+      <dl class="cs-head__meta">
+        <div><dt>Company</dt><dd>TradingView</dd></div>
+        <div><dt>Role</dt><dd>Product Designer</dd></div>
+        <div><dt>Platform</dt><dd>iOS</dd></div>
+        <div><dt>Devices</dt><dd>iPhone, iPad</dd></div>
+      </dl>
+    </header>
+
+    <!-- ================= Chapter 1: Home Screen widgets ================= -->
+    <section class="cs-part" id="home-screen">
+      <h2 class="cs-part__title">Home Screen</h2>
+    </section>
+
+    <!-- Block: intro, all sizes in light and dark.
+         Under 1100px only the light panel is shown. -->
+    <section class="cs-block cs-block--full">
+      <figure class="cs-figure">
+        <div class="wd-screens">
+          <div class="wd-screen wd-screen--light">
+            <div class="wd-grid"><div>
+              <img src="../../assets/cases/widgets/small-light.webp" width="510" height="510" loading="lazy"
+                   alt="Small widget, light: three symbols">
+              <img src="../../assets/cases/widgets/small-loading-light.webp" width="510" height="510" loading="lazy"
+                   alt="Small widget, light, loading: grey placeholders instead of text">
+              <img class="wd-grid__wide" src="../../assets/cases/widgets/medium-light.webp" width="1092" height="510" loading="lazy"
+                   alt="Medium widget, light, detailed layout">
+              <img class="wd-grid__large" src="../../assets/cases/widgets/large-compact-light.webp" width="1092" height="1146" loading="lazy"
+                   alt="Large widget, light, compact layout with sixteen symbols">
+            </div></div>
+          </div>
+          <div class="wd-screen wd-screen--dark">
+            <div class="wd-grid"><div>
+              <img src="../../assets/cases/widgets/small-dark.webp" width="510" height="510" loading="lazy"
+                   alt="Small widget, dark: three symbols">
+              <img src="../../assets/cases/widgets/small-loading-dark.webp" width="510" height="510" loading="lazy"
+                   alt="Small widget, dark, loading: grey placeholders instead of text">
+              <img class="wd-grid__wide" src="../../assets/cases/widgets/medium-dark.webp" width="1092" height="510" loading="lazy"
+                   alt="Medium widget, dark, detailed layout">
+              <img class="wd-grid__large" src="../../assets/cases/widgets/large-detailed-dark.webp" width="1092" height="1146" loading="lazy"
+                   alt="Large widget, dark, detailed layout with eight symbols, extended-hours prices and a No trades state">
+            </div></div>
+          </div>
+        </div>
+      </figure>
+    </section>
+
+    <!-- Block: task -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Task</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          This was one of my first tasks after I joined the company. The Home Screen
+          widgets had aged, and the task was
+          <mark class="hl">to redesign them for iPhone and iPad</mark>.
+        </p>
+      </div>
+    </section>
+
+    <!-- Block: competitors -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Competitive analysis</h2>
+      <div class="cs-block__body--text cs-text">
+        <p>
+          Before designing anything, I ran a competitive analysis of the widgets
+          in other trading and finance apps.
+          <mark class="hl">Back then we benchmarked against competitors. Now they benchmark against us.</mark>
+        </p>
+      </div>
+    </section>
+
+    <!-- Block: component (data cell) + corner cases.
+         Text and the medium widget on the left, marked large widget and
+         its legend on the right. Outlines are in % of the image (1092×1146). -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Component</h2>
+      <div class="cs-block__body wd-split">
+        <div class="cs-stack">
+          <div class="cs-text">
+            <p>
+              Every widget is built from one component, the data cell: logo, ticker,
+              price, change and the time of the last update. I rebuilt it and went
+              through <mark class="hl">every corner case</mark>: tickers and company names that don’t fit,
+              prices with a dozen digits, and a symbol that failed to load.
+            </p>
+            <p>
+              <mark class="hl">The cell comes in two layouts.</mark> The compact one fits more symbols on the
+              screen. The detailed one adds the company name and, outside trading hours,
+              the pre-market or after-hours price next to the main one.
+            </p>
+          </div>
+          <figure class="cs-figure">
+            <img class="wd-shadow" src="../../assets/cases/widgets/medium-light.webp" width="1092" height="510" loading="lazy"
+                 alt="Medium widget, detailed layout: CMCSA, AMZN with its pre-market price in an orange chip, and FDX">
+            <figcaption>Detailed layout, medium widget. AMZN shows its pre-market price next to the last close.</figcaption>
+          </figure>
+        </div>
+        <figure class="cs-figure wd-anatomy">
+          <div class="wd-marked">
+            <img src="../../assets/cases/widgets/large-compact-light.webp" width="1092" height="1146" loading="lazy"
+                 alt="Large widget, compact layout: two columns of eight symbols. Marked: a truncated long price, a long ticker, and a symbol in the error state">
+            <span class="wd-mark" style="left: 50.9%; top: 1.2%; width: 48.0%; height: 11.5%" data-n="1"></span>
+            <span class="wd-mark" style="left: 1.1%; top: 87.1%; width: 48.4%; height: 11.7%" data-n="2"></span>
+            <span class="wd-mark" style="left: 50.9%; top: 74.9%; width: 48.0%; height: 11.2%" data-n="3"></span>
+          </div>
+          <figcaption class="wd-legend-wrap"><ol class="wd-legend">
+            <li><b>Long price.</b> The price is cut from the end, so the change always stays visible.</li>
+            <li><b>Long ticker.</b> Tickers like GOOGL-USD fit next to the update time.</li>
+            <li><b>Error.</b> If a symbol can’t be loaded, the cell shows it in red instead of an empty row.</li>
+          </ol></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Block: sizes + iPhone SE vs Pro Max.
+         Diagram in points, sizes from Apple’s HIG widget size table.
+         Row pitch (46.7 pt) is measured from the large widget mockup. -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Sizes</h2>
+      <div class="cs-block__body wd-split wd-split--sizes">
+        <div class="cs-text">
+          <p>
+            I checked every decision against <mark class="hl">Apple’s guidelines for widgets</mark> and
+            designed each size: small, medium and large, in light and dark mode,
+            with a placeholder for the moment before the data arrives.
+          </p>
+          <p>
+            Widget sizes also depend on the phone, and the difference turned out to be
+            bigger than it looks: <mark class="hl">the large widget on an iPhone 13 Pro Max
+            is almost a fifth taller than on an iPhone SE</mark>. So the layout adapts:
+            on a big iPhone the widget shows more rows, on a small one it shrinks
+            without cutting a row in half.
+          </p>
+        </div>
+          <div class="wd-sizes">
+            <svg viewBox="0 0 900 494" role="img" aria-label="Blueprint of the large widget: 364 by 382 points on iPhone 13 Pro Max, 321 by 324 points on iPhone SE. The bigger phone fits more rows.">
+<defs>
+<pattern id="bp-minor" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" class="bp-grid"/></pattern>
+<pattern id="bp-major" width="50" height="50" patternUnits="userSpaceOnUse"><rect width="50" height="50" fill="url(#bp-minor)"/><path d="M50 0H0V50" class="bp-grid bp-grid--major"/></pattern>
+<radialGradient id="bp-fade" cx="50%" cy="50%" r="62%"><stop offset="55%" stop-color="#fff"/><stop offset="100%" stop-color="#000"/></radialGradient>
+<mask id="bp-mask"><rect width="900" height="494" fill="url(#bp-fade)"/></mask>
+</defs>
+<rect width="900" height="494" fill="url(#bp-major)" mask="url(#bp-mask)"/>
+<rect x="70" y="46" width="364" height="382" rx="22" class="bp-obj"/>
+<line x1="56" y1="237" x2="448" y2="237" class="bp-axis"/>
+<line x1="252" y1="32" x2="252" y2="442" class="bp-axis"/>
+<circle cx="92" cy="73.5" r="13" class="bp-sk"/>
+<rect x="114" y="62.5" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="114" y="77.5" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="274" cy="73.5" r="13" class="bp-sk"/>
+<rect x="296" y="62.5" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="296" y="77.5" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="92" cy="120.2" r="13" class="bp-sk"/>
+<rect x="114" y="109.2" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="114" y="124.2" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="274" cy="120.2" r="13" class="bp-sk"/>
+<rect x="296" y="109.2" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="296" y="124.2" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="92" cy="166.9" r="13" class="bp-sk"/>
+<rect x="114" y="155.9" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="114" y="170.9" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="274" cy="166.9" r="13" class="bp-sk"/>
+<rect x="296" y="155.9" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="296" y="170.9" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="92" cy="213.7" r="13" class="bp-sk"/>
+<rect x="114" y="202.7" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="114" y="217.7" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="274" cy="213.7" r="13" class="bp-sk"/>
+<rect x="296" y="202.7" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="296" y="217.7" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="92" cy="260.4" r="13" class="bp-sk"/>
+<rect x="114" y="249.3" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="114" y="264.4" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="274" cy="260.4" r="13" class="bp-sk"/>
+<rect x="296" y="249.3" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="296" y="264.4" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="92" cy="307" r="13" class="bp-sk"/>
+<rect x="114" y="296" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="114" y="311" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="274" cy="307" r="13" class="bp-sk"/>
+<rect x="296" y="296" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="296" y="311" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="92" cy="353.8" r="13" class="bp-sk"/>
+<rect x="114" y="342.8" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="114" y="357.8" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="274" cy="353.8" r="13" class="bp-sk"/>
+<rect x="296" y="342.8" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="296" y="357.8" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="92" cy="400.5" r="13" class="bp-sk"/>
+<rect x="114" y="389.5" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="114" y="404.5" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="274" cy="400.5" r="13" class="bp-sk"/>
+<rect x="296" y="389.5" width="67.1" height="9" rx="4.5" class="bp-sk"/>
+<rect x="296" y="404.5" width="97.6" height="9" rx="4.5" class="bp-sk"/>
+<rect x="534" y="46" width="321" height="324" rx="22" class="bp-obj"/>
+<line x1="520" y1="208" x2="869" y2="208" class="bp-axis"/>
+<line x1="694.5" y1="32" x2="694.5" y2="384" class="bp-axis"/>
+<circle cx="556" cy="91.2" r="13" class="bp-sk"/>
+<rect x="578" y="80.2" width="55.3" height="9" rx="4.5" class="bp-sk"/>
+<rect x="578" y="95.2" width="80.4" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="716.5" cy="91.2" r="13" class="bp-sk"/>
+<rect x="738.5" y="80.2" width="55.3" height="9" rx="4.5" class="bp-sk"/>
+<rect x="738.5" y="95.2" width="80.4" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="556" cy="137.9" r="13" class="bp-sk"/>
+<rect x="578" y="127" width="55.3" height="9" rx="4.5" class="bp-sk"/>
+<rect x="578" y="141.9" width="80.4" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="716.5" cy="137.9" r="13" class="bp-sk"/>
+<rect x="738.5" y="127" width="55.3" height="9" rx="4.5" class="bp-sk"/>
+<rect x="738.5" y="141.9" width="80.4" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="556" cy="184.7" r="13" class="bp-sk"/>
+<rect x="578" y="173.7" width="55.3" height="9" rx="4.5" class="bp-sk"/>
+<rect x="578" y="188.7" width="80.4" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="716.5" cy="184.7" r="13" class="bp-sk"/>
+<rect x="738.5" y="173.7" width="55.3" height="9" rx="4.5" class="bp-sk"/>
+<rect x="738.5" y="188.7" width="80.4" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="556" cy="231.4" r="13" class="bp-sk"/>
+<rect x="578" y="220.4" width="55.3" height="9" rx="4.5" class="bp-sk"/>
+<rect x="578" y="235.4" width="80.4" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="716.5" cy="231.4" r="13" class="bp-sk"/>
+<rect x="738.5" y="220.4" width="55.3" height="9" rx="4.5" class="bp-sk"/>
+<rect x="738.5" y="235.4" width="80.4" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="556" cy="278.1" r="13" class="bp-sk"/>
+<rect x="578" y="267.1" width="55.3" height="9" rx="4.5" class="bp-sk"/>
+<rect x="578" y="282.1" width="80.4" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="716.5" cy="278.1" r="13" class="bp-sk"/>
+<rect x="738.5" y="267.1" width="55.3" height="9" rx="4.5" class="bp-sk"/>
+<rect x="738.5" y="282.1" width="80.4" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="556" cy="324.8" r="13" class="bp-sk"/>
+<rect x="578" y="313.8" width="55.3" height="9" rx="4.5" class="bp-sk"/>
+<rect x="578" y="328.8" width="80.4" height="9" rx="4.5" class="bp-sk"/>
+<circle cx="716.5" cy="324.8" r="13" class="bp-sk"/>
+<rect x="738.5" y="313.8" width="55.3" height="9" rx="4.5" class="bp-sk"/>
+<rect x="738.5" y="328.8" width="80.4" height="9" rx="4.5" class="bp-sk"/>
+<text x="70" y="28" class="bp-name">Large – iPhone 13 Pro Max</text>
+<text x="534" y="28" class="bp-name">Large – iPhone SE</text>
+<line x1="70" y1="434" x2="70" y2="466" class="bp-ext"/>
+<line x1="434" y1="434" x2="434" y2="466" class="bp-ext"/>
+<line x1="60" y1="458" x2="444" y2="458" class="bp-dim"/>
+<line x1="64" y1="464" x2="76" y2="452" class="bp-tick"/>
+<line x1="428" y1="464" x2="440" y2="452" class="bp-tick"/>
+<text x="252" y="480" text-anchor="middle" class="bp-num">364</text>
+<line x1="64" y1="46" x2="30" y2="46" class="bp-ext"/>
+<line x1="64" y1="428" x2="30" y2="428" class="bp-ext"/>
+<line x1="38" y1="36" x2="38" y2="438" class="bp-dim"/>
+<line x1="32" y1="52" x2="44" y2="40" class="bp-tick"/>
+<line x1="32" y1="434" x2="44" y2="422" class="bp-tick"/>
+<text transform="translate(29 237) rotate(-90)" text-anchor="middle" class="bp-num">382</text>
+<line x1="534" y1="376" x2="534" y2="408" class="bp-ext"/>
+<line x1="855" y1="376" x2="855" y2="408" class="bp-ext"/>
+<line x1="524" y1="400" x2="865" y2="400" class="bp-dim"/>
+<line x1="528" y1="406" x2="540" y2="394" class="bp-tick"/>
+<line x1="849" y1="406" x2="861" y2="394" class="bp-tick"/>
+<text x="694.5" y="422" text-anchor="middle" class="bp-num">321</text>
+<line x1="528" y1="46" x2="494" y2="46" class="bp-ext"/>
+<line x1="528" y1="370" x2="494" y2="370" class="bp-ext"/>
+<line x1="502" y1="36" x2="502" y2="380" class="bp-dim"/>
+<line x1="496" y1="52" x2="508" y2="40" class="bp-tick"/>
+<line x1="496" y1="376" x2="508" y2="364" class="bp-tick"/>
+<text transform="translate(493 208) rotate(-90)" text-anchor="middle" class="bp-num">324</text>
+</svg>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Block: iPad: text on the left, iPad home screen on the right -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">iPad</h2>
+      <div class="cs-block__body wd-split">
+        <div class="cs-text">
+          <p>
+            Users asked for a widget that uses the big iPad screen. I proposed an
+            <mark class="hl">extra large widget with much more data</mark>, in the same two layouts:
+            detailed, with company names and extended-hours prices, and compact, with
+            three columns and up to 24 symbols at once. It shipped with the rest.
+          </p>
+        </div>
+        <figure class="cs-figure">
+          <div class="wd-ipad wd-ipad--solo"><div class="wd-ipad__screen">
+            <img src="../../assets/cases/widgets/ipad-home-compact.webp" width="1200" height="1600" loading="lazy"
+                 alt="iPad Home Screen with an extra large TradingView widget in the compact layout: three columns of eight symbols">
+          </div></div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================= Chapter 2: Lock Screen widgets ================= -->
+    <section class="cs-part" id="lock-screen">
+      <h2 class="cs-part__title">Lock Screen</h2>
+    </section>
+
+
+    <!-- Block: iOS 16 beta, the turn of the story -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Lock Screen</h2>
+      <div class="cs-block__body wd-split">
+        <div class="cs-text">
+          <p>
+            While I was still working on the Home Screen widgets, Apple released the
+            first beta of iOS 16 with a new place for widgets: the Lock Screen.
+            <mark class="hl">I suggested we build them too, right away.</mark>
+          </p>
+        </div>
+        <figure class="cs-figure">
+          <img class="wd-plain" src="../../assets/cases/widgets/ls-render.webp" width="1248" height="1180" loading="lazy"
+               alt="iPhone Lock Screen with TradingView widgets: a watchlist of AAPL, GOOG and TSLA, a circular AAPL price, a circular Bitcoin logo, and MSFT next to the date">
+        </figure>
+      </div>
+    </section>
+
+    <!-- Block: prototype in Xcode -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Prototype in Xcode</h2>
+      <div class="cs-block__body wd-split wd-split--phone" style="--side: 300px">
+        <div class="cs-text">
+          <p>
+            In the first days of the beta I installed it on my phone and
+            <mark class="hl">built a prototype in Xcode beta</mark>. There were no design
+            resources from Apple yet, and nobody knew how these widgets actually
+            worked: what sizes they had, or how the system would tint the text
+            and blend the images.
+          </p>
+          <p>
+            I handed the prototype to the developers, so they could
+            <mark class="hl">explore what was technically possible</mark>, and went
+            back to Figma to refine the widgets.
+          </p>
+        </div>
+        <figure class="cs-figure">
+          <img class="wd-shot wd-shot--wide" src="../../assets/cases/widgets/ls-prototype.webp" width="828" height="568" loading="lazy"
+               alt="The first prototype on an iPhone Lock Screen: AAPL next to the date, and three widgets with AAPL, TSLA and a truncated BTCU… ticker">
+          <figcaption>The first prototype, running on my iPhone with the iOS 16 beta.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Block: constraints -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Constraints</h2>
+      <div class="cs-block__body cs-stack">
+        <div class="cs-text" style="max-width: 40em">
+          <p>
+            The Lock Screen is the tightest place to show market data I have worked with.
+          </p>
+        </div>
+        <div class="wd-limits">
+          <div class="wd-limit">
+            <h3 class="wd-limit__title">No templates</h3>
+            <p>A beta without design resources from Apple. Sizes and rendering had to be checked on a real phone.</p>
+          </div>
+          <div class="wd-limit">
+            <h3 class="wd-limit__title">One colour</h3>
+            <p>The system draws widgets in a single tint and blends images its own way, so a logo looks different on the phone than in a mockup.</p>
+          </div>
+          <div class="wd-limit">
+            <h3 class="wd-limit__title">A few characters</h3>
+            <p>A widget fits a few letters and a few digits: a ticker and a price, and that’s it.</p>
+          </div>
+          <div class="wd-limit">
+            <h3 class="wd-limit__title">Every pixel counts</h3>
+            <p>I tuned the size of every letter and digit by hand, so that tickers and prices fit side by side.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Block: rules from the spec -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Rules</h2>
+      <div class="cs-block__body wd-split">
+        <div class="cs-text">
+          <p>
+            I wrote down <mark class="hl">the rules for every widget, state and corner case</mark>:
+          </p>
+          <ul class="wd-list">
+            <li>Tickers of up to five letters are never cut. Longer ones are cut to four letters and an ellipsis.</li>
+            <li>Digits are cut last, and a ticker and its price are always at least 4&nbsp;pt apart.</li>
+            <li>In a circular widget, text first shrinks to fit and only then gets cut.</li>
+            <li>An error or an empty watchlist shows a message with the app logo instead of an empty widget.</li>
+            <li>Loading skeletons are built automatically: every line of text turns into a bar.</li>
+            <li>Arabic and Hebrew get mirrored layouts.</li>
+          </ul>
+        </div>
+        <div class="cs-stack wd-spec">
+          <figure class="cs-figure">
+            <img src="../../assets/cases/widgets/ls-spec-truncation.webp" width="1400" height="568" loading="lazy"
+                 alt="Truncation rules for the watchlist widget: long tickers cut to four letters with an ellipsis, long prices cut at the end, missing prices shown as dashes">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Block: four widgets, tested on a device -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Four widgets</h2>
+      <div class="cs-block__body wd-split">
+        <div class="cs-text">
+          <p>
+            In the end we made <mark class="hl">four widgets</mark>: an inline one next to the date,
+            a circular one with a logo, a circular one with a symbol, and a rectangular
+            watchlist with three symbols.
+          </p>
+          <p>
+            I checked them on a real phone with the hardest cases we could find:
+            tiny prices, long futures tickers and symbols without data.
+          </p>
+        </div>
+        <figure class="cs-figure">
+          <img class="wd-shot" src="../../assets/cases/widgets/ls-device.webp" width="1200" height="1178" loading="lazy"
+               alt="Photo of an iPhone Lock Screen with the widgets: a watchlist with HCMC 0.000100, ESH2023 3957.00 and US:BAIDEN without data, a circular widget in the error state and AAPL −1.10%">
+        </figure>
+      </div>
+    </section>
+
+    <!-- Block: release and App Store featuring -->
+    <section class="cs-block">
+      <h2 class="cs-block__label">Release</h2>
+      <div class="cs-block__body wd-split wd-split--phone">
+        <div class="cs-text">
+          <p>
+            Both sets of widgets shipped. The Lock Screen widgets came out
+            <mark class="hl">almost together with the public release of iOS 16</mark>, and TradingView
+            became <mark class="hl">one of the first fintech apps with Lock Screen widgets</mark>.
+            The community met the new widgets warmly.
+          </p>
+          <p>
+            For the launch I prepared an App Store in-app event, “Meet the Lock Screen
+            Widget”. <mark class="hl">The event got featured on the App Store</mark>.
+          </p>
+        </div>
+        <div class="wd-phones">
+          <img src="../../assets/cases/widgets/appstore-apps.webp" width="828" height="1792" loading="lazy"
+               alt="App Store, Apps tab: the TradingView event Meet the Lock Screen Widget in Events You Might Like, above Great Apps for iOS 16">
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="contact">
+    <h2 class="footer__title">Let’s work together</h2>
+    <a class="footer__email" href="mailto:vlad.faustoff@gmail.com">vlad.faustoff@gmail.com</a>
+
+    <div class="footer__bottom">
+      <ul class="footer__links">
+        <li><a class="link link--ext" href="https://t.me/faustov" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+        <li><a class="link link--ext" href="https://instagram.com/vladfaustov" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        <li><a class="link link--ext" href="https://www.linkedin.com/in/faustov/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a class="link link--ext" href="#">CV</a></li>
+      </ul>
+      <p class="footer__copy">© 2026 Vlad Faustov</p>
+      <a class="to-top" href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    // Chapter links in the lead: scroll smoothly, also where the CSS
+    // scroll-behavior is ignored, and keep the hash in the address bar.
+    document.querySelectorAll('.cs-head__lead a[href^="#"]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        var target = document.querySelector(link.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+        history.pushState(null, '', link.getAttribute('href'));
+      });
+    });
+  </script>
+</body>
+</html>

@@ -225,3 +225,259 @@ img.cs-img    { height: auto; object-fit: cover; }
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .12);
 }
 .cs-caption { margin: -20px 0 0; font-size: 13px; color: var(--muted); }
+
+/* Explore: three phones showing one tall screenshot at different scroll
+   positions. The screenshot is 235×2000; a screen shows 235×509 of it.
+   --y (per phone) is the scroll offset in source pixels. The status bar
+   and tab bar are cut from the same image and pinned on top. */
+.ex-phones {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 4vw, 64px);
+  padding: clamp(24px, 6vw, 80px) clamp(16px, 8vw, 140px);
+  border-radius: var(--radius);
+  background: #e9e9e6;
+}
+.ex-phone {
+  padding: 3.2%;
+  border-radius: 15% / 7%;
+  background: #1d1d1b;
+}
+.ex-phone__screen {
+  position: relative;
+  aspect-ratio: 235 / 509;
+  overflow: hidden;
+  border-radius: 12.5% / 5.8%;
+  background: #fff;
+}
+.ex-phone__screen img { position: absolute; left: 0; width: 100%; height: auto; max-width: none; }
+.ex-phone__page { top: calc(-100% * var(--y) / 509); }
+.ex-phone__status,
+.ex-phone__tabs { position: absolute; left: 0; right: 0; overflow: hidden; background: #fff; }
+.ex-phone__status { top: 0; height: calc(100% * 22 / 509); }
+.ex-phone__status img { top: 0; }
+.ex-phone__tabs { bottom: 0; height: calc(100% * 64 / 509); }
+.ex-phone__tabs img { bottom: 0; }
+
+/* Highlighted key point inside case text: semi-bold with a 10% blue
+   marker stroke on the lower part of the line. Test on the Explore case. */
+.hl {
+  color: inherit;
+  font-weight: 600;
+  background: linear-gradient(transparent 58%, rgba(41, 98, 255, .1) 58%, rgba(41, 98, 255, .1) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* --- iOS Widgets case --------------------------------------------------- */
+
+.wd-ipad {
+  padding: 3.4%;
+  border-radius: 6.5% / 5%;
+  background: #1d1d1b;
+}
+.wd-ipad__screen { overflow: hidden; border-radius: 3.6% / 2.7%; aspect-ratio: 3 / 4; }
+.cs-figure .wd-ipad__screen img,
+.cs-figure .ex-phone__screen img { border-radius: 0; }
+.wd-ipad__screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Widget screenshot on the page background */
+.cs-figure img.wd-shadow,
+.wd-marked img { border-radius: 0; filter: drop-shadow(0 1px 2px rgba(0,0,0,.08)) drop-shadow(0 8px 24px rgba(0,0,0,.06)); }
+.cs-figure img.wd-shadow { max-width: 440px; }
+
+/* Data cell anatomy: image with outlined spots + numbered legend */
+.wd-anatomy { width: min(100%, 400px); gap: 28px; }
+.cs-figure .wd-legend-wrap { font-size: inherit; color: inherit; }
+.wd-marked { position: relative; container-type: inline-size; }
+.wd-mark {
+  position: absolute;
+  outline: 2px solid rgba(41, 98, 255, .5);
+  outline-offset: 3px;
+  /* The outline is drawn 3px outside, its radius grows by the offset; so
+     subtract it. 58 / 1092: the visible corner of the widget (iOS draws a
+     smooth "squircle", it reads smaller than its nominal 66 px). */
+  border-radius: calc(100cqw * 58 / 1092 - 3px);
+}
+.wd-mark::before {
+  content: attr(data-n);
+  position: absolute;
+  right: -16px;
+  bottom: -16px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #2962ff;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: center;
+}
+.wd-legend { margin: 0; padding: 0; list-style: none; display: grid; gap: 16px; counter-reset: wdl; font-size: 15px; line-height: 1.45; }
+.wd-legend li { position: relative; padding-left: 34px; counter-increment: wdl; }
+.wd-legend li::before {
+  content: counter(wdl);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #2962ff;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: center;
+}
+.wd-legend b { font-weight: 600; }
+
+/* Two "home screens": light and dark, widgets on the iOS grid.
+   Horizontal layout: two small + medium on the left, large on the right.
+   In px @3x: small 510, medium/large 1092 wide, gap 72, so the row is
+   510 + 72 + 510 + 72 + 1092 = 2256. Below 600px: the old vertical stack. */
+.wd-screens {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--card-gap);
+}
+.wd-screen {
+  display: grid;
+  place-items: center;
+  padding: clamp(20px, 3.4vw, 48px) clamp(16px, 2.8vw, 40px);
+  border-radius: var(--radius);
+}
+.wd-screen--light { background: linear-gradient(160deg, #d6e1f5, #dfe4f6 55%, #e6e6f6); }
+.wd-screen--dark  { background: linear-gradient(160deg, #152038, #1a2142 55%, #20203f); }
+.wd-grid {
+  container-type: inline-size;
+  width: min(100%, 740px);
+}
+.wd-grid > div {
+  display: grid;
+  grid-template-columns: 510fr 510fr 1092fr;
+  align-items: start;
+  gap: calc(100cqw * 72 / 2256);
+}
+.wd-grid img { display: block; width: 100%; height: auto; border-radius: 0; }
+.wd-grid__wide  { grid-column: 1 / 3; align-self: end; }  /* bottom edge in line with the large one */
+.wd-grid__large { grid-column: 3; grid-row: 1 / 3; }
+@media (max-width: 1100px) {
+  .wd-screens { grid-template-columns: 1fr; }
+  .wd-screen--dark { display: none; }   /* no stacking: only the light panel */
+}
+@media (max-width: 600px) {
+  .wd-grid { width: min(100%, 420px); }
+  .wd-grid > div { grid-template-columns: 1fr 1fr; gap: calc(100cqw * 72 / 1092); }
+  .wd-grid__wide,
+  .wd-grid__large { grid-column: 1 / -1; grid-row: auto; }
+}
+
+/* iPhone SE vs Pro Max: text on the left, blueprint on the right.
+   Light blueprint style: blue grid fading out at the edges, blue outlines,
+   centre lines, dimension lines with slash ticks. No panel behind it. */
+.wd-split {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 40px;
+  align-items: start;   /* text starts at the top edge of the picture */
+}
+.wd-split--sizes { grid-template-columns: minmax(0, 1fr) minmax(0, 460px); }
+.wd-sizes { width: min(100%, 520px); }
+.wd-sizes svg { display: block; width: 100%; height: auto; font-family: var(--font); --bp: #2251d1; }
+.bp-grid        { fill: none; stroke: var(--bp); stroke-width: .5; opacity: .14; }
+.bp-grid--major { stroke-width: .8; opacity: .3; }
+.bp-obj   { fill: #fff; stroke: var(--bp); stroke-width: 2; }
+.bp-sk    { fill: rgba(34, 81, 209, .06); stroke: var(--bp); stroke-width: 1; opacity: .75; }
+.bp-axis  { stroke: var(--bp); stroke-width: .8; stroke-dasharray: 14 4 2 4; opacity: .55; }
+.bp-ext,
+.bp-dim   { stroke: var(--bp); stroke-width: 1; }
+.bp-tick  { stroke: var(--bp); stroke-width: 2; }
+.bp-num   { fill: var(--bp); font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+.bp-name  { fill: var(--bp); font-size: 20px; font-weight: 600; letter-spacing: .02em; }
+@media (max-width: 1100px) {
+  .wd-split { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* A phone screenshot stays right of the text until phone widths */
+@media (max-width: 1100px) {
+  .wd-split--phone { grid-template-columns: minmax(0, 1fr) minmax(0, var(--side, 220px)); gap: 32px; }
+}
+@media (max-width: 600px) {
+  .wd-split--phone { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* iPad home screen next to the text, without the grey panel */
+.wd-ipad--solo { width: min(100%, 440px); }
+
+/* Lock Screen part */
+.cs-figure img.wd-plain { border-radius: 0; }              /* transparent render */
+.cs-figure img.wd-shot  { border-radius: 12px; }
+/* Lock Screen pictures: keep them modest, also when stacked under the text */
+.cs-figure img.wd-plain,
+.cs-figure img.wd-shot { width: 100%; max-width: 420px; height: auto; }
+.cs-figure img.wd-shot--wide { max-width: 400px; }
+.wd-spec .cs-figure img { border-radius: 12px; }
+
+.wd-limits {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--card-gap);
+}
+.wd-limit {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 20px;
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, #d6e1f5, #dfe4f6 55%, #e6e6f6);
+}
+.wd-limit__title { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+.wd-limit p { margin: 0; font-size: 15px; line-height: 1.45; color: #3c4256; }
+
+.wd-list { margin: 0; padding-left: 1.2em; display: grid; gap: .5em; }
+.wd-list li::marker { color: var(--muted); }
+
+.wd-phones {
+  display: grid;
+  width: min(100%, 260px);
+}
+.wd-phones img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 24px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08);
+  outline: 1px solid rgba(0, 0, 0, .08);
+  outline-offset: -1px;
+}
+@media (max-width: 1100px) {
+  .wd-limits { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .wd-limits { grid-template-columns: 1fr; }
+}
+
+/* Chapters inside a case, linked from the lead */
+.cs-part {
+  display: grid;
+  gap: 8px;
+  margin: 48px var(--gutter) 0;
+  padding: 32px 0 16px;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 72px;
+}
+.cs-head + .cs-part { margin-top: 0; border-top: 0; padding-top: 16px; }
+.cs-part__num { margin: 0; font-size: 13px; font-weight: 500; color: var(--muted); }
+.cs-part__title { margin: 0; font-size: clamp(28px, 4vw, 48px); font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
+
+.cs-head__lead a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(17, 17, 17, .3);
+  text-underline-offset: .2em;
+  transition: text-decoration-color .2s;
+}
+.cs-head__lead a:hover { text-decoration-color: currentColor; }
