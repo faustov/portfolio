@@ -12,11 +12,12 @@
   if (!rowsEl) return;
 
   /* ---------- Data: swap colors for real images/videos later (src) ---------- */
+  // a: 1 = square tile (for square videos). keep: true = never hidden on narrow widths.
   const ROWS = [
-    [{ a: 910/512, c: '#cfcfca,#9d9d97' }, { a: 910/512, c: '#000,#000', v: 'assets/playground/stardust-button', label: 'Stardust button' },    { a: 910/512, c: '#e6e6e1,#b5b5ae' }],
+    [{ a: 1, c: '#f2f2f4,#f2f2f4', keep: true, v: 'assets/playground/bubble-button', label: 'Bubble button' }, { a: 910/512, c: '#000,#000', v: 'assets/playground/stardust-button', label: 'Stardust button' },    { a: 910/512, c: '#e6e6e1,#b5b5ae' }],
     [{ a: 910/512, c: '#777,#c9c9c4' },    { a: 410/512, c: '#1d1d1d,#4a4a4a' }, { a: 910/512, c: '#ededea,#c4c4bf' }, { a: 1, c: '#3a3a3a,#8a8a85' }],
-    [{ a: 910/512, c: '#f2f2ef,#a9a9a3' }, { a: 410/512, c: '#262626,#6b6b67' }, { a: 910/512, c: '#d8d8d3,#8f8f8a' }, { a: 910/512, c: '#151515,#3d3d3d' }],
-  ].map(r => r.map(t => ({ ...t, cell: 0.816 * t.a })));   // cell = tile "weight" = its aspect
+    [{ a: 910/512, c: '#f2f2ef,#a9a9a3' }, { a: 410/512, c: '#262626,#6b6b67' }, { a: 1, c: '#d8d8d3,#8f8f8a', keep: true }, { a: 910/512, c: '#151515,#3d3d3d' }],
+  ].map(r => r.map(t => ({ ...t, cell: t.a })));   // cell = flex weight = real aspect ratio (w/h), so a: 1 is a true square
 
   const ROW_RADIUS = 380;   // cursor influence on row height (px) — wider = softer
   const TILE_RADIUS = 520;  // cursor influence on tile width (px)
@@ -30,15 +31,16 @@
   /* Smooth kernel: 1 at the center, 0 at the radius, no kinks */
   const falloff = d => d >= 1 ? 0 : (1 - d * d) ** 2;
 
-  /* ---------- Rest layout: plain flex with grow = weight ---------- */
-  const maxRowSum = Math.max(...ROWS.map(r => r.reduce((s, t) => s + t.cell, 0)));
-  rowsEl.style.setProperty('--max-row-sum', maxRowSum.toFixed(4));
+  /* A row may not get shorter than this; otherwise its least important tiles are hidden.
+     Scales down on narrow screens so phones still get 2 tiles per row. */
+  const minRowH = W => Math.min(140, W * 0.28);
+
+  /* ---------- Rest layout: each row is a justified line (see .pg__row in CSS) ---------- */
 
   const rowEls = [], tileEls = [];
   let GAP_X = 8, GAP_Y = 8;   // read from CSS (--card-gap) in measure()
   const restStyle = cell => ({
-    flexGrow: cell, flexShrink: 1, flexBasis: `calc(var(--row-h) * ${cell})`,
-    maxWidth: `calc(var(--row-h) * ${cell * 1.5})`, aspectRatio: cell, width: '', height: '',
+    flex: `${cell} 1 0px`, maxWidth: '', aspectRatio: cell, width: '', height: '',
   });
 
   ROWS.forEach((row, ri) => {
@@ -67,6 +69,9 @@
     rowEls.push(rEl);
   });
   const flat = ROWS.flat();
+  const rowStart = ROWS.map((_, ri) => ROWS.slice(0, ri).reduce((n, r) => n + r.length, 0));
+  // Visible tiles per row (indices inside the row); recalculated in measure()
+  let vis = ROWS.map(r => r.map((_, ti) => ti));
 
   /* ---------- State: target (where we want to be) and cur (smoothed) ---------- */
   const state = { target: { x: 0, y: 0, s: 0 }, cur: { x: 0, y: 0, s: 0 }, active: -1, raf: null, last: 0, snapIdx: -1 };
@@ -75,24 +80,40 @@
   let geo = null;
   function measure() {
     if (state.cur.s > 0.002) return;          // measure only at rest
-    const W = rowsEl.clientWidth, H = rowsEl.offsetHeight;
+    const W = rowsEl.clientWidth;
     const rs = getComputedStyle(rowEls[0]);
     GAP_X = parseFloat(rs.columnGap) || 0;
     GAP_Y = parseFloat(rs.marginBottom) || 0;
-    const rowH = rowEls.map(r => r.offsetHeight);
-    // the effect only works when every row fits on a single line
-    const singleLine = rowEls.every(r => {
-      const tops = [...r.children].map(c => c.offsetTop);
-      return Math.max(...tops) - Math.min(...tops) < 10;
+
+    // 1) Decide which tiles fit. A row of visible tiles is (W - gaps) / Σcell tall;
+    //    while that is below the minimum, hide a tile: first placeholders (no video,
+    //    no `keep`), from the end of the row. A row always keeps at least one tile.
+    const minH = minRowH(W);
+    vis = ROWS.map(row => {
+      const v = row.map((_, ti) => ti);
+      const height = () => (W - (v.length - 1) * GAP_X) / v.reduce((s, ti) => s + row[ti].cell, 0);
+      while (v.length > 1 && height() < minH) {
+        const spare = v.filter(ti => !row[ti].v && !row[ti].keep);
+        const drop = spare.length ? spare[spare.length - 1] : v[v.length - 1];
+        v.splice(v.indexOf(drop), 1);
+      }
+      return v;
     });
-    if (!singleLine) { geo = null; return; }
+    ROWS.forEach((row, ri) => row.forEach((_, ti) => {
+      tileEls[rowStart[ri] + ti].classList.toggle('pg__tile--hidden', !vis[ri].includes(ti));
+    }));
+
+    // 2) Rest geometry of the visible tiles
+    const H = rowsEl.offsetHeight;
+    const rowH = rowEls.map(r => r.offsetHeight);
     let y = 0; const rowCY = [];
     rowH.forEach(h => { rowCY.push(y + h / 2); y += h + GAP_Y; });
-    const innerW = ROWS.map(r => W - (r.length - 1) * GAP_X);
-    const sum = ROWS.map(r => r.reduce((s, t) => s + t.cell, 0));
-    const tileCX = ROWS.map((r, ri) => {
-      let x = 0;
-      return r.map(t => { const w = innerW[ri] * t.cell / sum[ri]; const cx = x + w / 2; x += w + GAP_X; return cx; });
+    const innerW = vis.map(v => W - (v.length - 1) * GAP_X);
+    const tileCX = vis.map((v, ri) => {
+      const sum = v.reduce((s, ti) => s + ROWS[ri][ti].cell, 0);
+      let x = 0; const cx = [];
+      v.forEach(ti => { const w = innerW[ri] * ROWS[ri][ti].cell / sum; cx[ti] = x + w / 2; x += w + GAP_X; });
+      return cx;   // sparse: indexed by tile index inside the row
     });
     geo = { H, rowH, rowCY, tileCX, innerW, hAvail: H - (ROWS.length - 1) * GAP_Y };
   }
@@ -120,25 +141,27 @@
     const wantSum = want.reduce((a, b) => a + b, 0);
     rowsEl.style.height = geo.H + 'px';   // total height never jumps
 
-    let idx = 0, best = -1, bestD = Infinity;
+    let best = -1, bestD = Infinity;
     ROWS.forEach((row, ri) => {
+      const idx = rowStart[ri], v = vis[ri];
       const h = geo.hAvail * want[ri] / wantSum;
       rowEls[ri].style.height = h + 'px';
       rowEls[ri].style.flexWrap = 'nowrap';
 
       // 2) Tile widths: weight grows towards the cursor, sum normalized to row width
-      const ws = row.map((t, ti) => {
+      const ws = v.map(ti => {
+        const t = row[ti];
         const d = Math.hypot(C.x - geo.tileCX[ri][ti], C.y - geo.rowCY[ri]);
         if (d < bestD) { bestD = d; best = idx + ti; }
         return t.cell * (1 + TILE_BOOST * C.s * falloff(d / TILE_RADIUS));
       });
       const wsSum = ws.reduce((a, b) => a + b, 0);
 
-      row.forEach((t, ti) => {
-        const el = tileEls[idx + ti];
+      v.forEach((ti, vi) => {
+        const t = row[ti], el = tileEls[idx + ti];
         Object.assign(el.style, {
-          flexGrow: 0, flexShrink: 0, flexBasis: 'auto', maxWidth: 'none', aspectRatio: 'auto',
-          width: geo.innerW[ri] * ws[ti] / wsSum + 'px', height: h + 'px',
+          flex: '0 0 auto', maxWidth: 'none', aspectRatio: 'auto',
+          width: geo.innerW[ri] * ws[vi] / wsSum + 'px', height: h + 'px',
         });
         // 3) Content parallax: shift away from the cursor
         const dx = C.x - geo.tileCX[ri][ti], dy = C.y - geo.rowCY[ri];
@@ -147,7 +170,6 @@
         if (t.v) el.firstElementChild.style.objectPosition = pos;
         else el.firstElementChild.style.backgroundPosition = pos;
       });
-      idx += row.length;
     });
 
     // 4) Nearest tile = active one (later: only it plays its video)
@@ -183,12 +205,12 @@
     if (SNAP) {
       // Nearest tile by rest geometry. The current tile gets a 15% head start
       // (hysteresis) so it doesn't flicker on the border between two tiles.
-      let bestT = null, bestD = Infinity, i = 0;
-      ROWS.forEach((row, ri) => row.forEach((_, ti) => {
+      let bestT = null, bestD = Infinity;
+      vis.forEach((v, ri) => v.forEach(ti => {
+        const i = rowStart[ri] + ti;
         let d = Math.hypot(x - geo.tileCX[ri][ti], y - geo.rowCY[ri]);
         if (i === state.snapIdx) d *= 0.85;
         if (d < bestD) { bestD = d; bestT = { i, x: geo.tileCX[ri][ti], y: geo.rowCY[ri] }; }
-        i++;
       }));
       state.snapIdx = bestT.i; x = bestT.x; y = bestT.y;
     }

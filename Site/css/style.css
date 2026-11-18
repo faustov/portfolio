@@ -447,28 +447,29 @@ div.job__icon { padding: 0; }
 
 /* --- Playground (cursor grid, logic in js/playground.js) --------------- */
 
-/* Container width sets the row height via container query units */
-.pg { container-type: inline-size; }
-.pg__rows { --row-h: max(150px, calc((100cqw - 3 * var(--card-gap) - 4px) / var(--max-row-sum))); }
-
+/* Each row is a justified line: flex: <aspect> 1 0 + aspect-ratio: <aspect> gives
+   every tile in a row the same height and makes the row fill the full width.
+   Rows never wrap; js/playground.js hides tiles that would make a row too short,
+   so the whole grid always stays a clean rectangle. */
 .pg__row {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap;
   /* js/playground.js reads these gaps, so CSS is the only place to change them */
   column-gap: var(--card-gap);
-  row-gap: var(--card-gap);   /* when tiles wrap on narrow screens */
   margin-bottom: var(--card-gap);
 }
 .pg__row:last-child { margin-bottom: 0; }
 
 .pg__tile {
   position: relative;
+  min-width: 0;   /* otherwise a <video>'s intrinsic width can stretch the row */
   overflow: hidden;
   border-radius: var(--radius);
   border: 1px solid rgb(0 0 0 / .08);
   background: var(--ph);
 }
+
+.pg__tile--hidden { display: none; }
 
 /* Background is a bit larger than the tile so the parallax has room */
 .pg__media {
