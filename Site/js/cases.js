@@ -1,6 +1,16 @@
 /* Case rows: arrows for rows with more than two cards.
    CSS shows two cards at a time; the arrows scroll by one card. */
 (function () {
+  /* Every cover (except the live 3D cards, which have their own hover) sits in
+     a clipping frame, so it can zoom on hover like the Playground tiles.
+     Done first: the swaps below replace the element inside the frame. */
+  document.querySelectorAll('.case > .case__img:not(.case__3d)').forEach(function (el) {
+    var frame = document.createElement('div');
+    frame.className = 'case__frame';
+    el.replaceWith(frame);
+    frame.appendChild(el);
+  });
+
   /* Animated covers: SVGs marked data-inline are swapped for the SVG itself,
      so the page CSS can run their motion while the card is hovered
      (see "Animated case covers" in style.css). The <img> stays as the

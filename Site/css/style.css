@@ -362,6 +362,25 @@ svg.case__img {
   clip-path: inset(0 round var(--radius));
 }
 
+/* Cover frame (js/cases.js): the cover zooms 10% on hover, same as the
+   Playground video tiles, and stays clipped to the rounded corners */
+.case__frame {
+  min-width: 0;
+  margin-bottom: 8px;
+  overflow: hidden;
+  isolation: isolate;   /* Safari: keep the scaled cover clipped */
+  border-radius: var(--radius);
+}
+.case__frame > .case__img {
+  margin-bottom: 0;
+  transition: transform .6s cubic-bezier(.2, .7, .2, 1);
+}
+.case:hover .case__frame > .case__img,
+.case:focus-visible .case__frame > .case__img { transform: scale(1.1); }
+@media (prefers-reduced-motion: reduce) {
+  .case__frame > .case__img { transition: none; transform: none !important; }
+}
+
 /* --- Animated case covers ----------------------------------------------
    The motion runs only while the card is hovered or focused, and pauses
    in place when the pointer leaves. Paused at 0% the keyframes give the
