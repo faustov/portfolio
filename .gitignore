@@ -10,3 +10,6 @@ Site/apple_watch_series_9.glb
 # Зависимости и локальные настройки
 node_modules/
 .claude/settings.local.json
+
+# Сырые видео: на сайт идут только сжатые .mp4 из Site/assets/
+*.mov
