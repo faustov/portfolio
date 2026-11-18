@@ -107,8 +107,31 @@ ul { padding: 0; list-style: none; }
   right: var(--gutter);
   z-index: 20;
   display: flex;
+  align-items: center;
   gap: 24px;
 }
+
+/* --- Buttons ------------------------------------------------------------ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity .15s ease;
+}
+
+.btn--primary {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.btn--primary:hover { opacity: .8; }
 
 /* --- Progressive top blur ----------------------------------------------
    Stack of layers; each blurs twice as strong as the previous one and is
