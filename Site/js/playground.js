@@ -14,7 +14,7 @@
   /* ---------- Data: swap colors for real images/videos later (src) ---------- */
   // a: 1 = square tile (for square videos). keep: true = never hidden on narrow widths.
   const ROWS = [
-    [{ a: 1, c: '#f2f2f4,#f2f2f4', keep: true, v: 'assets/playground/bubble-button', label: 'Bubble button' }, { a: 910/512, c: '#000,#000', v: 'assets/playground/stardust-button', label: 'Stardust button' },    { a: 910/512, c: '#e6e6e1,#b5b5ae' }],
+    [{ a: 1, c: '#f2f2f4,#f2f2f4', keep: true, v: 'assets/playground/bubble-button', label: 'Bubble' }, { a: 910/512, c: '#000,#000', v: 'assets/playground/stardust-button', label: 'Stardust' },    { a: 910/512, c: '#e6e6e1,#b5b5ae' }],
     [{ a: 910/512, c: '#777,#c9c9c4' },    { a: 410/512, c: '#1d1d1d,#4a4a4a' }, { a: 910/512, c: '#ededea,#c4c4bf' }, { a: 1, c: '#3a3a3a,#8a8a85' }],
     [{ a: 910/512, c: '#f2f2ef,#a9a9a3' }, { a: 410/512, c: '#262626,#6b6b67' }, { a: 1, c: '#d8d8d3,#8f8f8a', keep: true }, { a: 910/512, c: '#151515,#3d3d3d' }],
   ].map(r => r.map(t => ({ ...t, cell: t.a })));   // cell = flex weight = real aspect ratio (w/h), so a: 1 is a true square
@@ -53,7 +53,7 @@
       // t.v = video path without extension: <v>.mp4 + <v>.jpg (poster).
       // muted + playsinline so Safari/iOS allow play() without a user gesture.
       const media = t.v
-        ? `<video class="pg__media pg__media--video" src="${t.v}.mp4" poster="${t.v}.jpg" muted loop playsinline preload="metadata" disablepictureinpicture></video>`
+        ? `<video class="pg__media pg__media--video" style="background:${t.c.split(',')[0]}" src="${t.v}.mp4" poster="${t.v}.jpg" muted loop playsinline preload="metadata" disablepictureinpicture></video>`
         : `<div class="pg__media" style="background-image:linear-gradient(135deg,${t.c})"></div>`;
       el.innerHTML = media + `<span class="pg__label">${t.label || `Shot ${ri + 1}.${ti + 1}`}</span>`;
       const video = el.querySelector('video');

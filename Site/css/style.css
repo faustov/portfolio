@@ -462,6 +462,7 @@ div.job__icon { padding: 0; }
 
 .pg__tile {
   position: relative;
+  isolation: isolate;   /* Safari: keep the scaled video clipped to the rounded corners */
   min-width: 0;   /* otherwise a <video>'s intrinsic width can stretch the row */
   overflow: hidden;
   border-radius: var(--radius);
@@ -485,8 +486,13 @@ div.job__icon { padding: 0; }
   display: block;
   object-fit: cover;
   object-position: 50% 50%;
-  background: #000;
+  /* background = the video's own backdrop colour (set inline from the tile's `c`),
+     so a sub-pixel gap at the edge never shows as a dark line */
+  transition: transform .6s cubic-bezier(.2, .7, .2, 1);
 }
+
+/* Slight zoom while the cursor is over a video tile */
+.pg__tile:hover .pg__media--video { transform: scale(1.1); }
 
 .pg__label {
   position: absolute;
