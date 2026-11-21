@@ -637,15 +637,14 @@ svg.case__img {
   letter-spacing: -.03em;
   font-weight: 800;
 }
-.contact__email { margin-top: 20px; font-size: 17px; font-weight: 500; }
-.contact__cta { margin-top: 16px; }
+/* Vertical list, like the links next to the hero photo */
 .contact__links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 20px;
-  margin-top: 32px;
-  font-size: 14px;
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+  margin-top: 24px;
 }
+.contact__cta { margin-top: 24px; }
 
 /* Awards and Community share one item: icon tile on the left, text on the right */
 .awards {
