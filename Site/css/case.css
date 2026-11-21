@@ -70,6 +70,16 @@
 
 .cs-head__meta dt { font-size: 13px; font-weight: 500; color: var(--muted); }
 .cs-head__meta dd { margin: 2px 0 0; font-size: 15px; font-weight: 600; }
+.cs-head__meta dd a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 30%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color .15s;
+}
+.cs-head__meta dd a::after { content: " ↗"; font-weight: 400; color: var(--muted); }
+.cs-head__meta dd a:hover { text-decoration-color: currentColor; }
 
 /* --- Blocks ------------------------------------------------------------ */
 
