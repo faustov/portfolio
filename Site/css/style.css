@@ -599,9 +599,21 @@ svg.case__img {
 .case__title:has(.tag) { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .3em; }
 .case__title:has(.tag) .tag { order: 1; align-self: center; margin-left: 2px; vertical-align: 0; }
 
-/* --- Awards (left) + Playground (right) -------------------------------
-   Same columns as a job row: awards take the info column, playground
-   takes the cases area. */
+/* --- Awards (left) + Community (right), between hero and work ------
+   Same columns as a job row: Awards take the info column, Community
+   starts where the cases start. */
+
+.recog {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 40px var(--gap);
+  align-items: start;
+}
+.recog__col { display: grid; gap: 4px; }
+#awards { grid-column: 1 / 5; }
+#community { grid-column: 5 / -1; }
+
+/* --- Contact (left) + Playground (right) ------------------------------ */
 
 .split {
   display: grid;
@@ -610,13 +622,30 @@ svg.case__img {
   align-items: start;
 }
 
-.split__awards {
-  grid-column: 1 / 5;
-  display: grid;
-  gap: 4px;
-}
-
+.split__contact { grid-column: 1 / 5; }
 .split__pg { grid-column: 5 / -1; }
+
+/* Closing call to action: title, email, button, links */
+.split__contact {
+  display: grid;
+  justify-items: start;
+  align-content: start;
+}
+.contact__title {
+  font-size: clamp(36px, 3.6vw, 52px);
+  line-height: 1;
+  letter-spacing: -.03em;
+  font-weight: 800;
+}
+.contact__email { margin-top: 20px; font-size: 17px; font-weight: 500; }
+.contact__cta { margin-top: 16px; }
+.contact__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: 32px;
+  font-size: 14px;
+}
 
 /* Awards and Community share one item: icon tile on the left, text on the right */
 .awards {
@@ -656,9 +685,6 @@ div.job__icon { padding: 0; }
 .award__title { font-size: 15px; font-weight: 600; }
 .award__desc { font-size: 13px; color: var(--muted); }
 .award--link .award__title::after { content: " ↗"; font-weight: 500; }
-
-/* Second list in the left column (Awards under Community) */
-.split__next { margin-top: 48px; }
 
 /* --- Playground (cursor grid, logic in js/playground.js) --------------- */
 
@@ -760,6 +786,11 @@ div.job__icon { padding: 0; }
 .footer__email { font-weight: 500; }
 .footer__or { color: var(--muted); }
 
+/* Home page: the call to action lives next to the playground, so the
+   footer is just the bottom line */
+.footer--slim { padding-top: 0; }
+.footer--slim .footer__bottom { margin-top: 0; border-top: 0; }
+
 .footer__bottom {
   display: flex;
   flex-wrap: wrap;
@@ -792,8 +823,11 @@ div.job__icon { padding: 0; }
   .job__info,
   .job__cases,
   .cases-nav,
-  .split__awards,
+  #awards,
+  #community,
+  .split__contact,
   .split__pg { grid-column: 1 / -1; }
+  .split__contact { grid-row: 2; }   /* playground first, contact closes the page */
   .job__cases,
   .cases-nav { grid-row: 2; }
 
