@@ -1,6 +1,8 @@
 /* ==========================================================
    Playground — cursor-reactive tile grid (from cursor-grid-demo.html)
 
+   Layout: one big HERO tile on the left, as tall as all rows together,
+   and justified rows on the right (stacked on top of each other when narrow).
    At rest: plain flex rows, each tile's flex-grow = its aspect ratio.
    On hover (desktop only): the row under the cursor grows taller, the
    tile under the cursor grows wider, its content shifts (parallax).
@@ -12,12 +14,15 @@
   if (!rowsEl) return;
 
   /* ---------- Data: swap colors for real images/videos later (src) ---------- */
-  // a: 1 = square tile (for square videos). keep: true = never hidden on narrow widths.
+  // a = aspect ratio (w/h): 1 = square. keep: true = never hidden on narrow widths.
+  // v = video path without extension (<v>.mp4 + <v>.jpg poster), c = backdrop colour(s).
+  const HERO = { a: 1080/1350, c: '#ebebeb,#ebebeb', v: 'assets/playground/ui-camera', label: 'Camera' };
   const ROWS = [
-    [{ a: 1, c: '#f2f2f4,#f2f2f4', keep: true, v: 'assets/playground/bubble-button', label: 'Bubble' }, { a: 910/512, c: '#000,#000', v: 'assets/playground/stardust-button', label: 'Stardust' },    { a: 910/512, c: '#e6e6e1,#b5b5ae' }],
-    [{ a: 910/512, c: '#777,#c9c9c4' },    { a: 410/512, c: '#1d1d1d,#4a4a4a' }, { a: 910/512, c: '#ededea,#c4c4bf' }, { a: 1, c: '#3a3a3a,#8a8a85' }],
-    [{ a: 910/512, c: '#f2f2ef,#a9a9a3' }, { a: 410/512, c: '#262626,#6b6b67' }, { a: 1, c: '#d8d8d3,#8f8f8a', keep: true }, { a: 910/512, c: '#151515,#3d3d3d' }],
+    [{ a: 1, c: '#f2f2f4,#f2f2f4', keep: true, v: 'assets/playground/bubble-button', label: 'Bubble' }, { a: 910/512, c: '#000,#000', v: 'assets/playground/stardust-button', label: 'Stardust' }],
+    [{ a: 910/512, c: '#777,#c9c9c4' }, { a: 1, c: '#3a3a3a,#8a8a85' }],
+    [{ a: 410/512, c: '#262626,#6b6b67' }, { a: 910/512, c: '#d8d8d3,#8f8f8a', keep: true }],
   ].map(r => r.map(t => ({ ...t, cell: t.a })));   // cell = flex weight = real aspect ratio (w/h), so a: 1 is a true square
+  const STACK_BELOW = 600;  // container narrower than this: hero goes on top, full width
 
   const ROW_RADIUS = 380;   // cursor influence on row height (px) — wider = softer
   const TILE_RADIUS = 520;  // cursor influence on tile width (px)
@@ -37,31 +42,43 @@
 
   /* ---------- Rest layout: each row is a justified line (see .pg__row in CSS) ---------- */
 
+  const pgEl = rowsEl.parentElement;
   const rowEls = [], tileEls = [];
   let GAP_X = 8, GAP_Y = 8;   // read from CSS (--card-gap) in measure()
   const restStyle = cell => ({
     flex: `${cell} 1 0px`, maxWidth: '', aspectRatio: cell, width: '', height: '',
   });
 
+  function makeTile(t, fallbackLabel) {
+    const el = document.createElement('div');
+    el.className = 'pg__tile';
+    // muted + playsinline so Safari/iOS allow play() without a user gesture.
+    const media = t.v
+      ? `<video class="pg__media pg__media--video" style="background:${t.c.split(',')[0]}" src="${t.v}.mp4" poster="${t.v}.jpg" muted loop playsinline preload="metadata" disablepictureinpicture></video>`
+      : `<div class="pg__media" style="background-image:linear-gradient(135deg,${t.c})"></div>`;
+    el.innerHTML = media + `<span class="pg__label">${t.label || fallbackLabel}</span>`;
+    const video = el.querySelector('video');
+    if (video) {
+      // Plays while the cursor is over the tile, pauses (keeps the frame) when it leaves
+      el.addEventListener('mouseenter', () => { video.play().catch(() => {}); });
+      el.addEventListener('mouseleave', () => { video.pause(); });
+    }
+    return el;
+  }
+
+  /* Hero: sits next to the rows; its width is solved in layoutHero() so that
+     its height equals the height of all rows together */
+  const heroEl = makeTile(HERO, 'Hero');
+  heroEl.classList.add('pg__hero');
+  heroEl.style.setProperty('--hero-a', HERO.a);
+  pgEl.insertBefore(heroEl, rowsEl);
+
   ROWS.forEach((row, ri) => {
     const rEl = document.createElement('div');
     rEl.className = 'pg__row';
     row.forEach((t, ti) => {
-      const el = document.createElement('div');
-      el.className = 'pg__tile';
+      const el = makeTile(t, `Shot ${ri + 1}.${ti + 1}`);
       Object.assign(el.style, restStyle(t.cell));
-      // t.v = video path without extension: <v>.mp4 + <v>.jpg (poster).
-      // muted + playsinline so Safari/iOS allow play() without a user gesture.
-      const media = t.v
-        ? `<video class="pg__media pg__media--video" style="background:${t.c.split(',')[0]}" src="${t.v}.mp4" poster="${t.v}.jpg" muted loop playsinline preload="metadata" disablepictureinpicture></video>`
-        : `<div class="pg__media" style="background-image:linear-gradient(135deg,${t.c})"></div>`;
-      el.innerHTML = media + `<span class="pg__label">${t.label || `Shot ${ri + 1}.${ti + 1}`}</span>`;
-      const video = el.querySelector('video');
-      if (video) {
-        // Plays while the cursor is over the tile, pauses (keeps the frame) when it leaves
-        el.addEventListener('mouseenter', () => { video.play().catch(() => {}); });
-        el.addEventListener('mouseleave', () => { video.pause(); });
-      }
       rEl.appendChild(el);
       tileEls.push(el);
     });
@@ -78,18 +95,13 @@
 
   /* ---------- Rest geometry: row and tile centers ---------- */
   let geo = null;
-  function measure() {
-    if (state.cur.s > 0.002) return;          // measure only at rest
-    const W = rowsEl.clientWidth;
-    const rs = getComputedStyle(rowEls[0]);
-    GAP_X = parseFloat(rs.columnGap) || 0;
-    GAP_Y = parseFloat(rs.marginBottom) || 0;
 
-    // 1) Decide which tiles fit. A row of visible tiles is (W - gaps) / Σcell tall;
-    //    while that is below the minimum, hide a tile: first placeholders (no video,
-    //    no `keep`), from the end of the row. A row always keeps at least one tile.
+  // Which tiles fit in rows of width W. A row of visible tiles is (W - gaps) / Σcell tall;
+  // while that is below the minimum, hide a tile: first placeholders (no video,
+  // no `keep`), from the end of the row. A row always keeps at least one tile.
+  function fitRows(W) {
     const minH = minRowH(W);
-    vis = ROWS.map(row => {
+    return ROWS.map(row => {
       const v = row.map((_, ti) => ti);
       const height = () => (W - (v.length - 1) * GAP_X) / v.reduce((s, ti) => s + row[ti].cell, 0);
       while (v.length > 1 && height() < minH) {
@@ -99,6 +111,40 @@
       }
       return v;
     });
+  }
+
+  // Side by side: rows of width Wr are H = Σ (Wr - gaps_i) / S_i + row gaps tall,
+  // and the hero is A·H wide, so W = A·H + gap + Wr is linear in Wr — solve it.
+  // Hidden tiles change S_i, so repeat a few times until it settles.
+  function layoutHero() {
+    const W = pgEl.clientWidth;
+    const stacked = W < STACK_BELOW;
+    pgEl.classList.toggle('pg--stacked', stacked);
+    if (stacked) { heroEl.style.width = ''; return W; }
+    let Wr = W / 2;
+    for (let i = 0; i < 4; i++) {
+      const v = fitRows(Wr);
+      let K = 0, Q = 0;
+      v.forEach((vi, ri) => {
+        const S = vi.reduce((s, ti) => s + ROWS[ri][ti].cell, 0);
+        K += 1 / S; Q += (vi.length - 1) * GAP_X / S;
+      });
+      Wr = (W - GAP_X - HERO.a * ((ROWS.length - 1) * GAP_Y - Q)) / (1 + HERO.a * K);
+    }
+    heroEl.style.width = (W - GAP_X - Wr) + 'px';
+    return Wr;
+  }
+
+  function measure() {
+    if (state.cur.s > 0.002) return;          // measure only at rest
+    const rs = getComputedStyle(rowEls[0]);
+    GAP_X = parseFloat(rs.columnGap) || 0;
+    GAP_Y = parseFloat(rs.marginBottom) || 0;
+
+    // 1) Hero size and which tiles fit next to it
+    layoutHero();
+    const W = rowsEl.clientWidth;
+    vis = fitRows(W);
     ROWS.forEach((row, ri) => row.forEach((_, ti) => {
       tileEls[rowStart[ri] + ti].classList.toggle('pg__tile--hidden', !vis[ri].includes(ti));
     }));
@@ -225,12 +271,13 @@
     kick();
   });
 
+  // Watch the whole playground: the rows' own width changes whenever the hero is resized
   let rt, lastW = 0;
   new ResizeObserver(() => {
-    if (rowsEl.clientWidth === lastW) return;
-    lastW = rowsEl.clientWidth;
+    if (pgEl.clientWidth === lastW) return;
+    lastW = pgEl.clientWidth;
     clearTimeout(rt);
     rt = setTimeout(measure, 260);
-  }).observe(rowsEl);
+  }).observe(pgEl);
   measure();
 })();
