@@ -644,17 +644,20 @@ div.job__icon { padding: 0; }
    every tile in a row the same height and makes the row fill the full width.
    Rows never wrap; js/playground.js hides tiles that would make a row too short,
    so the whole grid always stays a clean rectangle. */
-/* Hero tile on the left, rows on the right. js/playground.js sets the hero's width
-   so it is exactly as tall as the rows; when narrow (.pg--stacked) it goes on top. */
-.pg {
-  display: flex;
-  align-items: stretch;
-  gap: var(--card-gap);
+/* Hero tile in the top-right corner, as tall as the first rows (js/playground.js
+   shortens those rows and sizes the hero); when narrow (.pg--stacked) it goes on top. */
+.pg { position: relative; }
+.pg__tile.pg__hero {   /* beats .pg__tile below */
+  position: absolute;
+  top: 0;
+  right: 0;
+  aspect-ratio: var(--hero-a);
 }
-.pg__rows { flex: 1 1 0; min-width: 0; }
-.pg__hero { flex: none; }
-.pg--stacked { flex-direction: column; }
-.pg--stacked .pg__hero { width: 100%; aspect-ratio: var(--hero-a); }
+.pg--stacked .pg__tile.pg__hero {
+  position: static;
+  width: 100%;
+  margin-bottom: var(--card-gap);
+}
 
 .pg__row {
   display: flex;
