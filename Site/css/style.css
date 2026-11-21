@@ -627,9 +627,10 @@ svg.case__img {
 
 /* Closing call to action: title, email, button, links */
 .split__contact {
-  display: grid;
-  justify-items: start;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;   /* as tall as the playground, so the button can sit on its bottom edge */
 }
 .contact__title {
   font-size: clamp(36px, 3.6vw, 52px);
@@ -642,9 +643,11 @@ svg.case__img {
   display: grid;
   justify-items: start;
   gap: 6px;
-  margin-top: 24px;
+  margin: 24px 0;
 }
-.contact__cta { margin-top: 24px; }
+/* Desktop: pushed to the bottom edge of the playground. When stacked, there is
+   no spare height and the list's bottom margin is the gap. */
+.contact__cta { margin-top: auto; }
 
 /* Awards and Community share one item: icon tile on the left, text on the right */
 .awards {
