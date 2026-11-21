@@ -298,6 +298,28 @@ ul { padding: 0; list-style: none; }
 .job__role { color: var(--muted); }
 .job__about { margin-top: 12px; font-size: 14px; color: var(--muted); }
 
+/* Highlights under the intro: short lines, key numbers in the main colour */
+.job__facts {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.job__facts li { position: relative; padding-left: 14px; }
+.job__facts li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: .62em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.job__about b,
+.job__facts b { color: var(--fg); font-weight: 600; }
+
 /* Cases take 2/3 of the row and show two cards at a time. With more
    than two, the row scrolls sideways (js/cases.js adds the arrows);
    the info column stays put. */
