@@ -17,7 +17,7 @@
   /* ---------- Data: swap colors for real images/videos later (src) ---------- */
   // a = aspect ratio (w/h): 1 = square. keep: true = never hidden on narrow widths.
   // v = video path without extension (<v>.mp4 + <v>.jpg poster), c = backdrop colour(s).
-  const HERO = { a: 1080/1350, c: '#ebebeb,#ebebeb', v: 'assets/playground/ui-camera', label: 'Camera' };
+  const HERO = { a: 1080/1350, c: '#ebebeb,#ebebeb', v: 'assets/playground/ui-camera', label: 'Delete animation' };
   const HERO_ROWS = 2;      // the hero is as tall as this many rows
   const ROWS = [
     [{ a: 1, c: '#f2f2f4,#f2f2f4', keep: true, v: 'assets/playground/bubble-button', label: 'Bubble' }, { a: 910/512, c: '#000,#000', v: 'assets/playground/stardust-button', label: 'Stardust' }, { a: 410/512, c: '#1d1d1d,#4a4a4a' }],
