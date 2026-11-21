@@ -22,7 +22,6 @@
   const ROWS = [
     [{ a: 1, c: '#f2f2f4,#f2f2f4', keep: true, v: 'assets/playground/bubble-button', label: 'Bubble' }, { a: 910/512, c: '#000,#000', v: 'assets/playground/stardust-button', label: 'Stardust' }, { a: 410/512, c: '#1d1d1d,#4a4a4a' }],
     [{ a: 910/512, c: '#777,#c9c9c4' }, { a: 1, c: '#3a3a3a,#8a8a85' }, { a: 410/512, c: '#ededea,#c4c4bf' }],
-    [{ a: 910/512, c: '#f2f2ef,#a9a9a3' }, { a: 410/512, c: '#262626,#6b6b67' }, { a: 1, c: '#151515,#3d3d3d' }, { a: 910/512, c: '#d8d8d3,#8f8f8a' }],
   ].map(r => r.map(t => ({ ...t, cell: t.a })));   // cell = flex weight = real aspect ratio (w/h), so a: 1 is a true square
   const STACK_BELOW = 600;  // container narrower than this: hero goes on top, full width
 
