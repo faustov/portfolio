@@ -20,10 +20,14 @@
   const HERO = { a: 1080/1350, c: '#ebebeb,#ebebeb', v: 'assets/playground/ui-camera', label: 'Delete animation' };
   const HERO_ROWS = 2;      // the hero is as tall as this many rows
   const ROWS = [
-    [{ a: 1, c: '#f2f2f4,#f2f2f4', keep: true, v: 'assets/playground/bubble-button', label: 'Bubble' }, { a: 910/512, c: '#000,#000', v: 'assets/playground/stardust-button', label: 'Stardust' }, { a: 410/512, c: '#1d1d1d,#4a4a4a' }],
-    [{ a: 910/512, c: '#777,#c9c9c4' }, { a: 1, c: '#3a3a3a,#8a8a85' }, { a: 410/512, c: '#ededea,#c4c4bf' }],
+    [{ a: 1, c: '#f2f2f4,#f2f2f4', keep: true, v: 'assets/playground/bubble-button', label: 'Bubble' }, { a: 910/512, c: '#000,#000', v: 'assets/playground/stardust-button', label: 'Stardust' }],
+    [{ a: 910/512, c: '#777,#c9c9c4' }, { a: 1, c: '#3a3a3a,#8a8a85' }],
   ].map(r => r.map(t => ({ ...t, cell: t.a })));   // cell = flex weight = real aspect ratio (w/h), so a: 1 is a true square
-  const STACK_BELOW = 600;  // container narrower than this: hero goes on top, full width
+  // Phones and tablets: hero on top at full width, then rows of 2 — never 3 columns.
+  // Same breakpoint as the single-column layout in style.css (@media max-width: 960px);
+  // STACK_BELOW also covers a too-narrow container on desktop.
+  const STACK_MQ = matchMedia('(max-width: 960px)');
+  const STACK_BELOW = 480;
 
   const ROW_RADIUS = 380;   // cursor influence on row height (px) — wider = softer
   const TILE_RADIUS = 520;  // cursor influence on tile width (px)
@@ -46,8 +50,11 @@
   const pgEl = rowsEl.parentElement;
   const rowEls = [], tileEls = [];
   let GAP_X = 8, GAP_Y = 8;   // read from CSS (--card-gap) in measure()
+  // Width comes from flex-grow (∝ aspect), height is the row's exact px height
+  // (--row-h, set in measure()). No CSS aspect-ratio here: Safari let the video's
+  // own size override it, so tiles stretched far taller than their aspect.
   const restStyle = cell => ({
-    flex: `${cell} 1 0px`, maxWidth: '', aspectRatio: cell, width: '', height: '',
+    flex: `${cell} 1 0px`, maxWidth: '', aspectRatio: '', width: '', height: 'var(--row-h)',
   });
 
   function makeTile(t, fallbackLabel) {
@@ -99,7 +106,8 @@
 
   // Which tiles fit, given each row's width Ws[ri]. A row of visible tiles is
   // (W - gaps) / Σcell tall; while that is below the minimum, hide a tile: first
-  // placeholders (no video, no `keep`), from the end of the row. A row always keeps one.
+  // placeholders (no video, no `keep`), from the end of the row. Video and `keep` tiles
+  // are never hidden, and a row always keeps one tile.
   function fitRows(Ws) {
     return ROWS.map((row, ri) => {
       const W = Ws[ri], minH = minRowH(W);
@@ -107,8 +115,8 @@
       const height = () => (W - (v.length - 1) * GAP_X) / v.reduce((s, ti) => s + row[ti].cell, 0);
       while (v.length > 1 && height() < minH) {
         const spare = v.filter(ti => !row[ti].v && !row[ti].keep);
-        const drop = spare.length ? spare[spare.length - 1] : v[v.length - 1];
-        v.splice(v.indexOf(drop), 1);
+        if (!spare.length) break;
+        v.splice(v.indexOf(spare[spare.length - 1]), 1);
       }
       return v;
     });
@@ -121,7 +129,7 @@
   let stacked = false;
   function layoutHero() {
     const W = rowsEl.clientWidth;
-    stacked = W < STACK_BELOW;
+    stacked = W < STACK_BELOW || STACK_MQ.matches;
     pgEl.classList.toggle('pg--stacked', stacked);
     const widths = Wr => ROWS.map((_, ri) => ri < HERO_ROWS ? Wr : W);
     heroEl.style.height = '';   // aspect-ratio until measure() pins it to the rows
@@ -170,6 +178,11 @@
     ROWS.forEach((row, ri) => row.forEach((_, ti) => {
       tileEls[rowStart[ri] + ti].classList.toggle('pg__tile--hidden', !vis[ri].includes(ti));
     }));
+    // Row height that keeps every visible tile at its true aspect: (W - gaps) / Σaspect
+    vis.forEach((v, ri) => {
+      const S = v.reduce((s, ti) => s + ROWS[ri][ti].cell, 0);
+      rowEls[ri].style.setProperty('--row-h', (Ws[ri] - (v.length - 1) * GAP_X) / S + 'px');
+    });
 
     // 2) Rest geometry of the visible tiles
     const H = rowsEl.offsetHeight;
@@ -300,12 +313,32 @@
     kick();
   });
 
-  let rt, lastW = 0;
-  new ResizeObserver(() => {
+  // The hover animation sizes tiles in px from the old geometry while the hero follows
+  // the new width, so they overlapped until the animation faded out. On resize, drop
+  // the hover state at once and return to the rest layout.
+  function settle() {
+    if (state.raf !== null) { cancelAnimationFrame(state.raf); state.raf = null; }
+    if (state.cur.s === 0 && state.target.s === 0) return;
+    state.cur.s = 0;
+    state.target = { ...state.target, s: 0 };
+    state.snapIdx = -1;
+    if (geo) reset();
+    setActive(-1);
+  }
+
+  // Re-layout on every width change (once per frame): row heights are px values,
+  // so a debounce would leave tiles out of proportion while the window is resized.
+  let rt, rf = 0, lastW = 0;
+  function onResize() {
     if (pgEl.clientWidth === lastW) return;
     lastW = pgEl.clientWidth;
-    clearTimeout(rt);
-    rt = setTimeout(measure, 260);
-  }).observe(pgEl);
+    settle();
+    cancelAnimationFrame(rf);
+    rf = requestAnimationFrame(measure);
+  }
+  // Both: the observer catches layout-only width changes, the window event fires
+  // right away during a window drag (the observer can lag a frame or more behind)
+  new ResizeObserver(onResize).observe(pgEl);
+  window.addEventListener('resize', onResize);
   measure();
 })();
